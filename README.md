@@ -1,3 +1,3 @@
 # fish-menu
 a gorilla tag mod menu
-https://discord.gg/7AvPjbmE
+https://discord.gg/VUwa5q4DAH
