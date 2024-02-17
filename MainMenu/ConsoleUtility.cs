@@ -1,3 +1,8 @@
+/* 
+OKAA Code
+https://discord.gg/401
+*/
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
