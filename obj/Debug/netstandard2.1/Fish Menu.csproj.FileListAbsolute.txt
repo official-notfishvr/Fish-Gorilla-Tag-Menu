@@ -1,3 +1,0 @@
-C:\Users\notfishvr\Downloads\Fish-Menu-main\Fish-Menu-main\obj\Debug\netstandard2.1\Fish Menu.csproj.AssemblyReference.cache
-C:\Users\notfishvr\Downloads\Fish-Menu-main\Fish-Menu-main\obj\Debug\netstandard2.1\Fish Menu.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\notfishvr\Downloads\Fish-Menu-main\Fish-Menu-main\obj\Debug\netstandard2.1\Fish Menu.csproj.CoreCompileInputs.cache
