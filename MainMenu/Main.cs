@@ -1,4 +1,4 @@
-using Debug = UnityEngine.Debug;
+﻿using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 using Object = UnityEngine.Object;
@@ -38,6 +38,7 @@ using static System.Net.Mime.MediaTypeNames;
 using ExitGames.Client.Photon.StructWrapping;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.UI.GridLayoutGroup;
+using UnityEngine.UIElements;
 
 namespace Fish_Menu.MainMenu
 {
@@ -47,6 +48,7 @@ namespace Fish_Menu.MainMenu
     {
         public void FixedUpdate()
         {
+            Debug.unityLogger.logEnabled = false;
             if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
             {
                 GameObject Loader = new GameObject("Loader");
@@ -212,7 +214,10 @@ namespace Fish_Menu.MainMenu
             "Acid Gun",                  // 3
             "Acid Mat Spam",             // 4
             "Crash All",                 // 5
-            "a",                 // 5
+            "Score Board FUp",           // 6
+            "Rise Lava",                 // 7
+            "Drain Lava",                // 8
+            "Erupt Lava",                // 9
         };
         #endregion
         #endregion
@@ -2441,10 +2446,48 @@ namespace Fish_Menu.MainMenu
                     PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
                     if (obj.ToString().Contains("MODDED"))
                     {
-
+                        foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
+                        {
+                            for (int i = 0; i < sB.lines.Count; i++)
+                            {
+                                GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine = sB.lines[i];
+                                gorillaPlayerScoreboardLine.ResetData();
+                            }
+                        }
+                        /*for (int j = 0; j < GorillaScoreboardTotalUpdater.allScoreboards.Count; j++)
+                        {
+                            if (string.IsNullOrEmpty(GorillaScoreboardTotalUpdater.allScoreboards[j].initialGameMode))
+                            {
+                                GorillaScoreboardTotalUpdater.instance.UpdateScoreboard(GorillaScoreboardTotalUpdater.allScoreboards[j]);
+                            }
+                        }*/
+                        foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
+                        {
+                            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                            {
+                                sB.linePlayer = player;
+                                sB.toxicityButton.SetActive(true);
+                                sB.reportButton.isOn = sB.reportedToxicity;
+                                sB.reportButton.UpdateColor();
+                                //PlayerPrefs.SetInt(sB.linePlayer.UserId, 1);
+                                sB.muteButton.UpdateColor();
+                                sB.SetLineData(player);
+                                sB.UpdateLine();
+                                sB.parentScoreboard.RedrawPlayerLines();
+                            }
+                            foreach (GorillaScoreboardTotalUpdater sB2 in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardTotalUpdater)))
+                            {
+                                GorillaScoreboardTotalUpdater.lineIndex = 11;
+                                GorillaScoreboardTotalUpdater.allScoreboardLines[GorillaScoreboardTotalUpdater.lineIndex].UpdateLine();
+                                sB2.UpdateLineState(sB);
+                            }
+                        }
                         return;
                     }
                 }
+                if (OPButtonsActive[7] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full); }
+                if (OPButtonsActive[8] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained); }
+                if (OPButtonsActive[9] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); }
                 #endregion
             }
             catch (Exception ex)
@@ -2874,6 +2917,23 @@ namespace Fish_Menu.MainMenu
 
                             Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
                         }
+                    }
+                    public static void SetLavaState(InfectionLavaController.RisingLavaState state)
+                    {
+                        InfectionLavaController instance = InfectionLavaController.Instance;
+
+                        Type type = typeof(InfectionLavaController);
+                        FieldInfo reliableStateField = type.GetField("reliableState", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        object reliableState = reliableStateField.GetValue(instance);
+
+                        Type reliableStateType = reliableState.GetType();
+                        FieldInfo stateField = reliableStateType.GetField("state");
+                        FieldInfo stateStartTimeField = reliableStateType.GetField("stateStartTime");
+
+                        stateField.SetValue(reliableState, state);
+                        stateStartTimeField.SetValue(reliableState, PhotonNetwork.Time);
+                        reliableStateField.SetValue(instance, reliableState);
                     }
                 }
                 public class BasicMods
@@ -4520,6 +4580,8 @@ namespace Fish_Menu.MainMenu
         private float startingToLookForFriend;
         public static bool AntiBanOn = false;
         public static string OldName;
+        public static FieldInfo fi1 = typeof(InfectionLavaController).GetField("fullTime", BindingFlags.NonPublic);
+        public static InfectionLavaController.RisingLavaState fi1a;
         private static readonly RaiseEventOptions KickOptions = new RaiseEventOptions
         {
             CachingOption = EventCaching.AddToRoomCacheGlobal
@@ -4689,7 +4751,6 @@ namespace Fish_Menu.MainMenu
 
             ToggleMain[1] = ToggleButton("Disconnect", ToggleMain[1]);
             ToggleMain[2] = ToggleButton("Join Random Room", ToggleMain[2]);
-            ToggleMain[3] = ToggleButton("Kick All", ToggleMain[3]);
 
             GUILayout.EndScrollView();
         }
@@ -5023,8 +5084,7 @@ namespace Fish_Menu.MainMenu
             }
             if (ToggleMain[3])
             {
-                ExecuteCloudScriptRequest executeCloudScriptRequest = new ExecuteCloudScriptRequest();
-                Debug.Log($"{executeCloudScriptRequest.FunctionName}");
+
             }
         }
         #region Main GUI
@@ -5275,7 +5335,6 @@ namespace Fish_Menu.MainMenu
         }
         private IEnumerator AntiBan()
         {
-
             if (!PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
             {
                 ExecuteCloudScriptRequest executeCloudScriptRequest = new ExecuteCloudScriptRequest();
