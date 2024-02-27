@@ -39,6 +39,7 @@ using ExitGames.Client.Photon.StructWrapping;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.UI.GridLayoutGroup;
 using UnityEngine.UIElements;
+using Pathfinding.RVO;
 
 namespace Fish_Menu.MainMenu
 {
@@ -91,8 +92,9 @@ namespace Fish_Menu.MainMenu
             "Bug Mods",                  // 4
             "Tag Mods",                  // 5
             "Mic Mods",                  // 6
-            "Halloween Mods",            // 7
-            "OP Mods"                    // 8
+            "OP Mods",                   // 7
+            "Halloween Mods",            // 8
+            "Lava Mods",                 // 9
         };
         #endregion
         #region SettingsButtons
@@ -189,7 +191,19 @@ namespace Fish_Menu.MainMenu
             "Silent Aim",                // 6
             "Hot Pepper Crash",          // 7
             "Earape Aura",               // 8
-            "Fuck Game [M]"              // 9
+            "Fuck Game [M]",             // 9
+        };
+        #endregion
+        #region OPbuttons
+        public static string[] OPbuttons = new string[]
+        {
+            "Back",                      // 0
+            "Anit ban",                  // 1
+            "Acid All",                  // 2
+            "Acid Gun",                  // 3
+            "Acid Mat Spam",             // 4
+            "Crash All",                 // 5
+            "Score Board FUp",           // 6
         };
         #endregion
         #region Halloweenbuttons
@@ -205,19 +219,16 @@ namespace Fish_Menu.MainMenu
             "Slow Broom Stick"            // 7
         };
         #endregion
-        #region OPbuttons
-        public static string[] OPbuttons = new string[]
+        #region Lavabuttons
+        public static string[] Lavabuttons = new string[]
         {
-            "Back",                      // 0
-            "Anit ban",                  // 1
-            "Acid All",                  // 2
-            "Acid Gun",                  // 3
-            "Acid Mat Spam",             // 4
-            "Crash All",                 // 5
-            "Score Board FUp",           // 6
-            "Rise Lava",                 // 7
-            "Drain Lava",                // 8
-            "Erupt Lava",                // 9
+            "Back",                       // 0
+            "Rise Lava",                  // 1
+            "Drain Lava",                 // 2
+            "Erupt Lava",                 // 3
+            "Full Whole Map Lava [CS]",   // 4
+            "Fix Lava",                   // 5
+            "Spaz Lava",                  // 6
         };
         #endregion
         #endregion
@@ -1134,8 +1145,8 @@ namespace Fish_Menu.MainMenu
          false,
          false
  };
-        public static bool[] HalloweenButtonsActive = new bool[111]
- {
+        public static bool[] OPButtonsActive = new bool[111]
+{
          false,
          false,
          false,
@@ -1247,8 +1258,122 @@ namespace Fish_Menu.MainMenu
          false,
          false,
          false
- };
-        public static bool[] OPButtonsActive = new bool[111]
+};
+        public static bool[] HalloweenButtonsActive = new bool[111]
+{
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false,
+         false
+};
+        public static bool[] LavaButtonsActive = new bool[111]
 {
          false,
          false,
@@ -1370,15 +1495,6 @@ namespace Fish_Menu.MainMenu
             {
                 #region Menu
                 UpdateMaterialColors();
-                //Instance.Thing2();
-                /*gripDownL = ControllerInput.LeftGrip;
-                gripDownR = ControllerInput.RightGrip;
-                triggerDownL = ControllerInput.LeftTrigger;
-                triggerDownR = ControllerInput.RightTrigger;
-                abuttonDown = ControllerInput.RightPrimary;
-                bbuttonDown = ControllerInput.RightSecondary;
-                xbuttonDown = ControllerInput.LeftPrimary;
-                ybuttonDown = ControllerInput.LeftSecondary; */
                 if (once)
                 {
                     MenuLoaded = true;
@@ -1459,7 +1575,7 @@ namespace Fish_Menu.MainMenu
                 // Settings
                 if (buttonsActive[0] == true)
                 {
-                    NumberForPage = 2;
+                    NumberForPage = "settings";
                     buttonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1468,7 +1584,7 @@ namespace Fish_Menu.MainMenu
                 // Basic
                 if (buttonsActive[1] == true)
                 {
-                    NumberForPage = 3;
+                    NumberForPage = "basic";
                     buttonsActive[1] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1477,7 +1593,7 @@ namespace Fish_Menu.MainMenu
                 // Rope
                 if (buttonsActive[2] == true)
                 {
-                    NumberForPage = 4;
+                    NumberForPage = "rope";
                     buttonsActive[2] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1486,7 +1602,7 @@ namespace Fish_Menu.MainMenu
                 // Spam Rpc
                 if (buttonsActive[3] == true)
                 {
-                    NumberForPage = 5;
+                    NumberForPage = "spamrpc";
                     buttonsActive[3] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1495,7 +1611,7 @@ namespace Fish_Menu.MainMenu
                 // Bug
                 if (buttonsActive[4] == true)
                 {
-                    NumberForPage = 6;
+                    NumberForPage = "bug";
                     buttonsActive[4] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1504,7 +1620,7 @@ namespace Fish_Menu.MainMenu
                 // Tag
                 if (buttonsActive[5] == true)
                 {
-                    NumberForPage = 7;
+                    NumberForPage = "tag";
                     buttonsActive[5] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1513,35 +1629,44 @@ namespace Fish_Menu.MainMenu
                 // Mic
                 if (buttonsActive[6] == true)
                 {
-                    NumberForPage = 8;
+                    NumberForPage = "mics";
                     buttonsActive[6] = false;
                     Object.Destroy(menu);
                     menu = null;
                     Draw();
                 }
-                // Lucy
+                // OP
                 if (buttonsActive[7] == true)
                 {
-                    NumberForPage = 99;
+                    NumberForPage = "op";
                     buttonsActive[7] = false;
                     Object.Destroy(menu);
                     menu = null;
                     Draw();
                 }
-                // Owner
+                // Halloween
                 if (buttonsActive[8] == true)
                 {
-                    NumberForPage = 69;
+                    NumberForPage = "halloween";
                     buttonsActive[8] = false;
+                    Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+                }
+                // Lava
+                if (buttonsActive[9] == true)
+                {
+                    NumberForPage = "lava";
+                    buttonsActive[9] = false;
                     Object.Destroy(menu);
                     menu = null;
                     Draw();
                 }
                 #endregion
                 #region Setting buttonsActive
-                    #region UpdateText
-                    // ESP Color
-                    string[] colorNames = { "Tag", "Black", "Red", "Blue", "Yellow", "Green", "Purple", "White" };
+                #region UpdateText
+                // ESP Color
+                string[] colorNames = { "Tag", "Black", "Red", "Blue", "Yellow", "Green", "Purple", "White" };
                 int[] espcolorIndices = { 0, 1, 2, 3, 4, 5, 6, 7 };
                 int espnumColors = espcolorIndices.Length;
                 int espcurrentColorIndex = ESpInt;
@@ -1695,7 +1820,7 @@ namespace Fish_Menu.MainMenu
                 }
                 if (SettingsButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     SettingsButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1724,7 +1849,7 @@ namespace Fish_Menu.MainMenu
                 #region Basic buttonsActive
                 if (BasicButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     BasicButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1828,7 +1953,7 @@ namespace Fish_Menu.MainMenu
                 #region Rope buttonsActive
                 if (RopeButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     RopeButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1867,7 +1992,7 @@ namespace Fish_Menu.MainMenu
                 #region Spam Rpc buttonsActive
                 if (SpamRpcButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "mian";
                     SpamRpcButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1948,7 +2073,7 @@ namespace Fish_Menu.MainMenu
                 #region BugType
                 if (BugButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     BugButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2139,7 +2264,7 @@ namespace Fish_Menu.MainMenu
                 #region Tag buttonsActive
                 if (TagButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     TagButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2182,7 +2307,7 @@ namespace Fish_Menu.MainMenu
                 #region Mic buttonsActive
                 if (MicButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     MicButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2305,16 +2430,158 @@ namespace Fish_Menu.MainMenu
                     Instance.EarapeAura();
                     NotifiLib.SendNotification("Earape Aura Is On", Color.green);
                 }
-                if (MicButtonsActive[11] == true)
+                if (MicButtonsActive[9] == true)
                 {
                     Mods.MainStuff.OpMods.FuckGame();
                     NotifiLib.SendNotification("Fuck Game Is On", Color.green);
                 }
                 #endregion
+                #region OP buttonsActive
+                if (OPButtonsActive[0] == true)
+                {
+                     NumberForPage = "main";
+                     OPButtonsActive[0] = false;
+                     Object.Destroy(menu);
+                     menu = null;
+                     Draw();
+                }
+                if (OPButtonsActive[1] == true)
+                {
+                    Instance.StartCoroutine(Instance.AntiBan());
+                }
+                if (OPButtonsActive[2] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        int playerCount = 10;
+                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerCount").SetValue(playerCount);
+                        ScienceExperimentManager.PlayerGameState[] playerStates = new ScienceExperimentManager.PlayerGameState[playerCount];
+                        for (int i = 0; i < playerCount; i++)
+                        {
+                            ScienceExperimentManager.PlayerGameState state = new ScienceExperimentManager.PlayerGameState();
+                            state.touchedLiquid = true;
+                            state.playerId = (PhotonNetwork.PlayerList[i] != null) ? PhotonNetwork.PlayerList[i].ActorNumber : 0;
+                            playerStates[i] = state;
+                        }
+                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
+                        return;
+                    }
+                }
+                if (OPButtonsActive[3] == true)
+                {
+                    Instance.StartCoroutine(Instance.AntiBan());
+                    Mods.MainStuff.OpMods.AcidGun();
+                }
+                if (OPButtonsActive[4] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        int playerCount = 10;
+                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerCount").SetValue(playerCount);
+                        ScienceExperimentManager.PlayerGameState[] playerStates = new ScienceExperimentManager.PlayerGameState[playerCount];
+                        for (int i = 0; i < playerCount; i++)
+                        {
+                            ScienceExperimentManager.PlayerGameState state = new ScienceExperimentManager.PlayerGameState();
+                            Photon.Realtime.Player randomPlayer = RigManager.GetRandomPlayer(true);
+                            state.touchedLiquid = true;
+                            state.playerId = (randomPlayer != null) ? randomPlayer.ActorNumber : 0;
+                            playerStates[i] = state;
+                        }
+                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
+                        return;
+                    }
+                }
+                if (OPButtonsActive[5] == true)
+                {
+                    //D
+                }
+                if (OPButtonsActive[6] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        if (boards == null) { boards = Object.FindObjectsOfType<GorillaScoreBoard>(); }
+                        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                        {
+                            foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
+                            {
+                                for (int i = 0; i < sB.lines.Count; i++)
+                                {
+                                    sB.lines[i].linePlayer.NickName = "fishontop";
+                                    sB.linesParent.name = "fishontop";
+                                    sB.RedrawPlayerLines();
+                                }
+                            }
+                            foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
+                            {
+                                sB.linePlayer.NickName = "fishontop";
+                                sB.playerName.text = sB.NormalizeName(true, sB.linePlayer.NickName);
+                                sB.UpdateLine();
+                            }
+                            foreach (GorillaScoreboardSpawner sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardSpawner)))
+                            {
+                                foreach (GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine in sB.currentScoreboard.lines)
+                                {
+                                    gorillaPlayerScoreboardLine.doneReporting = true;
+                                    gorillaPlayerScoreboardLine.linePlayer.NickName = "fishontop";
+                                    sB.currentScoreboard.gameManager.InfrequentUpdate();
+                                    gorillaPlayerScoreboardLine.UpdateLine();
+                                }
+                            }
+                            foreach (GorillaScoreBoard gorillaScoreBoard in boards)
+                            {
+                                foreach (GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine in gorillaScoreBoard.lines)
+                                {
+                                    gorillaPlayerScoreboardLine.linePlayer = player;
+                                    gorillaPlayerScoreboardLine.playerMMR.text = "fishontop";
+                                    gorillaPlayerScoreboardLine.SetLineData(player);
+                                    gorillaPlayerScoreboardLine.InitializeLine();
+                                }
+                            }
+                        }
+                        /*foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
+                        {
+                            for (int i = 0; i < sB.lines.Count; i++)
+                            {
+                                GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine = sB.lines[i];
+                                gorillaPlayerScoreboardLine.ResetData();
+                            }
+                        }
+                        for (int j = 0; j < GorillaScoreboardTotalUpdater.allScoreboards.Count; j++)
+                        {
+                            if (string.IsNullOrEmpty(GorillaScoreboardTotalUpdater.allScoreboards[j].initialGameMode))
+                            {
+                                GorillaScoreboardTotalUpdater.instance.UpdateScoreboard(GorillaScoreboardTotalUpdater.allScoreboards[j]);
+                            }
+                        }
+                        foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
+                        {
+                            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                            {
+                                sB.linePlayer = player;
+                                sB.toxicityButton.SetActive(true);
+                                sB.reportButton.isOn = sB.reportedToxicity;
+                                sB.reportButton.UpdateColor();
+                                //PlayerPrefs.SetInt(sB.linePlayer.UserId, 1);
+                                sB.muteButton.UpdateColor();
+                                sB.SetLineData(player);
+                                sB.UpdateLine();
+                                sB.parentScoreboard.RedrawPlayerLines();
+                            }
+                            foreach (GorillaScoreboardTotalUpdater sB2 in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardTotalUpdater)))
+                            {
+                                GorillaScoreboardTotalUpdater.lineIndex = 11;
+                                GorillaScoreboardTotalUpdater.allScoreboardLines[GorillaScoreboardTotalUpdater.lineIndex].UpdateLine();
+                                sB2.UpdateLineState(sB);
+                            }
+                        }*/
+                        return;
+                    }
+                }
+                #endregion
                 #region Halloween buttonsActive
                 if (HalloweenButtonsActive[0] == true)
                 {
-                    NumberForPage = 1;
+                    NumberForPage = "main";
                     HalloweenButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2350,144 +2617,52 @@ namespace Fish_Menu.MainMenu
                     Mods.MainStuff.BasicMods.HalloweenMods.FastBroomStick();
                     NotifiLib.SendNotification("Fast Broom Stick Is On", Color.green);
                 }
-                else
-                {
-                    hasBeenGrabbed = false;
-                }
+                else { hasBeenGrabbed = false; }
                 if (HalloweenButtonsActive[7] == true)
                 {
                     Mods.MainStuff.BasicMods.HalloweenMods.SlowBroomStick();
                     NotifiLib.SendNotification("Slow Broom Stick Is On", Color.green);
                 }
-                else
-                {
-                    hasBeenGrabbed2 = false;
-                }
+                else { hasBeenGrabbed2 = false; }
                 #endregion
-                #region OP buttonsActive
-                if (OPButtonsActive[0] == true)
+                #region Lava buttonsActive
+                if (LavaButtonsActive[0] == true)
                 {
-                     NumberForPage = 1;
-                     OPButtonsActive[0] = false;
-                     Object.Destroy(menu);
-                     menu = null;
-                     Draw();
+                    NumberForPage = "main";
+                    LavaButtonsActive[0] = false;
+                    Object.Destroy(menu);
+                    menu = null;
+                    Draw();
                 }
-                if (OPButtonsActive[1] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                }
-                if (OPButtonsActive[2] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                    object obj;
-                    PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
-                    if (obj.ToString().Contains("MODDED"))
+                if (LavaButtonsActive[1] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full); } }
+                if (LavaButtonsActive[2] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained); } }
+                if (LavaButtonsActive[3] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); } }
+                if (LavaButtonsActive[4] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full, true); } }
+                if (LavaButtonsActive[5] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained, false); } }
+                if (LavaButtonsActive[6] == true) 
+                { 
+                    if (Instance.IsModded()) 
                     {
-                        int playerCount = 10;
-                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerCount").SetValue(playerCount);
-                        ScienceExperimentManager.PlayerGameState[] playerStates = new ScienceExperimentManager.PlayerGameState[playerCount];
-                        for (int i = 0; i < playerCount; i++)
-                        {
-                            ScienceExperimentManager.PlayerGameState state = new ScienceExperimentManager.PlayerGameState();
-                            state.touchedLiquid = true;
-                            state.playerId = (PhotonNetwork.PlayerList[i] != null) ? PhotonNetwork.PlayerList[i].ActorNumber : 0;
-                            playerStates[i] = state;
-                        }
-                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
-                        return;
-                    }
+                        InfectionLavaController instance = InfectionLavaController.Instance;
+
+                        Type type = typeof(InfectionLavaController);
+                        FieldInfo reliableStateField = type.GetField("reliableState", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo lavaMeshMaxScaleField = type.GetField("lavaMeshMaxScale", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo lavaMeshMinScaleField = type.GetField("lavaMeshMinScale", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        object reliableState = reliableStateField.GetValue(instance);
+
+                        Type reliableStateType = reliableState.GetType();
+                        FieldInfo stateField = reliableStateType.GetField("state");
+                        FieldInfo stateStartTimeField = reliableStateType.GetField("stateStartTime");
+
+                        if (spazLava) { stateField.SetValue(reliableState, InfectionLavaController.RisingLavaState.Full); }
+                        else { stateField.SetValue(reliableState, InfectionLavaController.RisingLavaState.Drained); }
+                        spazLava = !spazLava;
+                        stateStartTimeField.SetValue(reliableState, PhotonNetwork.Time + (double)Random.Range(0f, 20f));
+                        reliableStateField.SetValue(instance, reliableState);
+                    } 
                 }
-                if (OPButtonsActive[3] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                    Mods.MainStuff.OpMods.AcidGun();
-                }
-                if (OPButtonsActive[4] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                    object obj;
-                    PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
-                    if (obj.ToString().Contains("MODDED"))
-                    {
-                        int playerCount = 10;
-                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerCount").SetValue(playerCount);
-                        ScienceExperimentManager.PlayerGameState[] playerStates = new ScienceExperimentManager.PlayerGameState[playerCount];
-                        for (int i = 0; i < playerCount; i++)
-                        {
-                            ScienceExperimentManager.PlayerGameState state = new ScienceExperimentManager.PlayerGameState();
-                            Photon.Realtime.Player randomPlayer = RigManager.GetRandomPlayer(true);
-                            state.touchedLiquid = true;
-                            state.playerId = (randomPlayer != null) ? randomPlayer.ActorNumber : 0;
-                            playerStates[i] = state;
-                        }
-                        Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
-                        return;
-                    }
-                }
-                if (OPButtonsActive[5] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                    object obj;
-                    PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
-                    if (obj.ToString().Contains("MODDED"))
-                    {
-                        Vector2 vector2 = UnityEngine.Random.insideUnitCircle.normalized + new Vector2(0.5f, 2f);
-                        double num2 = (PhotonNetwork.InRoom ? PhotonNetwork.Time : ((double)Time.time));
-                        ScienceExperimentManager.instance.photonView.RPC("SpawnSodaBubbleRPC", RpcTarget.Others, vector2, -100000000f * 1, 130f, num2);
-                        ScienceExperimentManager.instance.photonView.RPC("SpawnSodaBubbleRPC", RpcTarget.Others, vector2, 100000000f * 1, 130f, num2);
-                        return;
-                    }
-                }
-                if (OPButtonsActive[6] == true)
-                {
-                    Instance.StartCoroutine(Instance.AntiBan());
-                    object obj;
-                    PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
-                    if (obj.ToString().Contains("MODDED"))
-                    {
-                        foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
-                        {
-                            for (int i = 0; i < sB.lines.Count; i++)
-                            {
-                                GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine = sB.lines[i];
-                                gorillaPlayerScoreboardLine.ResetData();
-                            }
-                        }
-                        /*for (int j = 0; j < GorillaScoreboardTotalUpdater.allScoreboards.Count; j++)
-                        {
-                            if (string.IsNullOrEmpty(GorillaScoreboardTotalUpdater.allScoreboards[j].initialGameMode))
-                            {
-                                GorillaScoreboardTotalUpdater.instance.UpdateScoreboard(GorillaScoreboardTotalUpdater.allScoreboards[j]);
-                            }
-                        }*/
-                        foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
-                        {
-                            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-                            {
-                                sB.linePlayer = player;
-                                sB.toxicityButton.SetActive(true);
-                                sB.reportButton.isOn = sB.reportedToxicity;
-                                sB.reportButton.UpdateColor();
-                                //PlayerPrefs.SetInt(sB.linePlayer.UserId, 1);
-                                sB.muteButton.UpdateColor();
-                                sB.SetLineData(player);
-                                sB.UpdateLine();
-                                sB.parentScoreboard.RedrawPlayerLines();
-                            }
-                            foreach (GorillaScoreboardTotalUpdater sB2 in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardTotalUpdater)))
-                            {
-                                GorillaScoreboardTotalUpdater.lineIndex = 11;
-                                GorillaScoreboardTotalUpdater.allScoreboardLines[GorillaScoreboardTotalUpdater.lineIndex].UpdateLine();
-                                sB2.UpdateLineState(sB);
-                            }
-                        }
-                        return;
-                    }
-                }
-                if (OPButtonsActive[7] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full); }
-                if (OPButtonsActive[8] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained); }
-                if (OPButtonsActive[9] == true) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); }
                 #endregion
             }
             catch (Exception ex)
@@ -2638,56 +2813,6 @@ namespace Fish_Menu.MainMenu
                             RopeTimer = Time.time;
                         }
                     }
-                    public static void CrashGun()
-                    {
-                        if (ControllerInput.RightGrip)
-                        {
-                            if (lagrig == null)
-                            {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
-                                {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
-                                    pointer.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
-                                }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    if (raycastHit.collider.GetComponentInParent<VRRig>())
-                                    {
-                                        lagrig = raycastHit.collider.GetComponentInParent<VRRig>();
-                                    }
-                                }
-                            }
-                            if (ControllerInput.RightTrigger && lagrig != null)
-                            {
-                                pointer.transform.position = lagrig.transform.position;
-                                PhotonView photonViewFromRig = RigManager.GetRigView(lagrig);
-                                Photon.Realtime.Player owner = photonViewFromRig.Owner;
-                                if (photonViewFromRig != null || owner != null)
-                                {
-                                    photonViewFromRig.OwnerActorNr = PhotonNetwork.LocalPlayer.ActorNumber;
-                                    photonViewFromRig.ControllerActorNr = PhotonNetwork.LocalPlayer.ActorNumber;
-                                    PhotonNetwork.Destroy(photonViewFromRig);
-                                    PhotonNetwork.Destroy(photonViewFromRig.gameObject);
-                                    pointer.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f, 0.15f);
-                                }
-                            }
-                            else
-                            {
-                                lagrig = null;
-                                pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
-                            }
-                        }
-                        else
-                        {
-                            Object.Destroy(pointer);
-                        }
-                    }
                     public static void HitTarget()
                     {
                         foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
@@ -2833,7 +2958,7 @@ namespace Fish_Menu.MainMenu
                     }
                     public static void FuckGame()
                     {
-                        if (PhotonNetwork.IsMasterClient)
+                        if (Instance.IsModded())
                         {
                             if (smth < Time.time && PhotonNetwork.InRoom)
                             {
@@ -2918,12 +3043,14 @@ namespace Fish_Menu.MainMenu
                             Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
                         }
                     }
-                    public static void SetLavaState(InfectionLavaController.RisingLavaState state)
+                    public static void SetLavaState(InfectionLavaController.RisingLavaState state, bool a = false)
                     {
                         InfectionLavaController instance = InfectionLavaController.Instance;
 
                         Type type = typeof(InfectionLavaController);
                         FieldInfo reliableStateField = type.GetField("reliableState", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo lavaMeshMaxScaleField = type.GetField("lavaMeshMaxScale", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo lavaMeshMinScaleField = type.GetField("lavaMeshMinScale", BindingFlags.Instance | BindingFlags.NonPublic);
 
                         object reliableState = reliableStateField.GetValue(instance);
 
@@ -2934,6 +3061,17 @@ namespace Fish_Menu.MainMenu
                         stateField.SetValue(reliableState, state);
                         stateStartTimeField.SetValue(reliableState, PhotonNetwork.Time);
                         reliableStateField.SetValue(instance, reliableState);
+
+                        if (a)
+                        {
+                            lavaMeshMaxScaleField.SetValue(instance, 26.941086f);
+                            lavaMeshMinScaleField.SetValue(instance, 25.941086f);
+                        }
+                        else
+                        {
+                            lavaMeshMaxScaleField.SetValue(instance, 8.941086f);
+                            lavaMeshMinScaleField.SetValue(instance, 3.17f);
+                        }
                     }
                 }
                 public class BasicMods
@@ -4192,6 +4330,17 @@ namespace Fish_Menu.MainMenu
             }
             yield break;
         }
+        public bool IsModded()
+        {
+            Instance.StartCoroutine(Instance.AntiBan());
+            object obj;
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
+            if (obj.ToString().Contains("MODDED"))
+            {
+                return true;
+            }
+            return false;
+        }
         #endregion
         #region Main Menu
         public static void PlatformNetwork(EventData data)
@@ -4319,7 +4468,7 @@ namespace Fish_Menu.MainMenu
             component.position = new Vector3(0.06f, 0f, 0.175f);
             component.rotation = Quaternion.Euler(new Vector3(180f, 90f, 90f));
 
-            if (NumberForPage == 1)
+            if (NumberForPage == "main")
             {
                 AddPageButtons(buttons);
                 string[] array2 = buttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4328,7 +4477,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], buttons, buttonsActive);
                 }
             }
-            if (NumberForPage == 2)
+            if (NumberForPage == "settings")
             {
                 AddPageButtons(Settingsbuttons);
                 string[] array2 = Settingsbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4337,7 +4486,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Settingsbuttons, SettingsButtonsActive);
                 }
             }
-            if (NumberForPage == 3)
+            if (NumberForPage == "basic")
             {
                 AddPageButtons(Basicbuttons);
                 string[] array2 = Basicbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4346,7 +4495,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Basicbuttons, BasicButtonsActive);
                 }
             }
-            if (NumberForPage == 4)
+            if (NumberForPage == "rope")
             {
                 AddPageButtons(Ropebuttons);
                 string[] array2 = Ropebuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4355,7 +4504,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Ropebuttons, RopeButtonsActive);
                 }
             }
-            if (NumberForPage == 5)
+            if (NumberForPage == "spamrpc")
             {
                 AddPageButtons(SpamRpcbuttons);
                 string[] array2 = SpamRpcbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4364,7 +4513,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], SpamRpcbuttons, SpamRpcButtonsActive);
                 }
             }
-            if (NumberForPage == 6)
+            if (NumberForPage == "bug")
             {
                 AddPageButtons(Bugbuttons);
                 string[] array2 = Bugbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4373,7 +4522,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Bugbuttons, BugButtonsActive);
                 }
             }
-            if (NumberForPage == 7)
+            if (NumberForPage == "tag")
             {
                 AddPageButtons(Tagbuttons);
                 string[] array2 = Tagbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4382,7 +4531,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Tagbuttons, TagButtonsActive);
                 }
             }
-            if (NumberForPage == 8)
+            if (NumberForPage == "mics")
             {
                 AddPageButtons(Micbuttons);
                 string[] array2 = Micbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4391,7 +4540,16 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Micbuttons, MicButtonsActive);
                 }
             }
-            if (NumberForPage == 99)
+            if (NumberForPage == "op")
+            {
+                AddPageButtons(OPbuttons);
+                string[] array2 = OPbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
+                for (int i = 0; i < array2.Length; i++)
+                {
+                    AddButton((float)i * 0.13f + 0.26f, array2[i], OPbuttons, OPButtonsActive);
+                }
+            }
+            if (NumberForPage == "halloween")
             {
                 AddPageButtons(Halloweenbuttons);
                 string[] array2 = Halloweenbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4400,13 +4558,13 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Halloweenbuttons, HalloweenButtonsActive);
                 }
             }
-            if (NumberForPage == 69)
+            if (NumberForPage == "lava")
             {
-                AddPageButtons(OPbuttons);
-                string[] array2 = OPbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
+                AddPageButtons(Lavabuttons);
+                string[] array2 = Lavabuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
                 for (int i = 0; i < array2.Length; i++)
                 {
-                    AddButton((float)i * 0.13f + 0.26f, array2[i], OPbuttons, OPButtonsActive);
+                    AddButton((float)i * 0.13f + 0.26f, array2[i], Lavabuttons, LavaButtonsActive);
                 }
             }
         }
@@ -4577,8 +4735,10 @@ namespace Fish_Menu.MainMenu
         private bool successfullyFoundFriend;
         public static VRRig kickp;
         public static VRRig lucyp;
+        public static GorillaScoreBoard[] boards;
         private float startingToLookForFriend;
         public static bool AntiBanOn = false;
+        public static bool spazLava = false;
         public static string OldName;
         public static FieldInfo fi1 = typeof(InfectionLavaController).GetField("fullTime", BindingFlags.NonPublic);
         public static InfectionLavaController.RisingLavaState fi1a;
@@ -4662,7 +4822,7 @@ namespace Fish_Menu.MainMenu
         private static float TagAura;
         public static float smth = 0f;
         public static float smth2 = 0f;
-        public static int NumberForPage = 1;
+        public static string NumberForPage = "main";
         private static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
         private static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
         private static Vector3? leftHandOffsetInitial = null;
@@ -4882,12 +5042,17 @@ namespace Fish_Menu.MainMenu
                         if (i == 7 && MenuPatch.buttonsActive[i])
                         {
                             ClearAllButtonStates();
-                            Halloween = true;
+                            OP = true;
                         }
                         if (i == 8 && MenuPatch.buttonsActive[i])
                         {
                             ClearAllButtonStates();
-                            OP = true;
+                            Halloween = true;
+                        }
+                        if (i == 9 && MenuPatch.buttonsActive[i])
+                        {
+                            ClearAllButtonStates();
+                            Lava = true;
                         }
                     }
                 }
@@ -4982,6 +5147,21 @@ namespace Fish_Menu.MainMenu
                     }
                 }
             }
+            if (OP)
+            {
+                for (int i = 0; i < MenuPatch.OPbuttons.Length; i++)
+                {
+                    if (i < MenuPatch.OPButtonsActive.Length)
+                    {
+                        MenuPatch.OPButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.OPbuttons[i], MenuPatch.OPButtonsActive[i]);
+                        if (i == 0 && MenuPatch.OPButtonsActive[i])
+                        {
+                            ClearAllButtonStates();
+                            Main = true;
+                        }
+                    }
+                }
+            }
             if (Halloween)
             {
                 for (int i = 0; i < MenuPatch.Halloweenbuttons.Length; i++)
@@ -4997,14 +5177,14 @@ namespace Fish_Menu.MainMenu
                     }
                 }
             }
-            if (OP)
+            if (Lava)
             {
-                for (int i = 0; i < MenuPatch.OPbuttons.Length; i++)
+                for (int i = 0; i < MenuPatch.Lavabuttons.Length; i++)
                 {
-                    if (i < MenuPatch.OPButtonsActive.Length)
+                    if (i < MenuPatch.LavaButtonsActive.Length)
                     {
-                        MenuPatch.OPButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.OPbuttons[i], MenuPatch.OPButtonsActive[i]);
-                        if (i == 0 && MenuPatch.OPButtonsActive[i])
+                        MenuPatch.LavaButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.Lavabuttons[i], MenuPatch.LavaButtonsActive[i]);
+                        if (i == 0 && MenuPatch.LavaButtonsActive[i])
                         {
                             ClearAllButtonStates();
                             Main = true;
@@ -5026,6 +5206,7 @@ namespace Fish_Menu.MainMenu
             Mic = false; 
             Halloween = false; 
             OP = false;
+            Lava = false;
             Main = false;
         }
         private void DrawPlayerListTab()
@@ -5286,7 +5467,7 @@ namespace Fish_Menu.MainMenu
         private static MainGUI _instance;
         public bool Main = true;
         private Player selectedPlayer;
-        public bool Settings,Basic,Rope,SpamRpc,Bug,Tag,Mic,Halloween,OP = false;
+        public bool Settings,Basic,Rope,SpamRpc,Bug,Tag,Mic,Halloween,OP,Lava = false;
         public KeyCode toggleKey = KeyCode.Insert;
         public static GameObject pointer;
         internal static bool playerManagerEnabled = false;
@@ -5387,45 +5568,49 @@ namespace Fish_Menu.MainMenu
             {
                 GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(66, false, 0.1f);
                 GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2, GorillaTagger.Instance.tagHapticDuration / 2);
-                if (MenuPatch.NumberForPage == 1)
+                if (MenuPatch.NumberForPage == "mian")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.buttons, MenuPatch.buttonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 2)
+                else if (MenuPatch.NumberForPage == "settings")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Settingsbuttons, MenuPatch.SettingsButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 3)
+                else if (MenuPatch.NumberForPage == "basic")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Basicbuttons, MenuPatch.BasicButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 4)
+                else if (MenuPatch.NumberForPage == "rope")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Ropebuttons, MenuPatch.RopeButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 5)
+                else if (MenuPatch.NumberForPage == "spamrpc")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.SpamRpcbuttons, MenuPatch.SpamRpcButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 6)
+                else if (MenuPatch.NumberForPage == "bug")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Bugbuttons, MenuPatch.BugButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 7)
+                else if (MenuPatch.NumberForPage == "tag")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Tagbuttons, MenuPatch.TagButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 8)
+                else if (MenuPatch.NumberForPage == "mics")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Micbuttons, MenuPatch.MicButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 99)
+                else if (MenuPatch.NumberForPage == "op")
+                {
+                    MenuPatch.Toggle(relatedText, MenuPatch.OPbuttons, MenuPatch.OPButtonsActive);
+                }
+                else if (MenuPatch.NumberForPage == "halloween")
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Halloweenbuttons, MenuPatch.HalloweenButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == 69)
+                else if (MenuPatch.NumberForPage == "lava")
                 {
-                    MenuPatch.Toggle(relatedText, MenuPatch.OPbuttons, MenuPatch.OPButtonsActive);
+                    MenuPatch.Toggle(relatedText, MenuPatch.Lavabuttons, MenuPatch.LavaButtonsActive);
                 }
                 MenuPatch.framePressCooldown = Time.frameCount;
             }

@@ -5,6 +5,7 @@ using HarmonyLib;
 using Photon.Pun;
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using HarmonyPatch = HarmonyLib.HarmonyPatch;
 using Player = Photon.Realtime.Player;
@@ -21,6 +22,10 @@ namespace Fish_Menu.MainMenuPatches
         private void Awake()
         {
             ConsoleUtility.WriteToConsole($"Patches Activated!", ConsoleColor.Green);
+
+            var instance = GorillaNot.instance;
+            instance?.GetType().GetField("sendReport", BindingFlags.NonPublic)?.SetValue(instance, false);
+            instance?.GetType().GetField("_sendReport", BindingFlags.NonPublic)?.SetValue(instance, false);
         }
 
         [HarmonyPatch(typeof(GameObject))]
