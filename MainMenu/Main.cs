@@ -38,8 +38,8 @@ using static System.Net.Mime.MediaTypeNames;
 using ExitGames.Client.Photon.StructWrapping;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.UI.GridLayoutGroup;
-using UnityEngine.UIElements;
-using Pathfinding.RVO;
+using static Fish_Menu.MainMenu.MenuPatch;
+using Photon.Voice.PUN;
 
 namespace Fish_Menu.MainMenu
 {
@@ -49,7 +49,6 @@ namespace Fish_Menu.MainMenu
     {
         public void FixedUpdate()
         {
-            Debug.unityLogger.logEnabled = false;
             if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
             {
                 GameObject Loader = new GameObject("Loader");
@@ -233,1260 +232,17 @@ namespace Fish_Menu.MainMenu
         #endregion
         #endregion
         #region buttonsActive
-        public static bool[] buttonsActive = new bool[111]
-{
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-};
-        public static bool[] SettingsButtonsActive = new bool[111]
-    {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-    };
-        public static bool[] BasicButtonsActive = new bool[111]
-    {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-    };
-        public static bool[] RopeButtonsActive = new bool[111]
-   {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-   };
-        public static bool[] SpamRpcButtonsActive = new bool[111]
-  {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-  };
-        public static bool[] BugButtonsActive = new bool[111]
- {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
- };
-        public static bool[] TagButtonsActive = new bool[111]
- {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
- };
-        public static bool[] MicButtonsActive = new bool[111]
- {
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
- };
-        public static bool[] OPButtonsActive = new bool[111]
-{
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-};
-        public static bool[] HalloweenButtonsActive = new bool[111]
-{
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-};
-        public static bool[] LavaButtonsActive = new bool[111]
-{
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false,
-         false
-};
+        public static bool[] buttonsActive = new bool[111];
+        public static bool[] SettingsButtonsActive = new bool[111];
+        public static bool[] BasicButtonsActive = new bool[111];
+        public static bool[] RopeButtonsActive = new bool[111];
+        public static bool[] SpamRpcButtonsActive = new bool[111];
+        public static bool[] BugButtonsActive = new bool[111];
+        public static bool[] TagButtonsActive = new bool[111];
+        public static bool[] MicButtonsActive = new bool[111];
+        public static bool[] OPButtonsActive = new bool[111];
+        public static bool[] HalloweenButtonsActive = new bool[111];
+        public static bool[] LavaButtonsActive = new bool[111];
         #endregion
         #region Prefix
         private static void Prefix()
@@ -1570,12 +326,13 @@ namespace Fish_Menu.MainMenu
                     Object.Destroy(fingerButtonPresser);
                     fingerButtonPresser = null;
                 }
+                if (PhotonNetwork.InRoom) { if (!Instance.IsModded()) { Instance.StartCoroutine(Instance.AntiBan()); } }
                 #endregion
                 #region Main buttonsActive
                 // Settings
                 if (buttonsActive[0] == true)
                 {
-                    NumberForPage = "settings";
+                    NumberForPage = 2;
                     buttonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1584,7 +341,7 @@ namespace Fish_Menu.MainMenu
                 // Basic
                 if (buttonsActive[1] == true)
                 {
-                    NumberForPage = "basic";
+                    NumberForPage = 3;
                     buttonsActive[1] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1593,7 +350,7 @@ namespace Fish_Menu.MainMenu
                 // Rope
                 if (buttonsActive[2] == true)
                 {
-                    NumberForPage = "rope";
+                    NumberForPage = 4;
                     buttonsActive[2] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1602,7 +359,7 @@ namespace Fish_Menu.MainMenu
                 // Spam Rpc
                 if (buttonsActive[3] == true)
                 {
-                    NumberForPage = "spamrpc";
+                    NumberForPage = 5;
                     buttonsActive[3] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1611,7 +368,7 @@ namespace Fish_Menu.MainMenu
                 // Bug
                 if (buttonsActive[4] == true)
                 {
-                    NumberForPage = "bug";
+                    NumberForPage = 6;
                     buttonsActive[4] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1620,7 +377,7 @@ namespace Fish_Menu.MainMenu
                 // Tag
                 if (buttonsActive[5] == true)
                 {
-                    NumberForPage = "tag";
+                    NumberForPage = 7;
                     buttonsActive[5] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1629,25 +386,25 @@ namespace Fish_Menu.MainMenu
                 // Mic
                 if (buttonsActive[6] == true)
                 {
-                    NumberForPage = "mics";
+                    NumberForPage = 8;
                     buttonsActive[6] = false;
                     Object.Destroy(menu);
                     menu = null;
                     Draw();
                 }
-                // OP
+                // op
                 if (buttonsActive[7] == true)
                 {
-                    NumberForPage = "op";
+                    NumberForPage = 9;
                     buttonsActive[7] = false;
                     Object.Destroy(menu);
                     menu = null;
                     Draw();
                 }
-                // Halloween
+                // Lucy
                 if (buttonsActive[8] == true)
                 {
-                    NumberForPage = "halloween";
+                    NumberForPage = 10;
                     buttonsActive[8] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1656,7 +413,7 @@ namespace Fish_Menu.MainMenu
                 // Lava
                 if (buttonsActive[9] == true)
                 {
-                    NumberForPage = "lava";
+                    NumberForPage = 11;
                     buttonsActive[9] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1820,7 +577,7 @@ namespace Fish_Menu.MainMenu
                 }
                 if (SettingsButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     SettingsButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1849,7 +606,7 @@ namespace Fish_Menu.MainMenu
                 #region Basic buttonsActive
                 if (BasicButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     BasicButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1953,7 +710,7 @@ namespace Fish_Menu.MainMenu
                 #region Rope buttonsActive
                 if (RopeButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     RopeButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -1992,7 +749,7 @@ namespace Fish_Menu.MainMenu
                 #region Spam Rpc buttonsActive
                 if (SpamRpcButtonsActive[0] == true)
                 {
-                    NumberForPage = "mian";
+                    NumberForPage = 1;
                     SpamRpcButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2073,7 +830,7 @@ namespace Fish_Menu.MainMenu
                 #region BugType
                 if (BugButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     BugButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2264,7 +1021,7 @@ namespace Fish_Menu.MainMenu
                 #region Tag buttonsActive
                 if (TagButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     TagButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2285,7 +1042,6 @@ namespace Fish_Menu.MainMenu
                 }
                 if (TagButtonsActive[3] == true)
                 {
-
                     TagButtonsActive[3] = true;
                 }
                 else if (TagButtonsActive[3] == false)
@@ -2295,7 +1051,6 @@ namespace Fish_Menu.MainMenu
                 }
                 if (buttonsActive[4] == true)
                 {
-
                     TagButtonsActive[4] = true;
                 }
                 else if (TagButtonsActive[4] == false)
@@ -2307,7 +1062,7 @@ namespace Fish_Menu.MainMenu
                 #region Mic buttonsActive
                 if (MicButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     MicButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2439,11 +1194,11 @@ namespace Fish_Menu.MainMenu
                 #region OP buttonsActive
                 if (OPButtonsActive[0] == true)
                 {
-                     NumberForPage = "main";
-                     OPButtonsActive[0] = false;
-                     Object.Destroy(menu);
-                     menu = null;
-                     Draw();
+                    NumberForPage = 1;
+                    OPButtonsActive[0] = false;
+                    Object.Destroy(menu);
+                    menu = null;
+                    Draw();
                 }
                 if (OPButtonsActive[1] == true)
                 {
@@ -2581,7 +1336,7 @@ namespace Fish_Menu.MainMenu
                 #region Halloween buttonsActive
                 if (HalloweenButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     HalloweenButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2628,7 +1383,7 @@ namespace Fish_Menu.MainMenu
                 #region Lava buttonsActive
                 if (LavaButtonsActive[0] == true)
                 {
-                    NumberForPage = "main";
+                    NumberForPage = 1;
                     LavaButtonsActive[0] = false;
                     Object.Destroy(menu);
                     menu = null;
@@ -2639,9 +1394,9 @@ namespace Fish_Menu.MainMenu
                 if (LavaButtonsActive[3] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); } }
                 if (LavaButtonsActive[4] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full, true); } }
                 if (LavaButtonsActive[5] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained, false); } }
-                if (LavaButtonsActive[6] == true) 
-                { 
-                    if (Instance.IsModded()) 
+                if (LavaButtonsActive[6] == true)
+                {
+                    if (Instance.IsModded())
                     {
                         InfectionLavaController instance = InfectionLavaController.Instance;
 
@@ -2661,7 +1416,7 @@ namespace Fish_Menu.MainMenu
                         spazLava = !spazLava;
                         stateStartTimeField.SetValue(reliableState, PhotonNetwork.Time + (double)Random.Range(0f, 20f));
                         reliableStateField.SetValue(instance, reliableState);
-                    } 
+                    }
                 }
                 #endregion
             }
@@ -4072,50 +2827,7 @@ namespace Fish_Menu.MainMenu
                 }
             }
         }
-        #endregion
-        #region Utils
-        private void Awake()
-        {
-            _instance = this;
-        }
-        public static void UpdateMaterialColors()
-        {
-            MenuColor.mainTexture = menutexture;
-            BtnDisabledColor.color = Color.black;
-            BtnEnabledColor.color = Color.blue;
-            Next.color = Color.grey;
-            Previous.color = Color.grey;
-        }
-        internal static void GetOwnershipPhotonView(PhotonView view)
-        {
-            view.OwnershipTransfer = OwnershipOption.Takeover;
-            view.RequestOwnership();
-            view.TransferOwnership(PhotonNetwork.LocalPlayer);
-            view.ControllerActorNr = PhotonNetwork.LocalPlayer.ActorNumber;
-        }
-        public static void SaveSettings()
-        {
-            PlayerPrefs.SetInt("ESpInt", ESpInt);
-            PlayerPrefs.SetInt("BoneESpInt", BoneESpInt);
-            PlayerPrefs.SetInt("SpeedCount", SpeedCount);
-            PlayerPrefs.SetInt("platCountType", platCountType);
-            PlayerPrefs.SetInt("platCountColor", platCountColor);
-            PlayerPrefs.SetInt("TPSpeedCount", TPSpeedCount);
-            PlayerPrefs.SetInt("SlingshotCountType", SlingshotCountType);
-            PlayerPrefs.SetInt("BugCountType", BugCountType);
-            PlayerPrefs.Save();
-        }
-        public static void LoadSettings()
-        {
-            ESpInt = PlayerPrefs.GetInt("ESpInt", ESpInt);
-            BoneESpInt = PlayerPrefs.GetInt("BoneESpInt", BoneESpInt);
-            SpeedCount = PlayerPrefs.GetInt("SpeedCount", SpeedCount);
-            platCountType = PlayerPrefs.GetInt("platCountType", platCountType);
-            platCountColor = PlayerPrefs.GetInt("platCountColor", platCountColor);
-            TPSpeedCount = PlayerPrefs.GetInt("TPSpeedCount", TPSpeedCount);
-            SlingshotCountType = PlayerPrefs.GetInt("SlingshotCountType", SlingshotCountType);
-            BugCountType = PlayerPrefs.GetInt("BugCountType", BugCountType);
-        }
+        #region ModsNotInClass
         public void Projectile(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
         {
             SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
@@ -4330,6 +3042,51 @@ namespace Fish_Menu.MainMenu
             }
             yield break;
         }
+        #endregion
+        #endregion
+        #region Utils
+        private void Awake()
+        {
+            _instance = this;
+        }
+        public static void UpdateMaterialColors()
+        {
+            MenuColor.mainTexture = menutexture;
+            BtnDisabledColor.color = Color.black;
+            BtnEnabledColor.color = Color.blue;
+            Next.color = Color.grey;
+            Previous.color = Color.grey;
+        }
+        internal static void GetOwnershipPhotonView(PhotonView view)
+        {
+            view.OwnershipTransfer = OwnershipOption.Takeover;
+            view.RequestOwnership();
+            view.TransferOwnership(PhotonNetwork.LocalPlayer);
+            view.ControllerActorNr = PhotonNetwork.LocalPlayer.ActorNumber;
+        }
+        public static void SaveSettings()
+        {
+            PlayerPrefs.SetInt("ESpInt", ESpInt);
+            PlayerPrefs.SetInt("BoneESpInt", BoneESpInt);
+            PlayerPrefs.SetInt("SpeedCount", SpeedCount);
+            PlayerPrefs.SetInt("platCountType", platCountType);
+            PlayerPrefs.SetInt("platCountColor", platCountColor);
+            PlayerPrefs.SetInt("TPSpeedCount", TPSpeedCount);
+            PlayerPrefs.SetInt("SlingshotCountType", SlingshotCountType);
+            PlayerPrefs.SetInt("BugCountType", BugCountType);
+            PlayerPrefs.Save();
+        }
+        public static void LoadSettings()
+        {
+            ESpInt = PlayerPrefs.GetInt("ESpInt", ESpInt);
+            BoneESpInt = PlayerPrefs.GetInt("BoneESpInt", BoneESpInt);
+            SpeedCount = PlayerPrefs.GetInt("SpeedCount", SpeedCount);
+            platCountType = PlayerPrefs.GetInt("platCountType", platCountType);
+            platCountColor = PlayerPrefs.GetInt("platCountColor", platCountColor);
+            TPSpeedCount = PlayerPrefs.GetInt("TPSpeedCount", TPSpeedCount);
+            SlingshotCountType = PlayerPrefs.GetInt("SlingshotCountType", SlingshotCountType);
+            BugCountType = PlayerPrefs.GetInt("BugCountType", BugCountType);
+        }
         public bool IsModded()
         {
             Instance.StartCoroutine(Instance.AntiBan());
@@ -4343,37 +3100,6 @@ namespace Fish_Menu.MainMenu
         }
         #endregion
         #region Main Menu
-        public static void PlatformNetwork(EventData data)
-        {
-            if (data.Code == 110)
-            {
-                object[] customshit = (object[])data.CustomData;
-                RightPlat_Networked[data.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                RightPlat_Networked[data.Sender].transform.position = (Vector3)customshit[0];
-                RightPlat_Networked[data.Sender].transform.rotation = (Quaternion)customshit[1];
-                RightPlat_Networked[data.Sender].transform.localScale = (Vector3)customshit[2];
-                RightPlat_Networked[data.Sender].GetComponent<BoxCollider>().enabled = false;
-            }
-            if (data.Code == 120)
-            {
-                object[] customshit = (object[])data.CustomData;
-                LeftPlat_Networked[data.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                LeftPlat_Networked[data.Sender].transform.position = (Vector3)customshit[0];
-                LeftPlat_Networked[data.Sender].transform.rotation = (Quaternion)customshit[1];
-                LeftPlat_Networked[data.Sender].transform.localScale = (Vector3)customshit[2];
-                LeftPlat_Networked[data.Sender].GetComponent<BoxCollider>().enabled = false;
-            }
-            if (data.Code == 110)
-            {
-                UnityEngine.Object.Destroy(RightPlat_Networked[data.Sender]);
-                RightPlat_Networked[data.Sender] = null;
-            }
-            if (data.Code == 121)
-            {
-                UnityEngine.Object.Destroy(LeftPlat_Networked[data.Sender]);
-                LeftPlat_Networked[data.Sender] = null;
-            }
-        }
         #region Draw
         private static void AddButton(float offset, string text, string[] btns, bool[] btnsActive)
         {
@@ -4468,7 +3194,7 @@ namespace Fish_Menu.MainMenu
             component.position = new Vector3(0.06f, 0f, 0.175f);
             component.rotation = Quaternion.Euler(new Vector3(180f, 90f, 90f));
 
-            if (NumberForPage == "main")
+            if (NumberForPage == 1)
             {
                 AddPageButtons(buttons);
                 string[] array2 = buttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4477,7 +3203,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], buttons, buttonsActive);
                 }
             }
-            if (NumberForPage == "settings")
+            if (NumberForPage == 2)
             {
                 AddPageButtons(Settingsbuttons);
                 string[] array2 = Settingsbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4486,7 +3212,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Settingsbuttons, SettingsButtonsActive);
                 }
             }
-            if (NumberForPage == "basic")
+            if (NumberForPage == 3)
             {
                 AddPageButtons(Basicbuttons);
                 string[] array2 = Basicbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4495,7 +3221,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Basicbuttons, BasicButtonsActive);
                 }
             }
-            if (NumberForPage == "rope")
+            if (NumberForPage == 4)
             {
                 AddPageButtons(Ropebuttons);
                 string[] array2 = Ropebuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4504,7 +3230,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Ropebuttons, RopeButtonsActive);
                 }
             }
-            if (NumberForPage == "spamrpc")
+            if (NumberForPage == 5)
             {
                 AddPageButtons(SpamRpcbuttons);
                 string[] array2 = SpamRpcbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4513,7 +3239,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], SpamRpcbuttons, SpamRpcButtonsActive);
                 }
             }
-            if (NumberForPage == "bug")
+            if (NumberForPage == 6)
             {
                 AddPageButtons(Bugbuttons);
                 string[] array2 = Bugbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4522,7 +3248,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Bugbuttons, BugButtonsActive);
                 }
             }
-            if (NumberForPage == "tag")
+            if (NumberForPage == 7)
             {
                 AddPageButtons(Tagbuttons);
                 string[] array2 = Tagbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4531,7 +3257,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Tagbuttons, TagButtonsActive);
                 }
             }
-            if (NumberForPage == "mics")
+            if (NumberForPage == 8)
             {
                 AddPageButtons(Micbuttons);
                 string[] array2 = Micbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4540,7 +3266,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Micbuttons, MicButtonsActive);
                 }
             }
-            if (NumberForPage == "op")
+            if (NumberForPage == 9)
             {
                 AddPageButtons(OPbuttons);
                 string[] array2 = OPbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4549,7 +3275,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], OPbuttons, OPButtonsActive);
                 }
             }
-            if (NumberForPage == "halloween")
+            if (NumberForPage == 10)
             {
                 AddPageButtons(Halloweenbuttons);
                 string[] array2 = Halloweenbuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4558,7 +3284,7 @@ namespace Fish_Menu.MainMenu
                     AddButton((float)i * 0.13f + 0.26f, array2[i], Halloweenbuttons, HalloweenButtonsActive);
                 }
             }
-            if (NumberForPage == "lava")
+            if (NumberForPage == 11)
             {
                 AddPageButtons(Lavabuttons);
                 string[] array2 = Lavabuttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
@@ -4730,18 +3456,16 @@ namespace Fish_Menu.MainMenu
         }
         #endregion
         #region Field
+        public static bool spazLava = false;
+        public static GorillaScoreBoard[] boards;
         public static string _playFabPlayerIdCache, _sessionTicket, userToken;
         public static bool SendMsg = false;
         private bool successfullyFoundFriend;
         public static VRRig kickp;
         public static VRRig lucyp;
-        public static GorillaScoreBoard[] boards;
         private float startingToLookForFriend;
         public static bool AntiBanOn = false;
-        public static bool spazLava = false;
         public static string OldName;
-        public static FieldInfo fi1 = typeof(InfectionLavaController).GetField("fullTime", BindingFlags.NonPublic);
-        public static InfectionLavaController.RisingLavaState fi1a;
         private static readonly RaiseEventOptions KickOptions = new RaiseEventOptions
         {
             CachingOption = EventCaching.AddToRoomCacheGlobal
@@ -4822,7 +3546,7 @@ namespace Fish_Menu.MainMenu
         private static float TagAura;
         public static float smth = 0f;
         public static float smth2 = 0f;
-        public static string NumberForPage = "main";
+        public static int NumberForPage = 1;
         private static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
         private static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
         private static Vector3? leftHandOffsetInitial = null;
@@ -5072,6 +3796,21 @@ namespace Fish_Menu.MainMenu
                     }
                 }
             }
+            if (Basic)
+            {
+                for (int i = 0; i < MenuPatch.Basicbuttons.Length; i++)
+                {
+                    if (i < MenuPatch.BasicButtonsActive.Length)
+                    {
+                        MenuPatch.BasicButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.Basicbuttons[i], MenuPatch.BasicButtonsActive[i]);
+                        if (i == 0 && MenuPatch.BasicButtonsActive[i])
+                        {
+                            ClearAllButtonStates();
+                            Main = true;
+                        }
+                    }
+                }
+            }
             if (Rope)
             {
                 for (int i = 0; i < MenuPatch.Ropebuttons.Length; i++)
@@ -5162,21 +3901,6 @@ namespace Fish_Menu.MainMenu
                     }
                 }
             }
-            if (Halloween)
-            {
-                for (int i = 0; i < MenuPatch.Halloweenbuttons.Length; i++)
-                {
-                    if (i < MenuPatch.HalloweenButtonsActive.Length)
-                    {
-                        MenuPatch.HalloweenButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.Halloweenbuttons[i], MenuPatch.HalloweenButtonsActive[i]);
-                        if (i == 0 && MenuPatch.HalloweenButtonsActive[i])
-                        {
-                            ClearAllButtonStates();
-                            Main = true;
-                        }
-                    }
-                }
-            }
             if (Lava)
             {
                 for (int i = 0; i < MenuPatch.Lavabuttons.Length; i++)
@@ -5185,6 +3909,21 @@ namespace Fish_Menu.MainMenu
                     {
                         MenuPatch.LavaButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.Lavabuttons[i], MenuPatch.LavaButtonsActive[i]);
                         if (i == 0 && MenuPatch.LavaButtonsActive[i])
+                        {
+                            ClearAllButtonStates();
+                            Main = true;
+                        }
+                    }
+                }
+            }
+            if (Halloween)
+            {
+                for (int i = 0; i < MenuPatch.Halloweenbuttons.Length; i++)
+                {
+                    if (i < MenuPatch.HalloweenButtonsActive.Length)
+                    {
+                        MenuPatch.HalloweenButtonsActive[i] = MainGUI.Instance.ToggleButton(MenuPatch.Halloweenbuttons[i], MenuPatch.HalloweenButtonsActive[i]);
+                        if (i == 0 && MenuPatch.HalloweenButtonsActive[i])
                         {
                             ClearAllButtonStates();
                             Main = true;
@@ -5204,9 +3943,9 @@ namespace Fish_Menu.MainMenu
             Bug = false; 
             Tag = false; 
             Mic = false; 
-            Halloween = false; 
-            OP = false;
+            Halloween = false;
             Lava = false;
+            OP = false;
             Main = false;
         }
         private void DrawPlayerListTab()
@@ -5516,6 +4255,7 @@ namespace Fish_Menu.MainMenu
         }
         private IEnumerator AntiBan()
         {
+
             if (!PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
             {
                 ExecuteCloudScriptRequest executeCloudScriptRequest = new ExecuteCloudScriptRequest();
@@ -5568,47 +4308,47 @@ namespace Fish_Menu.MainMenu
             {
                 GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(66, false, 0.1f);
                 GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2, GorillaTagger.Instance.tagHapticDuration / 2);
-                if (MenuPatch.NumberForPage == "mian")
+                if (MenuPatch.NumberForPage == 1)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.buttons, MenuPatch.buttonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "settings")
+                else if (MenuPatch.NumberForPage == 2)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Settingsbuttons, MenuPatch.SettingsButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "basic")
+                else if (MenuPatch.NumberForPage == 3)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Basicbuttons, MenuPatch.BasicButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "rope")
+                else if (MenuPatch.NumberForPage == 4)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Ropebuttons, MenuPatch.RopeButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "spamrpc")
+                else if (MenuPatch.NumberForPage == 5)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.SpamRpcbuttons, MenuPatch.SpamRpcButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "bug")
+                else if (MenuPatch.NumberForPage == 6)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Bugbuttons, MenuPatch.BugButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "tag")
+                else if (MenuPatch.NumberForPage == 7)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Tagbuttons, MenuPatch.TagButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "mics")
+                else if (MenuPatch.NumberForPage == 8)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Micbuttons, MenuPatch.MicButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "op")
+                else if (MenuPatch.NumberForPage == 9)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.OPbuttons, MenuPatch.OPButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "halloween")
+                else if (MenuPatch.NumberForPage == 10)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Halloweenbuttons, MenuPatch.HalloweenButtonsActive);
                 }
-                else if (MenuPatch.NumberForPage == "lava")
+                else if (MenuPatch.NumberForPage == 11)
                 {
                     MenuPatch.Toggle(relatedText, MenuPatch.Lavabuttons, MenuPatch.LavaButtonsActive);
                 }
