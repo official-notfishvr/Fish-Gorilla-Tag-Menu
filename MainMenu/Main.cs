@@ -40,42 +40,11 @@ using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.UI.GridLayoutGroup;
 using static Fish_Menu.MainMenu.MenuPatch;
 using Photon.Voice.PUN;
+using POpusCodec.Enums;
+using PlayFab.ExperimentationModels;
 
 namespace Fish_Menu.MainMenu
 {
-    #region Loader
-    [BepInPlugin("com.notfishvr.fishmenu", "notfishvr", "1.0.0")]
-    public class Loader : BaseUnityPlugin
-    {
-        public void FixedUpdate()
-        {
-            if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
-            {
-                GameObject Loader = new GameObject("Loader");
-                Loader.AddComponent<MenuPatch>();
-                Loader.AddComponent<ControllerInput>();
-                Loader.AddComponent<RigManager>();
-                Loader.AddComponent<NotifiLib>();
-                Loader.AddComponent<RoomManager>();
-            }
-        }
-    }
-    #endregion
-    #region HarmonyPatch
-    [BepInPlugin(modGUID, modName, modVersion)]
-    [Description(modVersion)]
-    public class HarmonyPatch : BaseUnityPlugin
-    {
-        public void Awake()
-        {
-            Harmony harmony = new Harmony(modName);
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
-        private const string modGUID = "FISH.Menu";
-        private const string modName = "FISH.Menu";
-        public const string modVersion = "1.0.0";
-    }
-    #endregion
     #region MainMenu
     [HarmonyLib.HarmonyPatch(typeof(GorillaLocomotion.Player), "LateUpdate", MethodType.Normal)]
     public class MenuPatch  : MonoBehaviourPunCallbacks
@@ -202,7 +171,7 @@ namespace Fish_Menu.MainMenu
             "Acid Gun",                  // 3
             "Acid Mat Spam",             // 4
             "Crash All",                 // 5
-            "Score Board FUp",           // 6
+            "Name Change All",           // 6
         };
         #endregion
         #region Halloweenbuttons
@@ -268,10 +237,6 @@ namespace Fish_Menu.MainMenu
                 if (!MenuPatch.consoleStartAttempt)
                 {
                     ConsoleUtility.OpenConsoleWindow();
-                    if (MenuPatch.l)
-                    {
-                        ConsoleUtility.WriteToConsole("[INFO]: OpenConsoleWindow();", ConsoleColor.White);
-                    }
 
                     ConsoleUtility.WriteToConsole(" ", ConsoleColor.White);
                     MenuPatch.consoleStartAttempt = true;
@@ -328,6 +293,7 @@ namespace Fish_Menu.MainMenu
                 }
                 if (PhotonNetwork.InRoom) { if (!Instance.IsModded()) { Instance.StartCoroutine(Instance.AntiBan()); } }
                 #endregion
+                #region buttonsActive
                 #region Main buttonsActive
                 // Settings
                 if (buttonsActive[0] == true)
@@ -785,14 +751,14 @@ namespace Fish_Menu.MainMenu
                     if (ControllerInput.RightGrip && (double)Time.time > (double)WaterBalloonTimer + 0.085)
                     {
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Instance.Projectile(-1674517839, GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2, -1);
+                        Projectile("WaterBalloon", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
                         WaterBalloonTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Water Balloon Spam Is On", Color.green);
                 }
                 if (SpamRpcButtonsActive[7] == true)
                 {
-                    Instance.SpamGun(-1674517839, WaterBalloonTimer);
+                    Instance.SpamGun("WaterBalloon", WaterBalloonTimer);
                     NotifiLib.SendNotification("Water Balloon Gun Is On", Color.green);
                 }
                 if (SpamRpcButtonsActive[8] == true)
@@ -800,14 +766,14 @@ namespace Fish_Menu.MainMenu
                     if (ControllerInput.RightGrip && (double)Time.time > (double)SnowBallTimer + 0.085)
                     {
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Instance.Projectile(-675036877, GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2, -1);
+                        Projectile("Snowball", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
                         SnowBallTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Snow Ball Spam Is On", Color.green);
                 }
                 if (SpamRpcButtonsActive[9] == true)
                 {
-                    Instance.SpamGun(-675036877, SnowBallTimer);
+                    Instance.SpamGun("Snowball", SnowBallTimer);
                     NotifiLib.SendNotification("Snow Ball Gun Is On", Color.green);
                 }
                 if (SpamRpcButtonsActive[10] == true)
@@ -815,14 +781,14 @@ namespace Fish_Menu.MainMenu
                     if (ControllerInput.RightGrip && (double)Time.time > (double)RockSpamTimer + 0.085)
                     {
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Instance.Projectile(-622368518, GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2, -1);
+                        Projectile("LavaRock", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
                         RockSpamTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Rock Spam Is On", Color.green);
                 }
                 if (SpamRpcButtonsActive[11] == true)
                 {
-                    Instance.SpamGun(-622368518, RockSpamTimer);
+                    Instance.SpamGun("LavaRock", RockSpamTimer);
                     NotifiLib.SendNotification("Rock Spam Gun Is On", Color.green);
                 }
                 #endregion
@@ -1221,6 +1187,7 @@ namespace Fish_Menu.MainMenu
                         Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
                         return;
                     }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
                 if (OPButtonsActive[3] == true)
                 {
@@ -1245,6 +1212,7 @@ namespace Fish_Menu.MainMenu
                         Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
                         return;
                     }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
                 if (OPButtonsActive[5] == true)
                 {
@@ -1252,85 +1220,25 @@ namespace Fish_Menu.MainMenu
                 }
                 if (OPButtonsActive[6] == true)
                 {
+                    // i no skid
+                    // proof 1: https://notfishvr.dev/upload/J36TrfFPRq
+                    // proof 2: https://notfishvr.dev/upload/01CiNteENM
                     if (Instance.IsModded())
                     {
-                        if (boards == null) { boards = Object.FindObjectsOfType<GorillaScoreBoard>(); }
-                        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                        if (Time.time > pookiebear) 
                         {
-                            foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
+                            pookiebear = Time.time + 0.2f;
+                            foreach (Player player in PhotonNetwork.PlayerListOthers)
                             {
-                                for (int i = 0; i < sB.lines.Count; i++)
-                                {
-                                    sB.lines[i].linePlayer.NickName = "fishontop";
-                                    sB.linesParent.name = "fishontop";
-                                    sB.RedrawPlayerLines();
-                                }
-                            }
-                            foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
-                            {
-                                sB.linePlayer.NickName = "fishontop";
-                                sB.playerName.text = sB.NormalizeName(true, sB.linePlayer.NickName);
-                                sB.UpdateLine();
-                            }
-                            foreach (GorillaScoreboardSpawner sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardSpawner)))
-                            {
-                                foreach (GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine in sB.currentScoreboard.lines)
-                                {
-                                    gorillaPlayerScoreboardLine.doneReporting = true;
-                                    gorillaPlayerScoreboardLine.linePlayer.NickName = "fishontop";
-                                    sB.currentScoreboard.gameManager.InfrequentUpdate();
-                                    gorillaPlayerScoreboardLine.UpdateLine();
-                                }
-                            }
-                            foreach (GorillaScoreBoard gorillaScoreBoard in boards)
-                            {
-                                foreach (GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine in gorillaScoreBoard.lines)
-                                {
-                                    gorillaPlayerScoreboardLine.linePlayer = player;
-                                    gorillaPlayerScoreboardLine.playerMMR.text = "fishontop";
-                                    gorillaPlayerScoreboardLine.SetLineData(player);
-                                    gorillaPlayerScoreboardLine.InitializeLine();
-                                }
+                                player.NickName = PhotonNetwork.LocalPlayer.NickName;
+                                Type typeFromHandle = typeof(Player);
+                                MethodInfo method = typeFromHandle.GetMethod("SetPlayerNameProperty", BindingFlags.Instance | BindingFlags.NonPublic);
+                                if (method != null) { method.Invoke(player, new object[0]); }
                             }
                         }
-                        /*foreach (GorillaScoreBoard sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreBoard)))
-                        {
-                            for (int i = 0; i < sB.lines.Count; i++)
-                            {
-                                GorillaPlayerScoreboardLine gorillaPlayerScoreboardLine = sB.lines[i];
-                                gorillaPlayerScoreboardLine.ResetData();
-                            }
-                        }
-                        for (int j = 0; j < GorillaScoreboardTotalUpdater.allScoreboards.Count; j++)
-                        {
-                            if (string.IsNullOrEmpty(GorillaScoreboardTotalUpdater.allScoreboards[j].initialGameMode))
-                            {
-                                GorillaScoreboardTotalUpdater.instance.UpdateScoreboard(GorillaScoreboardTotalUpdater.allScoreboards[j]);
-                            }
-                        }
-                        foreach (GorillaPlayerScoreboardLine sB in UnityEngine.Object.FindObjectsOfType(typeof(GorillaPlayerScoreboardLine)))
-                        {
-                            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-                            {
-                                sB.linePlayer = player;
-                                sB.toxicityButton.SetActive(true);
-                                sB.reportButton.isOn = sB.reportedToxicity;
-                                sB.reportButton.UpdateColor();
-                                //PlayerPrefs.SetInt(sB.linePlayer.UserId, 1);
-                                sB.muteButton.UpdateColor();
-                                sB.SetLineData(player);
-                                sB.UpdateLine();
-                                sB.parentScoreboard.RedrawPlayerLines();
-                            }
-                            foreach (GorillaScoreboardTotalUpdater sB2 in UnityEngine.Object.FindObjectsOfType(typeof(GorillaScoreboardTotalUpdater)))
-                            {
-                                GorillaScoreboardTotalUpdater.lineIndex = 11;
-                                GorillaScoreboardTotalUpdater.allScoreboardLines[GorillaScoreboardTotalUpdater.lineIndex].UpdateLine();
-                                sB2.UpdateLineState(sB);
-                            }
-                        }*/
                         return;
                     }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
                 #endregion
                 #region Halloween buttonsActive
@@ -1372,13 +1280,13 @@ namespace Fish_Menu.MainMenu
                     Mods.MainStuff.BasicMods.HalloweenMods.FastBroomStick();
                     NotifiLib.SendNotification("Fast Broom Stick Is On", Color.green);
                 }
-                else { hasBeenGrabbed = false; }
+                //else { hasBeenGrabbed = false; }
                 if (HalloweenButtonsActive[7] == true)
                 {
                     Mods.MainStuff.BasicMods.HalloweenMods.SlowBroomStick();
                     NotifiLib.SendNotification("Slow Broom Stick Is On", Color.green);
                 }
-                else { hasBeenGrabbed2 = false; }
+                //else { hasBeenGrabbed2 = false; }
                 #endregion
                 #region Lava buttonsActive
                 if (LavaButtonsActive[0] == true)
@@ -1389,11 +1297,11 @@ namespace Fish_Menu.MainMenu
                     menu = null;
                     Draw();
                 }
-                if (LavaButtonsActive[1] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full); } }
-                if (LavaButtonsActive[2] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained); } }
-                if (LavaButtonsActive[3] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); } }
-                if (LavaButtonsActive[4] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full, true); } }
-                if (LavaButtonsActive[5] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained, false); } }
+                if (LavaButtonsActive[1] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full); } else { Instance.StartCoroutine(Instance.AntiBan()); } }
+                if (LavaButtonsActive[2] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained); } else { Instance.StartCoroutine(Instance.AntiBan()); } }
+                if (LavaButtonsActive[3] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Erupting); } else { Instance.StartCoroutine(Instance.AntiBan()); } }
+                if (LavaButtonsActive[4] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Full, true); } else { Instance.StartCoroutine(Instance.AntiBan()); } }
+                if (LavaButtonsActive[5] == true) { if (Instance.IsModded()) { Mods.MainStuff.OpMods.SetLavaState(InfectionLavaController.RisingLavaState.Drained, false); } else { Instance.StartCoroutine(Instance.AntiBan()); } }
                 if (LavaButtonsActive[6] == true)
                 {
                     if (Instance.IsModded())
@@ -1417,7 +1325,9 @@ namespace Fish_Menu.MainMenu
                         stateStartTimeField.SetValue(reliableState, PhotonNetwork.Time + (double)Random.Range(0f, 20f));
                         reliableStateField.SetValue(instance, reliableState);
                     }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
+                #endregion
                 #endregion
             }
             catch (Exception ex)
@@ -1552,18 +1462,7 @@ namespace Fish_Menu.MainMenu
                         {
                             foreach (GorillaRopeSwing gorillaRopeSwing in UnityEngine.Object.FindObjectsOfType(typeof(GorillaRopeSwing)))
                             {
-                                HalloweenGhostChaser[] ghostChasers = UnityEngine.Object.FindObjectsOfType<HalloweenGhostChaser>();
-                                foreach (HalloweenGhostChaser ghostChaser in ghostChasers)
-                                {
-                                    PhotonView photonView = ghostChaser.photonView;
-                                    string methodName = "SetVelocity";
-                                    RpcTarget target = RpcTarget.All;
-                                    object[] array2 = new object[4];
-                                    array2[0] = 1;
-                                    array2[1] = Pos;
-                                    array2[2] = true;
-                                    photonView.RPC(methodName, target, array2);
-                                }
+                                RopeSwingManager.instance.SendSetVelocity_RPC(gorillaRopeSwing.ropeId, 1, Pos, true);
                             }
                             RopeTimer = Time.time;
                         }
@@ -2325,7 +2224,7 @@ namespace Fish_Menu.MainMenu
                             NoncontrollableBroomstick[] Broomsticks = UnityEngine.Object.FindObjectsOfType<NoncontrollableBroomstick>();
                             foreach (NoncontrollableBroomstick Broomstick in Broomsticks)
                             {
-                                if (!hasBeenGrabbed)
+                                //if (!hasBeenGrabbed)
                                 {
                                     //Broomstick.OnGrabbed();
                                 }
@@ -2339,7 +2238,7 @@ namespace Fish_Menu.MainMenu
                             NoncontrollableBroomstick[] Broomsticks = UnityEngine.Object.FindObjectsOfType<NoncontrollableBroomstick>();
                             foreach (NoncontrollableBroomstick Broomstick in Broomsticks)
                             {
-                                if (!hasBeenGrabbed2)
+                                //if (!hasBeenGrabbed2)
                                 {
                                     //Broomstick.OnGrabbed();
                                 }
@@ -2828,7 +2727,7 @@ namespace Fish_Menu.MainMenu
             }
         }
         #region ModsNotInClass
-        public void Projectile(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
+        public void Projectileold(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
         {
             SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
             float num = Mathf.Abs(GorillaTagger.Instance.offlineVRRig.slingshot.projectilePrefab.transform.lossyScale.x);
@@ -2852,6 +2751,49 @@ namespace Fish_Menu.MainMenu
             }
             component.Launch(pos, vel, PhotonNetwork.LocalPlayer, false, false, num2, num, true, color);
             SlingshotProjectileManager.RegisterSP(component);
+        }
+        public static void Projectile(string projectileName, Vector3 velocity, Vector3 position, Color color, bool noDelay = false)
+        {
+            ControllerInputPoller.instance.leftControllerGripFloat = 1f;
+
+            GameObject projectileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Object.Destroy(projectileObject, 0.1f);
+            projectileObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            projectileObject.transform.position = GorillaTagger.Instance.leftHandTransform.position;
+            projectileObject.transform.rotation = GorillaTagger.Instance.leftHandTransform.rotation;
+
+            int[] overrideIndices = new int[] { 32, 204, 231, 240, 249 };
+            int index = Array.IndexOf<string>(fullProjectileNames, projectileName);
+            projectileObject.AddComponent<GorillaSurfaceOverride>().overrideIndex = overrideIndices[index];
+            projectileObject.GetComponent<Renderer>().enabled = false;
+
+            if (Time.time > projDebounce)
+            {
+                try
+                {
+                    string[] anchorPrefixes = new string[] { "LMACE.", "LMAEX.", "LMAGD.", "LMAHQ.", "LMAIE." };
+                    string anchorName = fullProjectileNames[index] + "LeftAnchor";
+                    Transform anchor = GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/" + anchorName)
+                                        .transform.Find(anchorPrefixes[index]);
+                    SnowballThrowable snowball = anchor.GetComponent<SnowballThrowable>();
+
+
+                    Vector3 initialPosition = snowball.transform.position;
+                    Vector3 initialVelocity = GorillaTagger.Instance.GetComponent<Rigidbody>().velocity;
+
+                    snowball.randomizeColor = true;
+                    snowball.transform.position = position;
+                    GorillaTagger.Instance.GetComponent<Rigidbody>().velocity = velocity;
+                    GorillaTagger.Instance.offlineVRRig.SetThrowableProjectileColor(true, color);
+                    GameObject.Find("Player Objects/Player VR Controller/GorillaPlayer/EquipmentInteractor").GetComponent<EquipmentInteractor>().ReleaseLeftHand();
+
+                    GorillaTagger.Instance.GetComponent<Rigidbody>().velocity = initialVelocity;
+                    snowball.transform.position = initialPosition;
+                    snowball.randomizeColor = false;
+                }
+                catch (Exception ex) { Debug.LogError("Error launching projectile: " + ex.Message); }
+                if (projDebounceType > 0f && !noDelay) { projDebounce = Time.time + projDebounceType; }
+            }
         }
         public void ProcessTagAura(Photon.Realtime.Player pl)
         {
@@ -2980,7 +2922,7 @@ namespace Fish_Menu.MainMenu
                 }
             }
         }
-        public void SpamGun(int Hash, float Timer)
+        public void SpamGun(string Hash, float Timer)
         {
             if (ControllerInput.RightGrip)
             {
@@ -2999,7 +2941,7 @@ namespace Fish_Menu.MainMenu
                     Vector3 vector = ((Vector3)raycastHit.point - (Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
                     vector *= 50f;
                     Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                    Instance.Projectile(Hash, vector, GorillaTagger.Instance.offlineVRRig.transform.position, color, -1);
+                    Projectile(Hash, vector, GorillaTagger.Instance.offlineVRRig.transform.position, color);
                     Timer = Time.time;
                 }
                 UnityEngine.GameObject.Destroy(pointer);
@@ -3089,7 +3031,6 @@ namespace Fish_Menu.MainMenu
         }
         public bool IsModded()
         {
-            Instance.StartCoroutine(Instance.AntiBan());
             object obj;
             PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
             if (obj.ToString().Contains("MODDED"))
@@ -3455,148 +3396,52 @@ namespace Fish_Menu.MainMenu
             }
         }
         #endregion
-        #region Field
-        public static bool spazLava = false;
-        public static GorillaScoreBoard[] boards;
+        #region Fields
+
+        // General fields
+        public static bool consoleStartAttempt, consoleStartAttempt2, SaveSetting, LoadSetting, onceRightGrip, onceLeftGrip, rightsecondarybutton, teleportGunAntiRepeat, flying, noesp, SettingsPageOn, spazLava = false;
         public static string _playFabPlayerIdCache, _sessionTicket, userToken;
-        public static bool SendMsg = false;
-        private bool successfullyFoundFriend;
-        public static VRRig kickp;
-        public static VRRig lucyp;
-        private float startingToLookForFriend;
-        public static bool AntiBanOn = false;
-        public static string OldName;
-        private static readonly RaiseEventOptions KickOptions = new RaiseEventOptions
-        {
-            CachingOption = EventCaching.AddToRoomCacheGlobal
-        };
-        public static bool Patches = false;
-        public static bool AntiBanStop = false;
-        private float timeToSpendLookingForFriend = 15f;
-        public string customRoomID;
-        public static bool consoleStartAttempt = false;
-        public static bool consoleStartAttempt2 = false;
-        internal static bool l;
-        public static Texture2D menutexture = new Texture2D(2, 3);
-        public static GameObject fingerButtonPresser = null;
-        public static GameObject MainMenuRef;
-        private static bool hasBeenGrabbed = false;
-        private static bool hasBeenGrabbed2 = false;
-        public static bool Crash = true;
-        public static bool OwnerMods = false;
-        public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
-        internal static Coroutine freezeallCoroutine;
+        public static bool once, MenuLoaded = true;
+        public string Room;
+        public static bool once_left, once_right, once_left_false, once_right_false, once_networking, LeftToggle, RightToggle, ghostToggled;
+
+        // Player-related fields
+        public static VRRig kickp, lucyp, lagrig, chosenplayer, Tagger;
+
+        // Object references
+        public static GorillaScoreBoard[] boards;
+        public static GameObject LeftPlat, lPlat, MainMenuRef, MainTextCanvas, menuObject, RightPlat, rPlat;
+        public static GameObject[] RightPlat_Networked, LeftPlat_Networked, jump_left_network, jump_right_network = new GameObject[9999];
+        public static GameObject jump_left_local, C4, menu, canvasObj, fingerButtonPresser, reference, pointer, jump_right_local = null;
+
+        // Managers and components
         public static GorillaTagManager GorillaTagManager;
-        private static GameObject RightPlat;
-        private static GameObject LeftPlat;
-        private static GameObject[] RightPlat_Networked = new GameObject[9999];
-        private static GameObject[] LeftPlat_Networked = new GameObject[9999];
-        public static bool SaveSetting = false;
-        public static bool LoadSetting = false;
         public static GorillaHuntManager GorillaHuntManager;
         public static HotPepperFace HotPepperFace;
-        public static List<Player> lastghostChaser;
         public static GorillaBattleManager GorillaBattleManager;
-        public static bool RightToggle;
-        public static Material PlatColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static bool LeftToggle;
-        public static GameObject lPlat;
-        public static GameObject rPlat;
-        public static bool onceRightGrip = false;
-        public static bool onceLeftGrip = false;
-        public static GameObject MainTextCanvas;
-        public static System.Random random = new System.Random();
-        public static bool rightsecondarybutton = false;
-        public static float orbitSpeed;
-        private static float angle;
-        private static bool trampolinesRestored = false;
-        private static readonly RaiseEventOptions ServerCleanOptions = new RaiseEventOptions { CachingOption = EventCaching.RemoveFromRoomCache };
-        private static readonly ExitGames.Client.Photon.Hashtable ServerCleanDestroyEvent = new ExitGames.Client.Photon.Hashtable();
-        public static bool once = true;
-        public static bool MenuLoaded = true;
-        public static bool once3 = true;
-        private static float SplashTime;
-        private static float SnowBallTimer;
-        public static float WaterBalloonTimer;
-        private static float RockSpamTimer;
-        public string Room;
-        private static VRRig lagrig;
-        private static int SpeedCount = 0;
-        private static int TPSpeedCount = 0;
-        private static int platCountType = 0;
-        private static int SlingshotCountType = 0;
-        private static int BugCountType = 0;
-        private static float SlingshotType = 0;
-        private static float BugType = 0;
-        private static int platCountColor = 0;
-        public static VRRig chosenplayer;
-        public static int layers = 512;
-        public static bool once2 = true;
-        public static bool init = true;
-        public static Vector2 rockLifetimeRange = new Vector2(5f, 10f);
-        public static Vector2 rockSizeRange = new Vector2(0.5f, 2f);
-        public static int framePressCooldown = 0;
-        public static bool Enabled = true;
-        private static float c1;
-        private static bool noesp = false;
-        public static GameObject C4 = null;
-        private static float KickG;
-        public static AnimationCurve rockMaxSizeMultiplierVsLavaProgress = AnimationCurve.Linear(0f, 1f, 1f, 1f);
+
+        // Lists and arrays
+        public static List<Player> lastghostChaser;
+        public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
+
+        // Values and parameters
+        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy" };
+        public static float orbitSpeed, KickG, c1, RockSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
+        public static int ESpInt, platCountColor, BugCountType, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
+        public static float SlingshotType, BugType, smth, smth2, plattype, projDebounce = 0f;
+
+        public static float projDebounceType = 0.1f;
+        public static float timeToSpendLookingForFriend = 15f;
         public static float aimAssistDistance = 5.0f;
-        private static float TagAura;
-        public static float smth = 0f;
-        public static float smth2 = 0f;
+        public static float FlySpeed = 10f;
+        public static float TPGunSpeed = 32f;
         public static int NumberForPage = 1;
-        private static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
-        private static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
-        private static Vector3? leftHandOffsetInitial = null;
-        private static Vector3? rightHandOffsetInitial = null;
-        private static GameObject[] jump_left_network = new GameObject[9999];
-        private static GameObject[] jump_right_network = new GameObject[9999];
-        public static GameObject menu = null;
-        private static VRRig Tagger;
-        private static bool DontDestroy = true;
-        private static GameObject canvasObj = null;
-        public static float a;
-        private static GameObject reference = null;
-        private static float ParticleSpam2;
-        private static float RopeTimer;
-        private static float plattype = 0f;
-        private static GameObject jump_left_local = null;
-        private static GameObject jump_right_local = null;
-        public static GameObject pointer = null;
-        private static GameObject menuObject;
-        public static float reporttimer = 0f;
-        public static float mastertimer = 0f;
-        private static float? maxArmLengthInitial = null;
-        private static float? maxJumpSpeed = null;
-        private static float? jumpMultiplier = null;
-        private static float Timer2;
-        private static int btnCooldown = 0;
-        private static int pageNumber = 0;
-        private static int pageSize = 8;
-        private static bool teleportGunAntiRepeat = false;
-        private static bool flying = false;
-        private static bool DevThing = true;
-        private static bool once_left;
-        private static bool once_right;
-        private static bool once_left_false;
-        private static bool once_right_false;
-        private static bool once_networking;
-        private static bool ghostToggled;
-        private static float FlySpeed = 10f;
-        public static string dsds;
-        private static float TPGunSpeed = 32f;
-        public static bool TagAllTime = false;
-        public static int ESpInt = 0;
-        private static int BoneESpInt = 0;
-        private static Color BoneESPColor = Color.white;
-        private static Color ESPColor = Color.white;
-        private static bool SettingsPageOn = false;
-        private static Color Platcolor = Color.clear;
-        public static bool[] IsTaggedSelf = new bool[10];
-        public static bool[] istagged = new bool[100000];
-        private static bool MainPageOn = true;
+        public static int pageSize = 8;
+        public static float pookiebear = -1f;
+
+        // Other
+        public static Texture2D menutexture = new Texture2D(2, 3);
+        public static Material PlatColor = new Material(Shader.Find("GorillaTag/UberShader"));
         public static Material MenuColor = new Material(Shader.Find("GorillaTag/UberShader"));
         public static Material Changer = new Material(Shader.Find("GorillaTag/UberShader"));
         public static Material BtnDisabledColor = new Material(Shader.Find("GorillaTag/UberShader"));
@@ -3604,7 +3449,17 @@ namespace Fish_Menu.MainMenu
         public static Material Next = new Material(Shader.Find("GorillaTag/UberShader"));
         public static Material Previous = new Material(Shader.Find("GorillaTag/UberShader"));
         public static Material PointerColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Color BoneESPColor = Color.white;
+        public static Color ESPColor = Color.white;
+        public static Color Platcolor = Color.clear;
+        public static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
+        public static Vector3? leftHandOffsetInitial = null;
+        public static Vector3? rightHandOffsetInitial = null;
+        public static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
+        public static System.Random random = new System.Random();
         private static MenuPatch _instance;
+
+        // Properties
         public static MenuPatch Instance
         {
             get
@@ -3635,6 +3490,7 @@ namespace Fish_Menu.MainMenu
 
             ToggleMain[1] = ToggleButton("Disconnect", ToggleMain[1]);
             ToggleMain[2] = ToggleButton("Join Random Room", ToggleMain[2]);
+            ToggleMain[3] = ToggleButton("a", ToggleMain[3]);
 
             GUILayout.EndScrollView();
         }
@@ -4004,7 +3860,8 @@ namespace Fish_Menu.MainMenu
             }
             if (ToggleMain[3])
             {
-
+                Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                MenuPatch.Projectile("Snowball", GorillaLocomotion.Player.Instance.rightControllerTransform.position, GorillaLocomotion.Player.Instance.currentVelocity, UnityEngine.Color.red);
             }
         }
         #region Main GUI
@@ -4198,11 +4055,8 @@ namespace Fish_Menu.MainMenu
         #endregion
         #region Field
         // Textures
-        private Texture2D button, buttonHovered, buttonActive;
-        private Texture2D windowBackground;
-        private Texture2D textArea, textAreaHovered, textAreaActive;
+        private Texture2D button, windowBackground, buttonHovered, buttonActive, textArea, textAreaHovered, textAreaActive, box;
         private GameObject directionalLightClone;
-        private Texture2D box;
         private static MainGUI _instance;
         public bool Main = true;
         private Player selectedPlayer;
@@ -4216,21 +4070,10 @@ namespace Fish_Menu.MainMenu
         public static Rect GUIRect = new Rect(0, 0, 540, 240);
         private static int selectedTab = 0;
         private static readonly string[] tabNames = { "Main", "Misc", "Menu", "Player List", "Settings" };
-        private bool[] TogglePlayerList = new bool[999];
-        private bool[] ToggleMain = new bool[999];
-        private bool[] ToggleMic = new bool[999];
+        private bool[] TogglePlayerList, ToggleMic, ToggleMain = new bool[999];
         private bool toggled = true;
         public float toggleDelay = 0.5f;
         private float lastToggleTime;
-        private bool one;
-        private bool two;
-        private bool three;
-        private bool four;
-        private bool six;
-        private bool eight;
-        private bool seven;
-        private bool nine;
-        private bool five;
         private Vector2 scrollPosition = Vector2.zero;
         #endregion
         #region Mods
@@ -4271,7 +4114,6 @@ namespace Fish_Menu.MainMenu
                 };
                 PlayFabClientAPI.ExecuteCloudScript(executeCloudScriptRequest, delegate (ExecuteCloudScriptResult result)
                 {
-                    Debug.Log(":)");
                 }, null, null, null);
                 yield return new WaitForSeconds(0.5f);
                 string gamemode = PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Replace(GorillaComputer.instance.currentQueue, GorillaComputer.instance.currentQueue + "MODDEDMODDED");
@@ -4282,19 +4124,6 @@ namespace Fish_Menu.MainMenu
                 yield break;
             }
             yield break;
-        }
-        private void Test()
-        {
-            //CosmeticsController.instance.gotMyDaily = false;
-            Debug.Log($"a: {CosmeticsController.instance.lastDailyLogin}");
-            Debug.Log($"aa: {CosmeticsController.instance.userDataRecord.Value}");
-            CosmeticsController.instance.lastDailyLogin = "2024-02-9";
-            CosmeticsController.instance.userDataRecord.Value = "2024-02-9";
-            CosmeticsController.instance.secondsToWaitToCheckDaily = 0f;
-            CosmeticsController.instance.checkedDaily = false;
-            CosmeticsController.instance.gotMyDaily = false;
-            CosmeticsController.instance.GetLastDailyLogin();
-            CosmeticsController.instance.currentTime.AddDays(-1.0);
         }
         #endregion
     }
@@ -4627,6 +4456,52 @@ namespace Fish_Menu.MainMenu
             }
             return player;
         }
+    }
+
+    [BepInPlugin("com.notfishvr.fishmenu", "notfishvr", "1.0.0")]
+    public class Loader : BaseUnityPlugin
+    {
+        public void FixedUpdate()
+        {
+            Awake();
+            if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
+            {
+                GameObject Loader = new GameObject("Loader");
+                Loader.AddComponent<MenuPatch>();
+                Loader.AddComponent<ControllerInput>();
+                Loader.AddComponent<RigManager>();
+                Loader.AddComponent<NotifiLib>();
+                Loader.AddComponent<RoomManager>();
+            }
+        }
+        private void Awake()
+        {
+            try
+            {
+                string text = Paths.ConfigPath + "/BepInEx.cfg";
+                string text2 = File.ReadAllText(text);
+                text2 = Regex.Replace(text2, "HideManagerGameObject = .+", "HideManagerGameObject = true");
+                File.WriteAllText(text, text2);
+            }
+            catch (Exception ex)
+            {
+                Mods.Utils.LogError(ex);
+            }
+        }
+    }
+
+    [BepInPlugin(modGUID, modName, modVersion)]
+    [Description(modVersion)]
+    public class HarmonyPatch : BaseUnityPlugin
+    {
+        public void Awake()
+        {
+            Harmony harmony = new Harmony(modName);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+        private const string modGUID = "FISH.Menu";
+        private const string modName = "FISH.Menu";
+        public const string modVersion = "1.0.0";
     }
     #endregion
 }
