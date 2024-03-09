@@ -42,6 +42,7 @@ using static Fish_Menu.MainMenu.MenuPatch;
 using Photon.Voice.PUN;
 using POpusCodec.Enums;
 using PlayFab.ExperimentationModels;
+using GorillaExtensions;
 
 namespace Fish_Menu.MainMenu
 {
@@ -124,7 +125,9 @@ namespace Fish_Menu.MainMenu
             "SnowBall Spam",             // 8
             "SnowBall Gun",              // 9
             "Rock Spam",                 // 10
-            "Rock Spam Gun"              // 11
+            "Rock Spam Gun" ,            // 11
+            "Coal Spam",                 // 12
+            "Coal Spam Gun"              // 13
         };
         #endregion
         #region Bugbuttons
@@ -172,6 +175,7 @@ namespace Fish_Menu.MainMenu
             "Acid Mat Spam",             // 4
             "Crash All",                 // 5
             "Name Change All",           // 6
+            "Kick All",                  // 7
         };
         #endregion
         #region Halloweenbuttons
@@ -219,6 +223,9 @@ namespace Fish_Menu.MainMenu
             try
             {
                 #region Menu
+                PhotonNetwork.LocalPlayer.NickName = "fishmods";
+                GorillaComputer.instance.savedName = "fishmods";
+                GorillaComputer.instance.currentName = "fishmods";
                 UpdateMaterialColors();
                 if (once)
                 {
@@ -291,7 +298,6 @@ namespace Fish_Menu.MainMenu
                     Object.Destroy(fingerButtonPresser);
                     fingerButtonPresser = null;
                 }
-                if (PhotonNetwork.InRoom) { if (!Instance.IsModded()) { Instance.StartCoroutine(Instance.AntiBan()); } }
                 #endregion
                 #region buttonsActive
                 #region Main buttonsActive
@@ -750,8 +756,10 @@ namespace Fish_Menu.MainMenu
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)WaterBalloonTimer + 0.085)
                     {
+                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("WaterBalloon", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
+                        Projectile("WaterBalloon", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         WaterBalloonTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Water Balloon Spam Is On", Color.green);
@@ -765,8 +773,10 @@ namespace Fish_Menu.MainMenu
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)SnowBallTimer + 0.085)
                     {
+                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("Snowball", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
+                        Projectile("Snowball", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         SnowBallTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Snow Ball Spam Is On", Color.green);
@@ -780,8 +790,10 @@ namespace Fish_Menu.MainMenu
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)RockSpamTimer + 0.085)
                     {
+                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("LavaRock", GorillaLocomotion.Player.Instance.currentVelocity, GorillaLocomotion.Player.Instance.rightControllerTransform.position, color2);
+                        Projectile("LavaRock", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         RockSpamTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Rock Spam Is On", Color.green);
@@ -789,6 +801,23 @@ namespace Fish_Menu.MainMenu
                 if (SpamRpcButtonsActive[11] == true)
                 {
                     Instance.SpamGun("LavaRock", RockSpamTimer);
+                    NotifiLib.SendNotification("Rock Spam Gun Is On", Color.green);
+                }
+                if (SpamRpcButtonsActive[12] == true)
+                {
+                    if (ControllerInput.RightGrip && (double)Time.time > (double)CoalSpamTimer + 0.085)
+                    {
+                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        vector *= 0.1f;
+                        Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                        Projectile("BucketGiftCoal", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
+                        CoalSpamTimer = Time.time;
+                    }
+                    NotifiLib.SendNotification("Rock Spam Is On", Color.green);
+                }
+                if (SpamRpcButtonsActive[13] == true)
+                {
+                    Instance.SpamGun("BucketGiftCoal", CoalSpamTimer);
                     NotifiLib.SendNotification("Rock Spam Gun Is On", Color.green);
                 }
                 #endregion
@@ -1216,7 +1245,30 @@ namespace Fish_Menu.MainMenu
                 }
                 if (OPButtonsActive[5] == true)
                 {
-                    //D
+                    if (Instance.IsModded())
+                    {
+                        if (Time.time > pookiebear)
+                        {
+                            pookiebear = Time.time + 0.2f;
+                            foreach (Player player in PhotonNetwork.PlayerListOthers)
+                            {
+                                Type typeFromHandle = typeof(PhotonNetwork);
+                                MethodInfo method = typeFromHandle.GetMethod("SendDestroyOfPlayer", BindingFlags.Instance | BindingFlags.NonPublic);
+                                MethodInfo method2 = typeFromHandle.GetMethod("OpRemoveFromServerInstantiationsOfPlayer", BindingFlags.Instance | BindingFlags.NonPublic);
+                                MethodInfo method3 = typeFromHandle.GetMethod("OpCleanActorRpcBuffer", BindingFlags.Instance | BindingFlags.Public);
+                                MethodInfo method4 = typeFromHandle.GetMethod("OpRemoveCompleteCacheOfPlayer", BindingFlags.Instance | BindingFlags.Public);
+                                MethodInfo method5 = typeFromHandle.GetMethod("OnPlayerLeftRoom", BindingFlags.Instance | BindingFlags.Public);
+
+                                if (method != null) { method.Invoke(player, new object[] { player.ActorNumber }); }
+                                if (method2 != null) { method2.Invoke(player, new object[] { player.ActorNumber }); }
+                                if (method3 != null) { method3.Invoke(player, new object[] { player.ActorNumber }); }
+                                if (method4 != null) { method4.Invoke(player, new object[] { player.ActorNumber }); }
+                                if (method5 != null) { method5.Invoke(player, new object[] { player }); }
+                            }
+                        }
+                        return;
+                    }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
                 if (OPButtonsActive[6] == true)
                 {
@@ -1234,6 +1286,24 @@ namespace Fish_Menu.MainMenu
                                 Type typeFromHandle = typeof(Player);
                                 MethodInfo method = typeFromHandle.GetMethod("SetPlayerNameProperty", BindingFlags.Instance | BindingFlags.NonPublic);
                                 if (method != null) { method.Invoke(player, new object[0]); }
+                            }
+                        }
+                        return;
+                    }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
+                }
+                if (OPButtonsActive[7] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        if (Time.time > pookiebear)
+                        {
+                            pookiebear = Time.time + 0.2f;
+                            foreach (Player player in PhotonNetwork.PlayerListOthers)
+                            {
+                                Type typeFromHandle = typeof(PhotonNetwork);
+                                MethodInfo method = typeFromHandle.GetMethod("CloseConnection", BindingFlags.Instance | BindingFlags.Public);
+                                if (method != null) { method.Invoke(player, new object[1] { player }); }
                             }
                         }
                         return;
@@ -1677,10 +1747,7 @@ namespace Fish_Menu.MainMenu
                     }
                     public static void AcidKid(Player player)
                     {
-                        Instance.StartCoroutine(Instance.AntiBan());
-                        object obj;
-                        PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("gameMode", out obj);
-                        if (obj.ToString().Contains("MODDED"))
+                        if (Instance.IsModded())
                         {
                             bool touchedLiquid = MainGUI.Instance.HasPlayerTouchedLiquid(player);
                             Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerCount").SetValue(10);
@@ -1693,9 +1760,9 @@ namespace Fish_Menu.MainMenu
                                 state.playerId = (player != null) ? player.ActorNumber : 0;
                                 playerStates[i] = state;
                             }
-
                             Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").SetValue(playerStates);
                         }
+                        else { Instance.StartCoroutine(Instance.AntiBan()); }
                     }
                     public static void SetLavaState(InfectionLavaController.RisingLavaState state, bool a = false)
                     {
@@ -2965,9 +3032,9 @@ namespace Fish_Menu.MainMenu
                 {
                     GameId = PhotonNetwork.CurrentRoom.Name,
                     Region = Regex.Replace(PhotonNetwork.CloudRegion, "[^a-zA-Z0-9]", "").ToUpper(),
-                    UserId = PhotonNetwork.MasterClient.UserId,
-                    ActorNr = 1,
-                    ActorCount = 1,
+                    UserId = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.PlayerList.Length + 1)].UserId,
+                    ActorNr = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.PlayerList.Length + 1)],
+                    ActorCount = PhotonNetwork.ViewCount,
                     AppVersion = PhotonNetwork.AppVersion
                 };
                 PlayFabClientAPI.ExecuteCloudScript(executeCloudScriptRequest, delegate (ExecuteCloudScriptResult result)
@@ -3425,8 +3492,8 @@ namespace Fish_Menu.MainMenu
         public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
 
         // Values and parameters
-        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy" };
-        public static float orbitSpeed, KickG, c1, RockSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
+        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy", "BucketGiftCoal" };
+        public static float orbitSpeed, KickG, c1, RockSpamTimer, CoalSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
         public static int ESpInt, platCountColor, BugCountType, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
         public static float SlingshotType, BugType, smth, smth2, plattype, projDebounce = 0f;
 
@@ -3860,8 +3927,7 @@ namespace Fish_Menu.MainMenu
             }
             if (ToggleMain[3])
             {
-                Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                MenuPatch.Projectile("Snowball", GorillaLocomotion.Player.Instance.rightControllerTransform.position, GorillaLocomotion.Player.Instance.currentVelocity, UnityEngine.Color.red);
+
             }
         }
         #region Main GUI
