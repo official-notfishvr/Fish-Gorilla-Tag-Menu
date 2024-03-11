@@ -1,0 +1,147 @@
+__**Menu Features:**__
+
+Main Features:
+
+1. Settings
+2. Basic Mods
+3. Rope Mods
+4. Spam Rpc Mods
+5. Bug Mods
+6. Tag Mods
+7. Mic Mods
+8. Op Mods
+9. Halloween Mods
+10. Lava Mods
+
+Settings Features:
+
+1. Back
+2. Save Settings
+3. Load Settings
+4. ESP Color:
+5. Bone ESP Color:
+6. Fly Speed:
+7. Platforms Type:
+8. Platforms Color:
+9. TP Gun Speed:
+10. Slingshot = 
+11. Bug Type:
+12. Rpc Spam:
+
+Basic Features:
+
+1. Back
+2. Disconnect
+3. Join Random Room
+4. Fly
+5. No Clip
+6. Platform
+7. Image Platform
+8. Speed Boost
+9. Ghost Monkey
+10. Invs Monkey
+11. Beacons
+12. ESP
+13. Bone ESP
+14. TP Gun
+
+Rope Features:
+
+1. Back
+2. Rope Up
+3. Rope Down
+4. Ropes To Self
+5. Rope Spaz
+
+Spam Rpc Features:
+
+1. Back
+2. Water Spam
+3. Water ThrowUp
+4. Water Aura
+5. Water Bending
+6. Water Gun
+7. Water Balloon Spam (can be Edit on the Settings Page)
+8. Water Balloon Gun (can be Edit on the Settings Page)
+9. Rock Spam
+10. Rock Spam Gun
+
+Bug Features:
+
+1. Back
+2. Invis Bug (can be Edit on the Settings Page)
+3. Bug Gun (can be Edit on the Settings Page)
+4. Big Bug (can be Edit on the Settings Page)
+5. Grab Bug (can be Edit on the Settings Page)
+
+Tag Features:
+
+1. Back
+2. Tag All
+3. Tag Gun
+4. Mat All
+5. Mat Self
+
+Mic Features:
+
+1. Back
+2. Slingshot = Water Balloon (can be Edit on the Settings Page)
+3. Span Hit Target
+4. Kick Shiba Users Gun
+5. Lag Shiba Users Gun
+6. Move Shiba Users Gun
+7. Silent Aim
+8. Hot Pepper Crash
+9. Earape Aura
+10. Fuck Game [M]
+
+OP Features:
+
+1. Back
+2. Anit ban
+3. Acid All
+4. Acid Gun
+5. Acid Mat Spam
+6. Crash All
+7. Score Board FUp
+
+Halloween Features:
+
+1. Back
+2. Spawn Lucy
+3. Set Lucy Target Gun
+4. Set Lucy Grabbed Player Gun
+5. Lucy TP Gun
+6. Broom Stick TP Gun
+7. Fast Broom Stick
+8. Slow Broom Stick
+
+Lava Features:
+
+1. Back
+2. Rise Lava
+3. Drain Lava
+4. Erupt Lava
+5. Full Whole Map Lava [CS]
+6. Fix Lava
+7. Spaz Lava
+
+
+__**GUI Features:**__
+
+Computer Tab:
+
+1. Leave
+
+
+Mics Mods Tab:
+
+nothings
+
+Menu Btn Tab:
+
+all the menu btn here
+
+Player List Tab
+
+a Player List of every player
