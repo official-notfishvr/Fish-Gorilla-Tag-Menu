@@ -1,0 +1,330 @@
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\NIKO Menu.deps.json
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\NIKO Menu.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\NIKO Menu.pdb
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\0Harmony.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Assembly-CSharp-firstpass.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Assembly-CSharp.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\AssistantCoreSDKRuntime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\AstarPathfindingProject.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Autodesk.Fbx.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Backtrace.Unity.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BakeryRuntimeAssembly.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.Harmony.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.Preloader.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Cinemachine.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Facebook.Wit.Conduit.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Facebook.Wit.Dictation.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Facebook.Wit.TTS.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Facebook.Wit.TTS.Samples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Facebook.WitAI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\FbxBuildTestAssets.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\HarmonyXInterop.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\LitJson.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\MeshBakerCore.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Mono.Cecil.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Mono.Cecil.Mdb.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Mono.Cecil.Pdb.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Mono.Cecil.Rocks.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Mono.Security.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\MonoMod.RuntimeDetour.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\MonoMod.Utils.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Newtonsoft.Json.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Newtonsoft.Json.UnityConverters.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.AudioManager.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.Interaction.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.Interaction.Samples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.LipSync.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.Platform.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.Spatializer.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.Voice.Demo.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Oculus.VR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Pathfinding.ClipperLib.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Pathfinding.Ionic.Zip.Reduced.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Pathfinding.Poly2Tri.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Photon3Unity3D.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonChat.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonRealtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonUnityNetworking.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonUnityNetworking.Utilities.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonVoice.API.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonVoice.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PhotonVoice.PUN.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\PlayFab.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Sirenix.OdinInspector.Attributes.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\SteamVR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\SteamVR_Actions.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.AI.Navigation.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Animation.Rigging.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Animation.Rigging.DocCodeExamples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Burst.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Burst.Unsafe.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Formats.Fbx.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.InputSystem.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.InputSystem.ForUI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Mathematics.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipeline.Universal.ShaderLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipelines.Core.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipelines.Core.ShaderLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipelines.Universal.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.RenderPipelines.Universal.Shaders.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.TextMeshPro.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.Timeline.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.XR.CoreUtils.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.XR.Interaction.Toolkit.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.XR.Management.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.XR.Oculus.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Unity.XR.OpenVR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AccessibilityModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AndroidJNIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AnimationModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ARModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AssetBundleModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.AudioModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ClothModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ClusterInputModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ClusterRendererModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ContentLoadModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.CoreModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.CrashReportingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.DirectorModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.DSPGraphModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.GameCenterModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.GIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.GridModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.HotReloadModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ImageConversionModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.IMGUIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.InputLegacyModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.InputModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.JSONSerializeModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.LocalizationModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.NVIDIAModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ParticleSystemModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.PerformanceReportingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.Physics2DModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.PhysicsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ProfilerModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.PropertiesModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.ScreenCaptureModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SharedInternalsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SpatialTracking.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SpriteMaskModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SpriteShapeModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.StreamingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SubstanceModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.SubsystemsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TerrainModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TerrainPhysicsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TextCoreFontEngineModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TextCoreTextEngineModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TextRenderingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TilemapModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.TLSModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UIElementsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UmbraModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityAnalyticsCommonModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityAnalyticsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityConnectModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityCurlModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityTestProtocolModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestAssetBundleModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestAudioModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestTextureModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestWWWModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.VehiclesModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.VFXModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.VideoModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.VirtualTexturingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.VRModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.WindModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.XR.LegacyInputHelpers.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\UnityEngine.XRModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\Valve.Newtonsoft.Json.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\VoiceSDK.Dictation.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\VoiceSDK.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\websocket-sharp.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\0Harmony.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.Harmony.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\BepInEx.Preloader.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\MonoMod.RuntimeDetour.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\bin\Debug\netstandard2.1\MonoMod.Utils.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.csproj.AssemblyReference.cache
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.csproj.CoreCompileInputs.cache
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.csproj.CopyComplete
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.1\NIKO Menu.pdb
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\NIKO Menu.deps.json
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\NIKO Menu.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\NIKO Menu.pdb
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\0Harmony.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Assembly-CSharp-firstpass.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Assembly-CSharp.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\AssistantCoreSDKRuntime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\AstarPathfindingProject.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Autodesk.Fbx.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Backtrace.Unity.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BakeryRuntimeAssembly.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.Harmony.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.Preloader.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Cinemachine.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Facebook.Wit.Conduit.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Facebook.Wit.Dictation.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Facebook.Wit.TTS.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Facebook.Wit.TTS.Samples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Facebook.WitAI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\FbxBuildTestAssets.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\HarmonyXInterop.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\LitJson.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\MeshBakerCore.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Mono.Cecil.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Mono.Cecil.Mdb.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Mono.Cecil.Pdb.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Mono.Cecil.Rocks.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Mono.Security.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\MonoMod.RuntimeDetour.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\MonoMod.Utils.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Newtonsoft.Json.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Newtonsoft.Json.UnityConverters.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.AudioManager.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.Interaction.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.Interaction.Samples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.LipSync.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.Platform.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.Spatializer.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.Voice.Demo.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Oculus.VR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Pathfinding.ClipperLib.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Pathfinding.Ionic.Zip.Reduced.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Pathfinding.Poly2Tri.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Photon3Unity3D.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonChat.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonRealtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonUnityNetworking.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonUnityNetworking.Utilities.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonVoice.API.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonVoice.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PhotonVoice.PUN.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\PlayFab.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Sirenix.OdinInspector.Attributes.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\SteamVR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\SteamVR_Actions.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.AI.Navigation.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Animation.Rigging.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Animation.Rigging.DocCodeExamples.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Burst.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Burst.Unsafe.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Formats.Fbx.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.InputSystem.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.InputSystem.ForUI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Mathematics.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipeline.Universal.ShaderLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipelines.Core.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipelines.Core.ShaderLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipelines.Universal.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.RenderPipelines.Universal.Shaders.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.TextMeshPro.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.Timeline.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.XR.CoreUtils.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.XR.Interaction.Toolkit.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.XR.Management.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.XR.Oculus.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Unity.XR.OpenVR.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AccessibilityModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AndroidJNIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AnimationModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ARModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AssetBundleModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.AudioModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ClothModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ClusterInputModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ClusterRendererModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ContentLoadModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.CoreModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.CrashReportingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.DirectorModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.DSPGraphModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.GameCenterModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.GIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.GridModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.HotReloadModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ImageConversionModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.IMGUIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.InputLegacyModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.InputModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.JSONSerializeModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.LocalizationModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.NVIDIAModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ParticleSystemModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.PerformanceReportingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.Physics2DModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.PhysicsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ProfilerModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.PropertiesModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.ScreenCaptureModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SharedInternalsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SpatialTracking.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SpriteMaskModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SpriteShapeModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.StreamingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SubstanceModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.SubsystemsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TerrainModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TerrainPhysicsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TextCoreFontEngineModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TextCoreTextEngineModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TextRenderingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TilemapModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.TLSModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UI.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UIElementsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UIModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UmbraModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityAnalyticsCommonModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityAnalyticsModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityConnectModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityCurlModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityTestProtocolModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestAssetBundleModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestAudioModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestTextureModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.UnityWebRequestWWWModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.VehiclesModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.VFXModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.VideoModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.VirtualTexturingModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.VRModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.WindModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.XR.LegacyInputHelpers.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\UnityEngine.XRModule.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\Valve.Newtonsoft.Json.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\VoiceSDK.Dictation.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\VoiceSDK.Runtime.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\websocket-sharp.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\0Harmony.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.Harmony.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\BepInEx.Preloader.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\MonoMod.RuntimeDetour.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\bin\Debug\netstandard2.1\MonoMod.Utils.xml
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.csproj.AssemblyReference.cache
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.csproj.CoreCompileInputs.cache
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.csproj.CopyComplete
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.dll
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu V2\obj\Debug\netstandard2.1\NIKO Menu.pdb

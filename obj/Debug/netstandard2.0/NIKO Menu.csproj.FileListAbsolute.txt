@@ -1,0 +1,3 @@
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.0\NIKO Menu.csproj.AssemblyReference.cache
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.0\NIKO Menu.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\notfishvr\Documents\Outher\VS\Paid Stuff\NIKO Paid Menu\obj\Debug\netstandard2.0\NIKO Menu.csproj.CoreCompileInputs.cache

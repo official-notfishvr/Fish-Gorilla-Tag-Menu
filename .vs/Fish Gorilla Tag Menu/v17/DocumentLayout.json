@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\main\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:main\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\fish gorilla tag menu.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:fish gorilla tag menu.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\main\\maingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:main\\maingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\mainutils\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:mainutils\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:1:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\mainutils\\patches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:1:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:mainutils\\patches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\fish gorilla tag menu.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:fish gorilla tag menu.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31698\\Main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31544\\Main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|c:\\users\\notfishvr\\documents\\outher\\vs\\c#\\fish gorilla tag menu\\mainutils\\patches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{3ACED67C-E6E8-4A1A-8171-9170D56F0F09}|Fish Gorilla Tag Menu.csproj|solutionrelative:mainutils\\patches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Fish Gorilla Tag Menu",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Fish Gorilla Tag Menu.csproj",
+              "RelativeDocumentMoniker": "Fish Gorilla Tag Menu.csproj",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Fish Gorilla Tag Menu.csproj",
+              "RelativeToolTip": "Fish Gorilla Tag Menu.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-03-20T07:00:35.464Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainMenu.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Main\\MainMenu.cs",
+              "RelativeDocumentMoniker": "Main\\MainMenu.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Main\\MainMenu.cs",
+              "RelativeToolTip": "Main\\MainMenu.cs",
+              "ViewState": "AQIAAIYHAAAAAAAAAAA8wKwKAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-20T02:37:35.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainGUI.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Main\\MainGUI.cs",
+              "RelativeDocumentMoniker": "Main\\MainGUI.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Main\\MainGUI.cs",
+              "RelativeToolTip": "Main\\MainGUI.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAQwBcCAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-20T02:35:18.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Utils.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Utils.cs",
+              "RelativeDocumentMoniker": "MainUtils\\Utils.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Utils.cs",
+              "RelativeToolTip": "MainUtils\\Utils.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAgwB8AAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-20T02:18:26.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Fish Menu",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Fish Gorilla Tag Menu.csproj",
+              "RelativeDocumentMoniker": "Fish Gorilla Tag Menu.csproj",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\Fish Gorilla Tag Menu.csproj",
+              "RelativeToolTip": "Fish Gorilla Tag Menu.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-02-28T23:32:01.259Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Patches.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Patches.cs",
+              "RelativeDocumentMoniker": "MainUtils\\Patches.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Patches.cs",
+              "RelativeToolTip": "MainUtils\\Patches.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-28T23:32:01.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Main.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31698\\Main.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\Rar$DIa16048.31698\\Main.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31698\\Main.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\Rar$DIa16048.31698\\Main.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-10-07T05:08:54.624Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Main.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31544\\Main.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\Rar$DIa16048.31544\\Main.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\AppData\\Local\\Temp\\Rar$DIa16048.31544\\Main.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\Rar$DIa16048.31544\\Main.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-10-07T05:08:53.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Patches.cs",
+              "DocumentMoniker": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Patches.cs",
+              "RelativeDocumentMoniker": "MainUtils\\Patches.cs",
+              "ToolTip": "C:\\Users\\notfishvr\\Documents\\Outher\\VS\\C#\\Fish Gorilla Tag Menu\\MainUtils\\Patches.cs",
+              "RelativeToolTip": "MainUtils\\Patches.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-28T23:32:01.304Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
