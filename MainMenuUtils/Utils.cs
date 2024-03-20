@@ -1,0 +1,551 @@
+﻿using System;
+using System.IO;
+using FishMenu.MainMenu;
+using System.Xml.Serialization;
+using System.Runtime.InteropServices;
+using UnityEngine;
+using HarmonyLib;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.UI;
+using System.Linq;
+using Valve.VR;
+using BepInEx;
+using static FishMenu.MainMenu.MenuPatch;
+using static FishMenu.MainMenuUtils.Utils;
+using System.ComponentModel;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+namespace FishMenu.MainMenuUtils
+{
+    [BepInPlugin("com.notfishvr.fishmenu", "notfishvr", "1.0.0")]
+    public class Loader : BaseUnityPlugin
+    {
+        public void FixedUpdate()
+        {
+            Awake();
+            if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
+            {
+                GameObject Loader = new GameObject("Loader");
+                Loader.AddComponent<MenuPatch>();
+                Loader.AddComponent<ControllerInput>();
+                Loader.AddComponent<RigManager>();
+                Loader.AddComponent<NotifiLib>();
+                Loader.AddComponent<RoomManager>();
+            }
+        }
+        private void Awake()
+        {
+            try
+            {
+                string text = Paths.ConfigPath + "/BepInEx.cfg";
+                string text2 = File.ReadAllText(text);
+                text2 = Regex.Replace(text2, "HideManagerGameObject = .+", "HideManagerGameObject = true");
+                File.WriteAllText(text, text2);
+            }
+            catch (Exception ex)
+            {
+                Mods.Utils.LogError(ex);
+            }
+        }
+    }
+
+    [BepInPlugin(modGUID, modName, modVersion)]
+    [Description(modVersion)]
+    public class HarmonyPatch : BaseUnityPlugin
+    {
+        public void Awake()
+        {
+            Harmony harmony = new Harmony(modName);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+        private const string modGUID = "FISH.Menu";
+        private const string modName = "FISH.Menu";
+        public const string modVersion = "1.0.0";
+    }
+    public class Utils
+    {
+        [Serializable]
+        public class Presets
+        {
+            public static void SavePresets()
+            {
+                Presets presets = new Presets();
+                presets.SettingsButtonsActive = MenuPatch.SettingsButtonsActive;
+                presets.BasicButtonsActive = MenuPatch.BasicButtonsActive;
+                presets.RopeButtonsActive = MenuPatch.RopeButtonsActive;
+                presets.SpamRpcButtonsActive = MenuPatch.SpamRpcButtonsActive;
+                presets.BugButtonsActive = MenuPatch.BugButtonsActive;
+                presets.TagButtonsActive = MenuPatch.TagButtonsActive;
+                presets.MicButtonsActive = MenuPatch.MicButtonsActive;
+                presets.OPButtonsActive = MenuPatch.OPButtonsActive;
+                presets.HalloweenButtonsActive = MenuPatch.HalloweenButtonsActive;
+                presets.LavaButtonsActive = MenuPatch.LavaButtonsActive;
+                XmlSerializer serializer = new XmlSerializer(typeof(Presets));
+                using (StreamWriter writer = new StreamWriter("presets.xml")) { serializer.Serialize(writer, presets); }
+                ConsoleUtility.WriteLine("Presets saved successfully.");
+            }
+            public static void LoadPresets()
+            {
+                if (File.Exists("presets.xml"))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(Presets));
+                    using (StreamReader reader = new StreamReader("presets.xml"))
+                    {
+                        Presets presets = (Presets)serializer.Deserialize(reader);
+                        MenuPatch.SettingsButtonsActive = presets.SettingsButtonsActive;
+                        MenuPatch.BasicButtonsActive = presets.BasicButtonsActive;
+                        MenuPatch.RopeButtonsActive = presets.RopeButtonsActive;
+                        MenuPatch.SpamRpcButtonsActive = presets.SpamRpcButtonsActive;
+                        MenuPatch.BugButtonsActive = presets.BugButtonsActive;
+                        MenuPatch.TagButtonsActive = presets.TagButtonsActive;
+                        MenuPatch.MicButtonsActive = presets.MicButtonsActive;
+                        MenuPatch.OPButtonsActive = presets.OPButtonsActive;
+                        MenuPatch.HalloweenButtonsActive = presets.HalloweenButtonsActive;
+                        MenuPatch.LavaButtonsActive = presets.LavaButtonsActive;
+                    }
+                    ConsoleUtility.WriteLine("Presets loaded successfully.");
+                }
+                else { ConsoleUtility.WriteLine("No saved presets found."); }
+            }
+            public bool[] SettingsButtonsActive { get; set; }
+            public bool[] BasicButtonsActive { get; set; }
+            public bool[] RopeButtonsActive { get; set; }
+            public bool[] SpamRpcButtonsActive { get; set; }
+            public bool[] BugButtonsActive { get; set; }
+            public bool[] TagButtonsActive { get; set; }
+            public bool[] MicButtonsActive { get; set; }
+            public bool[] OPButtonsActive { get; set; }
+            public bool[] HalloweenButtonsActive { get; set; }
+            public bool[] LavaButtonsActive { get; set; }
+        }
+        public class ConsoleUtility : MonoBehaviour
+        {
+            [DllImport("kernel32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Auto, SetLastError = true)]
+            private static extern int AllocConsole();
+
+            [DllImport("user32.dll", SetLastError = true)]
+            private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            private static extern bool SetConsoleTitle(string lpConsoleTitle);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            private static extern bool WriteConsole(IntPtr hConsoleOutput, string lpBuffer, uint nNumberOfCharsToWrite, out uint lpNumberOfCharsWritten, IntPtr lpReserved);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            private static extern IntPtr GetStdHandle(int nStdHandle);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            private static extern bool SetConsoleTextAttribute(IntPtr hConsoleOutput, uint wAttributes);
+
+            public static void OpenConsoleWindow()
+            {
+                AllocConsole();
+                SetConsoleTitle("Console [Initializing]");
+                WriteToConsole("Debug log started!", ConsoleColor.Green);
+                Debug.Log("Console was started!");
+                SetConsoleTitle("Console [Ready]");
+            }
+            public static void WriteToConsole(string message, ConsoleColor color)
+            {
+                IntPtr stdHandle = GetStdHandle(-11);
+                message += "\n";
+                SetConsoleTextAttribute(stdHandle, (uint)color);
+                uint num;
+                WriteConsole(stdHandle, message, (uint)message.Length, out num, IntPtr.Zero);
+                SetConsoleTextAttribute(stdHandle, 15U);
+            }
+            public static void WriteLine(string text)
+            {
+                string text2 = "[INFO]: " + text;
+                IntPtr stdHandle = GetStdHandle(-11);
+                text2 += "\n";
+                SetConsoleTextAttribute(stdHandle, 15U);
+                uint num;
+                WriteConsole(stdHandle, text2, (uint)text2.Length, out num, IntPtr.Zero);
+                SetConsoleTextAttribute(stdHandle, 15U);
+            }
+            public static void LCE(string message)
+            {
+                IntPtr stdHandle = GetStdHandle(-11);
+                message += "\n";
+                SetConsoleTextAttribute(stdHandle, 12U);
+                uint num;
+                WriteConsole(stdHandle, message, (uint)message.Length, out num, IntPtr.Zero);
+                SetConsoleTextAttribute(stdHandle, 15U);
+            }
+            public static IntPtr FindConsoleWindow(string windowName)
+            {
+                return FindWindow(null, windowName);
+            }
+            public static IntPtr GetConsole()
+            {
+                return FindWindow("cmd", null);
+            }
+            private static int co;
+        }
+        public class RigManager : MonoBehaviour
+        {
+            internal static VRRig GetOfflineRig()
+            {
+                return GorillaTagger.Instance.offlineVRRig;
+            }
+            internal static VRRig FindRig(Photon.Realtime.Player player)
+            {
+                return GorillaGameManager.instance.FindPlayerVRRig(player);
+            }
+            internal static VRRig GetOwnVRRig()
+            {
+                return GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player").GetComponent<VRRig>();
+            }
+            internal static PhotonView GetRigView(VRRig rig)
+            {
+                return (PhotonView)Traverse.Create(rig).Field("photonView").GetValue();
+            }
+            internal static Photon.Realtime.Player GetPlayerFromVRRig(VRRig p)
+            {
+                return GetRigView(p).Owner;
+            }
+            internal static PhotonView MyView()
+            {
+                return GorillaTagger.Instance.myVRRig;
+            }
+            public static Vector3 GetNearbyPosition(Vector3 center, float radius)
+            {
+                Vector2 vector = UnityEngine.Random.insideUnitCircle * radius;
+                Vector3 result = new Vector3(center.x + vector.x, center.y, center.z + vector.y);
+                return result;
+            }
+            public static Photon.Realtime.Player GetPlayerFromID(string id)
+            {
+                Photon.Realtime.Player found = null;
+                foreach (Photon.Realtime.Player target in PhotonNetwork.PlayerList)
+                {
+                    if (target.UserId == id)
+                    {
+                        found = target;
+                        break;
+                    }
+                }
+                return found;
+            }
+            public static Player GetRandomPlayer(bool includeSelf)
+            {
+                Player player;
+                if (includeSelf)
+                {
+                    player = PhotonNetwork.PlayerList[UnityEngine.Random.Range(0, PhotonNetwork.PlayerList.Length - 1)];
+                }
+                else
+                {
+                    player = PhotonNetwork.PlayerListOthers[UnityEngine.Random.Range(0, PhotonNetwork.PlayerListOthers.Length - 1)];
+                }
+                return player;
+            }
+        }
+        public class NotifiLib : MonoBehaviour
+        {
+            private static NotifiLib _instance;
+            public static NotifiLib Instance => _instance;
+            private GameObject HUDObj;
+            private GameObject HUDObj2;
+            private Camera mainCamera;
+            private Text testText;
+            private static Text notifiText;
+            private Material alertText;
+            private int notificationDecayTime = 300;
+            private int notificationDecayTimeCounter = 0;
+            private string[] notifiLines;
+            private string newtext;
+            public static string PreviousNotification = "";
+            private static string PreviousNotifications = "";
+            private const int MaxPreviousNotifications = 10;
+            private void Awake()
+            {
+                if (_instance == null) { _instance = this; }
+                else { Destroy(gameObject); }
+            }
+            private void Start()
+            {
+                mainCamera = Camera.main;
+                alertText = new Material(Shader.Find("GUI/Text Shader"));
+                InitializeHUD();
+            }
+            private void InitializeHUD()
+            {
+                HUDObj2 = new GameObject("NOTIFICATIONLIB_HUD_OBJ");
+                HUDObj = new GameObject("NOTIFICATIONLIB_HUD_OBJ");
+                Canvas canvas = HUDObj.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.WorldSpace;
+                canvas.worldCamera = mainCamera;
+
+                RectTransform rectTransform = HUDObj.GetComponent<RectTransform>();
+                rectTransform.sizeDelta = new Vector2(5, 5);
+                rectTransform.position = mainCamera.transform.position;
+                HUDObj2.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z - 4.6f);
+                HUDObj.transform.parent = HUDObj2.transform;
+                rectTransform.localPosition = new Vector3(0f, 0f, 1.6f);
+                rectTransform.rotation = Quaternion.Euler(new Vector3(0, -270f, 0));
+
+                GameObject textObject = new GameObject();
+                textObject.transform.parent = HUDObj.transform;
+                testText = textObject.AddComponent<Text>();
+                testText.text = "";
+                testText.fontSize = 10;
+                testText.font = GameObject.Find("COC Text").GetComponent<Text>().font;
+                testText.rectTransform.sizeDelta = new Vector2(260, 70);
+                testText.alignment = TextAnchor.LowerLeft;
+                testText.rectTransform.localScale = new Vector3(0.01f, 0.01f, 1f);
+                testText.rectTransform.localPosition = new Vector3(-1.5f, -.9f, -.6f);
+                testText.material = alertText;
+                notifiText = testText;
+            }
+            private void Update()
+            {
+                if (string.IsNullOrWhiteSpace(testText.text))
+                {
+                    notificationDecayTimeCounter = 0;
+                }
+                else
+                {
+                    notificationDecayTimeCounter++;
+                    if (notificationDecayTimeCounter > notificationDecayTime)
+                    {
+                        notifiLines = null;
+                        newtext = "";
+                        notificationDecayTimeCounter = 0;
+                        notifiLines = testText.text.Split(Environment.NewLine.ToCharArray()).Skip(1).ToArray();
+                        foreach (string text in notifiLines)
+                        {
+                            if (!string.IsNullOrWhiteSpace(text))
+                            {
+                                newtext += text + Environment.NewLine;
+                            }
+                        }
+                        testText.text = newtext;
+                    }
+                }
+
+                HUDObj2.transform.position = mainCamera.transform.position;
+                HUDObj2.transform.rotation = mainCamera.transform.rotation;
+            }
+            public static void SendNotification(string notificationText, Color color)
+            {
+                try
+                {
+                    notificationText = ProcessNotificationText(notificationText);
+
+                    if (!PreviousNotifications.Contains(notificationText))
+                    {
+                        ConsoleUtility.WriteToConsole($"[Notification]: {notificationText}", ConsoleColor.Green);
+                        notifiText.text += notificationText + Environment.NewLine;
+                        notifiText.color = color;
+                        PreviousNotifications = notificationText;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ConsoleUtility.WriteToConsole($"[ERROR]: {ex.Message}", ConsoleColor.Red);
+                }
+            }
+            private static string ProcessNotificationText(string notificationText)
+            {
+                if (notificationText.Contains("Is On"))
+                {
+                    notificationText = "<color=grey>[MENU]</color> " + notificationText;
+                }
+                else if (notificationText.Contains("reported"))
+                {
+                    notificationText = "<color=grey>[REPORTED]</color> " + notificationText;
+                }
+                else if (notificationText.Contains("Patch"))
+                {
+                    notificationText = "<color=grey>[PATCH]</color> " + notificationText;
+                }
+                else if (notificationText.Contains("Joined") || notificationText.Contains("Left") || notificationText.Contains("Room"))
+                {
+                    notificationText = "<color=grey>[ROOM]</color> " + notificationText;
+                }
+                return notificationText;
+            }
+        }
+        public class ControllerInput : MonoBehaviour
+        {
+            private static bool CalculateGripState(float grabValue, float grabThreshold)
+            {
+                return grabValue >= grabThreshold;
+            }
+            public void Update()
+            {
+                if (ControllerInputPoller.instance != null)
+                {
+                    ControllerInputPoller instance = ControllerInputPoller.instance;
+                    RightSecondary = instance.rightControllerPrimaryButton;
+                    RightPrimary = instance.rightControllerSecondaryButton;
+                    RightTrigger = CalculateGripState(instance.rightControllerIndexFloat, 0.1f);
+                    RightGrip = CalculateGripState(instance.rightControllerGripFloat, 0.1f);
+                    RightJoystick = instance.rightControllerPrimary2DAxis;
+                    RightStickClick = SteamVR_Actions.gorillaTag_RightJoystickClick.GetState(SteamVR_Input_Sources.RightHand);
+                    LeftSecondary = instance.leftControllerPrimaryButton;
+                    LeftPrimary = instance.leftControllerSecondaryButton;
+                    LeftTrigger = CalculateGripState(instance.leftControllerIndexFloat, 0.1f);
+                    LeftGrip = CalculateGripState(instance.leftControllerGripFloat, 0.1f);
+                    LeftJoystick = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.GetAxis(SteamVR_Input_Sources.LeftHand);
+                    LeftStickClick = SteamVR_Actions.gorillaTag_LeftJoystickClick.GetState(SteamVR_Input_Sources.LeftHand);
+                }
+            }
+            public static bool RightSecondary;
+            public static bool RightPrimary;
+            public static bool RightTrigger;
+            public static bool RightGrip;
+            public static Vector2 RightJoystick;
+            public static bool RightStickClick;
+            public static bool LeftSecondary;
+            public static bool LeftPrimary;
+            public static bool LeftGrip;
+            public static bool LeftTrigger;
+            public static Vector2 LeftJoystick;
+            public static bool LeftStickClick;
+        }
+        public class RoomManager : MonoBehaviourPunCallbacks
+        {
+            private static RoomManager _instance;
+            public static RoomManager Instance => _instance;
+            private void Awake()
+            {
+                _instance = this;
+            }
+            public override void OnJoinedRoom()
+            {
+                base.OnJoinedRoom();
+                MenuPatch.Instance.Room = PhotonNetwork.CurrentRoom.Name;
+                NotifiLib.SendNotification(string.Concat(new string[]
+                {
+                "You have joined Room: ",
+                MenuPatch.Instance.Room,
+                " With ",
+                PhotonNetwork.CurrentRoom.PlayerCount.ToString(),
+                "/10 Players!"
+                }), Color.green);
+            }
+            public override void OnLeftRoom()
+            {
+                base.OnLeftRoom();
+                NotifiLib.SendNotification("You have Left Room: " + MenuPatch.Instance.Room, Color.red);
+                MenuPatch.Instance.Room = string.Empty;
+                MenuPatch.GorillaBattleManager = null;
+                MenuPatch.GorillaHuntManager = null;
+                MenuPatch.GorillaTagManager = null;
+            }
+            public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+            {
+                base.OnPlayerEnteredRoom(newPlayer);
+                NotifiLib.SendNotification(newPlayer.NickName + " Has Joined Room: " + MenuPatch.Instance.Room, Color.green);
+            }
+            public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+            {
+                base.OnPlayerLeftRoom(otherPlayer);
+                NotifiLib.SendNotification(otherPlayer.NickName + " Has Left Room: " + MenuPatch.Instance.Room, Color.red);
+            }
+        }
+        public class BtnCollider : MonoBehaviour
+        {
+            private void OnTriggerEnter(Collider collider)
+            {
+                if (Time.frameCount >= MenuPatch.framePressCooldown + 10)
+                {
+                    GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(66, false, 0.1f);
+                    GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2, GorillaTagger.Instance.tagHapticDuration / 2);
+                    if (MenuPatch.NumberForPage == 1)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.buttons, MenuPatch.buttonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 2)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Settingsbuttons, MenuPatch.SettingsButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 3)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Basicbuttons, MenuPatch.BasicButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 4)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Ropebuttons, MenuPatch.RopeButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 5)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.SpamRpcbuttons, MenuPatch.SpamRpcButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 6)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Bugbuttons, MenuPatch.BugButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 7)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Tagbuttons, MenuPatch.TagButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 8)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Micbuttons, MenuPatch.MicButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 9)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.OPbuttons, MenuPatch.OPButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 10)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Halloweenbuttons, MenuPatch.HalloweenButtonsActive);
+                    }
+                    else if (MenuPatch.NumberForPage == 11)
+                    {
+                        MenuPatch.Toggle(relatedText, MenuPatch.Lavabuttons, MenuPatch.LavaButtonsActive);
+                    }
+                    MenuPatch.framePressCooldown = Time.frameCount;
+                }
+            }
+            public string relatedText;
+        }
+        public class Reflection
+        {
+            private const BindingFlags privateInst = BindingFlags.NonPublic | BindingFlags.Instance;
+            private const BindingFlags privateStatic = BindingFlags.NonPublic | BindingFlags.Static;
+            private const BindingFlags privateField = privateInst | BindingFlags.GetField;
+            private const BindingFlags privateProp = privateInst | BindingFlags.GetProperty;
+            private const BindingFlags privateMethod = privateInst | BindingFlags.InvokeMethod;
+            private const BindingFlags staticField = privateStatic | BindingFlags.GetField;
+            private const BindingFlags staticProp = privateStatic | BindingFlags.GetProperty;
+            private const BindingFlags staticMethod = privateStatic | BindingFlags.InvokeMethod;
+            private object @object { get; }
+            private Type type { get; }
+
+            Reflection(object obj)
+            {
+                @object = obj;
+                type = obj.GetType();
+            }
+            private T? GetValue<T>(string fieldName, bool isStatic = false, bool isProperty = false)
+            {
+                BindingFlags flags = isProperty ? isStatic ? staticProp : privateProp : isStatic ? staticField : privateField;
+                return isProperty ? GetProperty<T>(fieldName, flags) : GetValue<T>(fieldName, flags);
+            }
+            public Reflection SetValue(string fieldName, object value, bool isStatic = false, bool isProperty = false)
+            {
+                BindingFlags flags = isProperty ? isStatic ? staticProp : privateProp : isStatic ? staticField : privateField;
+                return isProperty ? SetProperty(fieldName, value, flags) : SetValue(fieldName, value, flags);
+            }
+            private T? GetValue<T>(string variableName, BindingFlags flags) { try { return (T)type.GetField(variableName, flags).GetValue(@object); } catch (InvalidCastException) { return default; } }
+            private T? GetProperty<T>(string propertyName, BindingFlags flags) { try { return (T)type.GetProperty(propertyName, flags).GetValue(@object); } catch (InvalidCastException) { return default; } }
+            private Reflection SetValue(string variableName, object value, BindingFlags flags) { try { type.GetField(variableName, flags).SetValue(@object, value); return this; } catch (Exception) { return null; } }
+            private Reflection SetProperty(string propertyName, object value, BindingFlags flags) { try { type.GetProperty(propertyName, flags).SetValue(@object, value); return this; } catch (Exception) { return null; } }
+            private T? Invoke<T>(string methodName, BindingFlags flags, params object[] args) { try { return (T)type.GetMethod(methodName, flags).Invoke(@object, args); } catch (InvalidCastException) { return default; } }
+            private T? Invoke<T>(string methodName, bool isStatic = false, params object[] args) => Invoke<T>(methodName, isStatic ? staticMethod : privateMethod, args);
+            public object GetValue(string fieldName, bool isStatic = false, bool isProperty = false) => GetValue<object>(fieldName, isStatic, isProperty);
+            public Reflection Invoke(string methodName, bool isStatic = false, params object[] args) => Invoke<object>(methodName, isStatic, args)?.Reflect();
+            public Reflection Invoke(string methodName, params object[] args) => Invoke<object>(methodName, args: args)?.Reflect();
+            public static Reflection GetReflection(object obj) => new(obj);
+        }
+    }
+    public static class ReflectorExtensions { public static Reflection Reflect(this object obj) => Reflection.GetReflection(obj); }
+}
