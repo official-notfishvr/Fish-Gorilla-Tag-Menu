@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using BepInEx;
 using GorillaNetworking;
@@ -9,6 +10,9 @@ using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using static FishMenu.MainUtils.Utils;
+using static NetworkSystem;
+using UnityEngine.InputSystem;
 
 namespace FishMenu.Main
 {
@@ -318,11 +322,11 @@ namespace FishMenu.Main
             }
             if (ToggleMain[3])
             {
-
+               
             }
         }
         #region Main GUI
-        private void OnGUI()
+            private void OnGUI()
         {
             GUI.skin = GUI.skin ?? new GUISkin();
             UpdateStyles();

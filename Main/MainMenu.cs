@@ -31,6 +31,7 @@ using Player = Photon.Realtime.Player;
 using FishMenu.MainUtils;
 using static FishMenu.MainUtils.Patches;
 using static FishMenu.MainUtils.Utils;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace FishMenu.Main
 {
@@ -196,6 +197,7 @@ namespace FishMenu.Main
                 UpdateMaterialColors();
                 if (once)
                 {
+                    FishMenu.MainUtils.Local.GetLocalPlayer();
                     MenuLoaded = true;
                     once = false;
                     Mods.Utils.CreateConfigFileIfNotExists("FISHModsCustomInv.txt", "https://bit.ly/NIKOModsDiscordServer");
@@ -739,10 +741,10 @@ namespace FishMenu.Main
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)WaterBalloonTimer + 0.085)
                     {
-                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        Vector3 vector = ((Vector3)Local.GetLocalPlayer().offlineVRRig.transform.position).normalized;
                         vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("WaterBalloon", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
+                        Projectile("WaterBalloon", vector, Local.GetLocalPlayer().offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         WaterBalloonTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Water Balloon Spam Is On", Color.green);
@@ -756,10 +758,10 @@ namespace FishMenu.Main
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)SnowBallTimer + 0.085)
                     {
-                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        Vector3 vector = ((Vector3)Local.GetLocalPlayer().offlineVRRig.transform.position).normalized;
                         vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("Snowball", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
+                        Projectile("Snowball", vector, Local.GetLocalPlayer().offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         SnowBallTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Snow Ball Spam Is On", Color.green);
@@ -773,10 +775,10 @@ namespace FishMenu.Main
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)RockSpamTimer + 0.085)
                     {
-                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        Vector3 vector = ((Vector3)Local.GetLocalPlayer().offlineVRRig.transform.position).normalized;
                         vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("LavaRock", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
+                        Projectile("LavaRock", vector, Local.GetLocalPlayer().offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         RockSpamTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Rock Spam Is On", Color.green);
@@ -790,10 +792,10 @@ namespace FishMenu.Main
                 {
                     if (ControllerInput.RightGrip && (double)Time.time > (double)CoalSpamTimer + 0.085)
                     {
-                        Vector3 vector = ((Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                        Vector3 vector = ((Vector3)Local.GetLocalPlayer().offlineVRRig.transform.position).normalized;
                         vector *= 0.1f;
                         Color color2 = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                        Projectile("BucketGiftCoal", vector, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
+                        Projectile("BucketGiftCoal", vector, Local.GetLocalPlayer().offlineVRRig.transform.position + new Vector3(0, 3, 0), color2);
                         CoalSpamTimer = Time.time;
                     }
                     NotifiLib.SendNotification("Rock Spam Is On", Color.green);
@@ -1011,7 +1013,7 @@ namespace FishMenu.Main
                 }
                 else if (TagButtonsActive[1] == false)
                 {
-                    GorillaTagger.Instance.offlineVRRig.enabled = true;
+                    Local.GetLocalPlayer().offlineVRRig.enabled = true;
                 }
                 if (TagButtonsActive[2] == true)
                 {
@@ -1024,7 +1026,7 @@ namespace FishMenu.Main
                 }
                 else if (TagButtonsActive[3] == false)
                 {
-                    GorillaTagger.Instance.offlineVRRig.enabled = true;
+                    Local.GetLocalPlayer().offlineVRRig.enabled = true;
                     TagButtonsActive[3] = false;
                 }
                 if (buttonsActive[4] == true)
@@ -1033,7 +1035,7 @@ namespace FishMenu.Main
                 }
                 else if (TagButtonsActive[4] == false)
                 {
-                    GorillaTagger.Instance.offlineVRRig.enabled = true;
+                    Local.GetLocalPlayer().offlineVRRig.enabled = true;
                     TagButtonsActive[4] = false;
                 }
                 #endregion
@@ -1355,7 +1357,7 @@ namespace FishMenu.Main
                         public static void PlaySplashEffect(Vector3 position, Quaternion rotation, float duration, float size, bool idk, bool idk2)
                         {
                             GorillaTagger.Instance.myVRRig.RPC("PlaySplashEffect", RpcTarget.All, position, rotation, duration, size, idk, idk2);
-                            //PhotonView.Get(GorillaTagger.Instance.offlineVRRig).RPC("PlaySplashEffect", RpcTarget.All, position, rotation, duration, size, idk, idk2);
+                            //PhotonView.Get(Local.GetLocalPlayer().offlineVRRig).RPC("PlaySplashEffect", RpcTarget.All, position, rotation, duration, size, idk, idk2);
                         }
                         public static void Water()
                         {
@@ -1375,7 +1377,7 @@ namespace FishMenu.Main
                                 RaycastHit raycastHit;
                                 Physics.Raycast(cameraPosition, cameraForward, out raycastHit);
 
-                                Vector3 startPosition = GorillaTagger.Instance.offlineVRRig.transform.position;
+                                Vector3 startPosition = Local.GetLocalPlayer().offlineVRRig.transform.position;
                                 Vector3 targetPosition = raycastHit.point;
                                 Vector3 directionToTarget = (targetPosition - startPosition).normalized;
                                 if (GorillaGameManager.instance != null)
@@ -1424,26 +1426,16 @@ namespace FishMenu.Main
                         }
                         public static void WaterGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(true, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
-                                {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                pointer.transform.position = raycastHit.point;
                                 if (ControllerInput.RightTrigger)
                                 {
-                                    if (GorillaTagger.Instance.offlineVRRig.enabled)
+                                    if (Local.GetLocalPlayer().offlineVRRig.enabled)
                                     {
                                         VRRigOnDisable.Prefix(GorillaTagger.Instance.offlineVRRig);
                                     }
-                                    GorillaTagger.Instance.offlineVRRig.enabled = false;
-                                    GorillaTagger.Instance.offlineVRRig.transform.position = pointer.transform.position;
+                                    Local.GetLocalPlayer().offlineVRRig.enabled = false;
+                                    Local.GetLocalPlayer().offlineVRRig.transform.position = pointer.transform.position;
                                     if (Time.time > SplashTime + 0.5f)
                                     {
                                         GorillaTagger.Instance.myVRRig.RPC("PlaySplashEffect", RpcTarget.All, pointer.transform.position, Random.rotation, 4f, 100f, false, true);
@@ -1451,16 +1443,10 @@ namespace FishMenu.Main
                                     }
                                     else
                                     {
-                                        GorillaTagger.Instance.offlineVRRig.enabled = true;
+                                        Local.GetLocalPlayer().offlineVRRig.enabled = true;
                                     }
                                 }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                     }
                     public static void Rope(Vector3 Pos)
@@ -1507,115 +1493,55 @@ namespace FishMenu.Main
                     }
                     public static void KickShibaUsersGun()
                     {
-                        if (ControllerInput.RightGrip)
+                        Gun(true, pointer =>
                         {
-                            RaycastHit raycastHit;
-                            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                            PhotonView Photonview = RigManager.GetRigView(pointer.GetComponentInParent<VRRig>());
+                            if (Photonview != null || Photonview.Owner != null)
                             {
-                                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
+                                Hashtable hash = new Hashtable();
+                                hash.Add("Kick", Photonview.Owner.NickName);
+                                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                                GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
+                                RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+                                raiseEventOptions.Receivers = ReceiverGroup.All;
+                                PhotonNetwork.RaiseEvent(100, null, raiseEventOptions, SendOptions.SendReliable);
                             }
-                            pointer.transform.position = raycastHit.point;
-                            PhotonView Photonview = RigManager.GetRigView(raycastHit.collider.GetComponentInParent<VRRig>());
-                            Photon.Realtime.Player owner = Photonview.Owner;
-                            if (ControllerInput.RightTrigger)
-                            {
-                                if (Photonview != null || owner != null)
-                                {
-                                    Hashtable hash = new Hashtable();
-                                    hash.Add("Kick", owner.NickName);
-                                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                                    GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
-                                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
-                                    raiseEventOptions.Receivers = ReceiverGroup.All;
-                                    PhotonNetwork.RaiseEvent(100, null, raiseEventOptions, SendOptions.SendReliable);
-                                }
-                            }
-                            else
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            return;
-                        }
-                        UnityEngine.GameObject.Destroy(pointer);
+                        });
                     }
                     public static void LagShibaUsersGun()
                     {
-                        if (ControllerInput.RightGrip)
+                        Gun(true, pointer =>
                         {
-                            RaycastHit raycastHit;
-                            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                            PhotonView Photonview = RigManager.GetRigView(pointer.GetComponentInParent<VRRig>());
+                            if (Photonview != null || Photonview.Owner != null)
                             {
-                                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
+                                Hashtable hash = new Hashtable();
+                                hash.Add("Lag", Photonview.Owner.NickName);
+                                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                                GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
+                                RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+                                raiseEventOptions.Receivers = ReceiverGroup.All;
+                                PhotonNetwork.RaiseEvent(101, null, raiseEventOptions, SendOptions.SendReliable);
                             }
-                            pointer.transform.position = raycastHit.point;
-                            PhotonView Photonview = RigManager.GetRigView(raycastHit.collider.GetComponentInParent<VRRig>());
-                            Photon.Realtime.Player owner = Photonview.Owner;
-                            if (ControllerInput.RightTrigger)
-                            {
-                                if (Photonview != null || owner != null)
-                                {
-                                    Hashtable hash = new Hashtable();
-                                    hash.Add("Lag", owner.NickName);
-                                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                                    GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
-                                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
-                                    raiseEventOptions.Receivers = ReceiverGroup.All;
-                                    PhotonNetwork.RaiseEvent(101, null, raiseEventOptions, SendOptions.SendReliable);
-                                }
-                            }
-                            else
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            return;
-                        }
-                        UnityEngine.GameObject.Destroy(pointer);
+                        });
                     }
                     public static void MoveShibaUsersGun()
                     {
-                        if (ControllerInput.RightGrip)
+                        Gun(true, pointer =>
                         {
-                            RaycastHit raycastHit;
-                            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                            PhotonView Photonview = RigManager.GetRigView(pointer.GetComponentInParent<VRRig>());
+                            if (Photonview != null || Photonview.Owner != null)
                             {
-                                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
+                                Hashtable hash = new Hashtable();
+                                hash.Add("Move", Photonview.Owner.NickName);
+                                hash.Add("MovePos", pointer.transform.position);
+                                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                                GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
+                                RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+                                raiseEventOptions.Receivers = ReceiverGroup.All;
+                                PhotonNetwork.RaiseEvent(102, null, raiseEventOptions, SendOptions.SendReliable);
                             }
-                            pointer.transform.position = raycastHit.point;
-                            PhotonView Photonview = RigManager.GetRigView(raycastHit.collider.GetComponentInParent<VRRig>());
-                            Photon.Realtime.Player owner = Photonview.Owner;
-                            if (ControllerInput.RightTrigger)
-                            {
-                                if (Photonview != null || owner != null)
-                                {
-                                    Hashtable hash = new Hashtable();
-                                    hash.Add("Move", owner.NickName);
-                                    hash.Add("MovePos", raycastHit.point);
-                                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                                    GorillaTagger.Instance.myVRRig.Controller.SetCustomProperties(hash);
-                                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
-                                    raiseEventOptions.Receivers = ReceiverGroup.All;
-                                    PhotonNetwork.RaiseEvent(102, null, raiseEventOptions, SendOptions.SendReliable);
-                                }
-                            }
-                            else
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            return;
-                        }
-                        UnityEngine.GameObject.Destroy(pointer);
+                        });
                     }
                     public static void FuckGame()
                     {
@@ -1642,45 +1568,24 @@ namespace FishMenu.Main
                     }
                     public static void AcidGun()
                     {
-                        if (ControllerInput.RightGrip)
+                        Gun(true, pointer =>
                         {
-                            RaycastHit raycastHit;
-                            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                            PhotonView Photonview = RigManager.GetRigView(pointer.GetComponentInParent<VRRig>());
+                            ScienceExperimentManager instance = ScienceExperimentManager.instance;
+                            if (instance != null)
                             {
-                                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            pointer.transform.position = raycastHit.point;
-                            PhotonView Photonview = RigManager.GetRigView(raycastHit.collider.GetComponentInParent<VRRig>());
-                            Photon.Realtime.Player owner = Photonview.Owner;
-                            if (ControllerInput.RightTrigger)
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.green;
-                                ScienceExperimentManager instance = ScienceExperimentManager.instance;
-                                if (instance != null)
+                                Traverse.Create(instance).Field("inGamePlayerCount").SetValue(10);
+                                if (Photonview != null && Photonview.Owner != null)
                                 {
-                                    Traverse.Create(instance).Field("inGamePlayerCount").SetValue(10);
-                                    if (Photonview != null && Photonview.Owner != null)
-                                    {
-                                        int actorNumber = Photonview.Owner.ActorNumber;
-                                        ScienceExperimentManager.PlayerGameState[] array2 = new ScienceExperimentManager.PlayerGameState[10];
-                                        int num3 = ((array2.Length > actorNumber) ? actorNumber : 0);
-                                        array2[num3].touchedLiquid = true;
-                                        array2[num3].playerId = actorNumber;
-                                        Traverse.Create(instance).Field("inGamePlayerStates").SetValue(array2);
-                                    }
+                                    int actorNumber = Photonview.Owner.ActorNumber;
+                                    ScienceExperimentManager.PlayerGameState[] array2 = new ScienceExperimentManager.PlayerGameState[10];
+                                    int num3 = ((array2.Length > actorNumber) ? actorNumber : 0);
+                                    array2[num3].touchedLiquid = true;
+                                    array2[num3].playerId = actorNumber;
+                                    Traverse.Create(instance).Field("inGamePlayerStates").SetValue(array2);
                                 }
                             }
-                            else
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            return;
-                        }
-                        UnityEngine.GameObject.Destroy(pointer);
+                        });
                     }
                     public static void AcidKid(Player player)
                     {
@@ -1746,32 +1651,13 @@ namespace FishMenu.Main
                         }
                         public static void BugGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(false, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
                                 {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
+                                    GameObject.Find("Floating Bug Holdable").transform.position = pointer.transform.position;
                                 }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                                    {
-                                        GameObject.Find("Floating Bug Holdable").transform.position = raycastHit.point;
-                                    }
-                                }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                         public static void BigBug()
                         {
@@ -1809,32 +1695,13 @@ namespace FishMenu.Main
                         }
                         public static void BeachBallGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(false, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                                foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
                                 {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
+                                    transferrableBall.transform.position = pointer.transform.position;
                                 }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                                    {
-                                        transferrableBall.transform.position = raycastHit.point;
-                                    }
-                                }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                         public static void BigBeachBall()
                         {
@@ -1872,32 +1739,13 @@ namespace FishMenu.Main
                         }
                         public static void BalloonGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(false, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                                foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
                                 {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
+                                    balloonHoldable.transform.position = pointer.transform.position;
                                 }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                                    {
-                                        balloonHoldable.transform.transform.position = raycastHit.point + new Vector3(0, 0.3f, 0);
-                                    }
-                                }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                         public static void BigBalloon()
                         {
@@ -1935,32 +1783,13 @@ namespace FishMenu.Main
                         }
                         public static void MonstersGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(false, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                                foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
                                 {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
+                                    monkeyeAI.transform.position = pointer.transform.position;
                                 }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                                    {
-                                        monkeyeAI.transform.transform.position = raycastHit.point + new Vector3(0, 0.3f, 0);
-                                    }
-                                }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                         public static void BigMonsters()
                         {
@@ -1995,29 +1824,13 @@ namespace FishMenu.Main
                         }
                         public static void BatGun()
                         {
-                            if (ControllerInput.RightGrip)
+                            Gun(false, pointer =>
                             {
-                                RaycastHit raycastHit;
-                                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
                                 {
-                                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
+                                    GameObject.Find("Cave Bat Holdable").transform.position = pointer.transform.position;
                                 }
-                                pointer.transform.position = raycastHit.point;
-                                if (ControllerInput.RightTrigger)
-                                {
-                                    GameObject.Find("Cave Bat Holdable").transform.transform.position = raycastHit.point + new Vector3(0, 0.3f, 0);
-                                }
-                                else
-                                {
-                                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                                }
-                                return;
-                            }
-                            UnityEngine.GameObject.Destroy(pointer);
+                            });
                         }
                         public static void BigBat()
                         {
@@ -2302,10 +2115,7 @@ namespace FishMenu.Main
                                 }
                             }
                         }
-                        else
-                        {
-                            ghostToggled = false;
-                        }
+                        else { ghostToggled = false; }
                     }
                     public static void GhostMonkey()
                     {
@@ -2313,7 +2123,7 @@ namespace FishMenu.Main
                         {
                             if (!ghostToggled && GorillaTagger.Instance.offlineVRRig.enabled)
                             {
-                                if (GorillaTagger.Instance.offlineVRRig.enabled)
+                                if (Local.GetLocalPlayer().player.enabled)
                                 {
                                     VRRigOnDisable.Prefix(GorillaTagger.Instance.offlineVRRig);
                                 }
@@ -2660,33 +2470,14 @@ namespace FishMenu.Main
                     }
                     public static void TPGun()
                     {
-                        if (ControllerInput.RightGrip)
+                        Gun(false, pointer =>
                         {
-                            RaycastHit raycastHit;
-                            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
-                            {
-                                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            pointer.transform.position = raycastHit.point;
-                            if (ControllerInput.RightTrigger)
-                            {
-                                pointer.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                                GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = true;
-                                float maxDistanceDelta = TPGunSpeed * Time.deltaTime;
-                                GameObject.Find("GorillaPlayer").transform.position = Vector3.MoveTowards(GameObject.Find("GorillaPlayer").transform.position, pointer.transform.position, maxDistanceDelta);
-                                GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = false;
-                            }
-                            else
-                            {
-                                pointer.GetComponent<Renderer>().material.color = Color.red;
-                            }
-                            return;
-                        }
-                        UnityEngine.GameObject.Destroy(pointer);
+                            pointer.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = true;
+                            float maxDistanceDelta = TPGunSpeed * Time.deltaTime;
+                            GameObject.Find("GorillaPlayer").transform.position = Vector3.MoveTowards(GameObject.Find("GorillaPlayer").transform.position, pointer.transform.position, maxDistanceDelta);
+                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = false;
+                        });
                     }
                 }
             }
@@ -2731,6 +2522,77 @@ namespace FishMenu.Main
             }
         }
         #region ModsNotInClass
+        public static void Gun(bool Player, Action<GameObject> gunAction)
+        {
+            if (!Player)
+            {
+                if (ControllerInput.RightGrip)
+                {
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                    {
+                        pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        Object.Destroy(pointer.GetComponent<Rigidbody>());
+                        Object.Destroy(pointer.GetComponent<SphereCollider>());
+                        pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                        pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
+                        pointer.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
+                    }
+                    pointer.transform.position = raycastHit.point;
+                    if (ControllerInput.RightTrigger)
+                    {
+                        pointer.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f, 0.15f);
+                        gunAction(pointer);
+                    }
+                    else
+                    {
+                        pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
+                    }
+                    return;
+                }
+                UnityEngine.GameObject.Destroy(pointer);
+            }
+            else if (Player)
+            {
+                if (ControllerInput.RightGrip)
+                {
+                    if (GunPlayer == null)
+                    {
+                        RaycastHit raycastHit;
+                        if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+                        {
+                            pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                            Object.Destroy(pointer.GetComponent<Rigidbody>());
+                            Object.Destroy(pointer.GetComponent<SphereCollider>());
+                            pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                            pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
+                            pointer.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
+                        }
+                        pointer.transform.position = raycastHit.point;
+                        if (ControllerInput.RightTrigger)
+                        {
+                            if (raycastHit.collider.GetComponentInParent<VRRig>())
+                            {
+                                GunPlayer = raycastHit.collider.GetComponentInParent<VRRig>();
+                            }
+                        }
+                    }
+                    if (ControllerInput.RightTrigger && GunPlayer != null)
+                    {
+                        pointer.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f, 0.15f);
+                        gunAction(pointer);
+                    }
+                    else
+                    {
+                        pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
+                        GunPlayer = null;
+                    }
+                    return;
+                }
+                UnityEngine.GameObject.Destroy(pointer);
+            }
+            else { FishMenu.MainUtils.Utils.ConsoleUtility.WriteLine("Theres A Error With the guns"); }
+        }
         public void Projectileold(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
         {
             SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
@@ -2803,7 +2665,7 @@ namespace FishMenu.Main
         {
             if ((double)Time.time > (double)TagAura + 0.1)
             {
-                float num = Vector3.Distance(GorillaTagger.Instance.offlineVRRig.transform.position, GorillaGameManager.instance.FindPlayerVRRig(pl).transform.position);
+                float num = Vector3.Distance(Local.GetLocalPlayer().offlineVRRig.transform.position, GorillaGameManager.instance.FindPlayerVRRig(pl).transform.position);
                 if (num < GorillaGameManager.instance.tagDistanceThreshold)
                 {
                     PhotonView.Get(GorillaGameManager.instance.GetComponent<GorillaGameManager>()).RPC("ReportTagRPC", RpcTarget.MasterClient, pl);
@@ -2842,32 +2704,20 @@ namespace FishMenu.Main
                     pointer.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f, 0.15f);
                     if (GorillaGameManager.instance.GameModeName().Contains("INFECTION"))
                     {
-                        GorillaTagger.Instance.offlineVRRig.transform.position = Tagger.transform.position;
+                        Local.GetLocalPlayer().offlineVRRig.transform.position = Tagger.transform.position;
                         ProcessTagAura(RigManager.GetRigView(Tagger).Owner);
                     }
                 }
                 else
                 {
                     pointer.GetComponent<Renderer>().material.color = new Color(1f, 0f, 0f, 0.15f);
-                    GorillaTagger.Instance.offlineVRRig.enabled = true;
+                    Local.GetLocalPlayer().offlineVRRig.enabled = true;
                     Tagger = null;
                 }
             }
         }
         public void TagAll()
         {
-            /*if (TagAllTime2 < Time.time)
-            {
-                TagAllTime2 = Time.time + 0.01f;
-                beesPlayer = RigManager.GetRandomPlayer(false);
-                VRRig rigFromPlayer = RigManager.FindRig(beesPlayer);
-                if (!rigFromPlayer.mainSkin.material.name.Contains("fected"))
-                {
-                    GorillaTagger.Instance.offlineVRRig.enabled = false;
-                    GorillaTagger.Instance.offlineVRRig.transform.position = rigFromPlayer.transform.position - new Vector3(0f, 3f, 0f);
-                    GorillaGameManager.instance.returnPhotonView.RPC("ReportTagRPC", RpcTarget.MasterClient, beesPlayer);
-                }
-            }*/
             if (GorillaGameManager.instance != null)
             {
                 if (GorillaGameManager.instance.GameModeName().Contains("INFECTION"))
@@ -2900,7 +2750,7 @@ namespace FishMenu.Main
                     {
                         if (!GorillaTagManager.currentInfected.Contains(player))
                         {
-                            GorillaTagger.Instance.offlineVRRig.transform.position = GorillaGameManager.instance.FindPlayerVRRig(player).transform.position;
+                            Local.GetLocalPlayer().offlineVRRig.transform.position = GorillaGameManager.instance.FindPlayerVRRig(player).transform.position;
                             ProcessTagAura(player);
                             break;
                         }
@@ -2910,7 +2760,7 @@ namespace FishMenu.Main
                 {
                     if (GorillaTagger.Instance.offlineVRRig.huntComputer.activeSelf && GorillaTagger.Instance.offlineVRRig.huntComputer.GetComponent<GorillaHuntComputer>().myRig != null)
                     {
-                        GorillaTagger.Instance.offlineVRRig.transform.position = GorillaTagger.Instance.offlineVRRig.huntComputer.GetComponent<GorillaHuntComputer>().myRig.transform.position;
+                        Local.GetLocalPlayer().offlineVRRig.transform.position = GorillaTagger.Instance.offlineVRRig.huntComputer.GetComponent<GorillaHuntComputer>().myRig.transform.position;
                         ProcessTagAura(player);
                         break;
                     }
@@ -2928,28 +2778,19 @@ namespace FishMenu.Main
         }
         public void SpamGun(string Hash, float Timer)
         {
-            if (ControllerInput.RightGrip)
+            Gun(false, pointer =>
             {
-                RaycastHit raycastHit;
-                if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightControllerTransform.position - GorillaLocomotion.Player.Instance.rightControllerTransform.up, -GorillaLocomotion.Player.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
-                {
-                    pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                    UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                    pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                    pointer.GetComponent<Renderer>().material.color = Color.red;
-                }
-                pointer.transform.position = raycastHit.point;
+                PhotonView Photonview = RigManager.GetRigView(pointer.GetComponentInParent<VRRig>());
                 if (ControllerInput.RightTrigger && Time.time > Timer + 0.07f)
                 {
-                    Vector3 vector = ((Vector3)raycastHit.point - (Vector3)GorillaTagger.Instance.offlineVRRig.transform.position).normalized;
+                    Vector3 vector = ((Vector3)pointer.transform.position - (Vector3)Local.GetLocalPlayer().offlineVRRig.transform.position).normalized;
                     vector *= 50f;
                     Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                    Projectile(Hash, vector, GorillaTagger.Instance.offlineVRRig.transform.position, color);
+                    Projectile(Hash, vector, Local.GetLocalPlayer().offlineVRRig.transform.position, color);
                     Timer = Time.time;
                 }
                 UnityEngine.GameObject.Destroy(pointer);
-            }
+            });
         }
         public void EarapeAura()
         {
@@ -3386,7 +3227,7 @@ namespace FishMenu.Main
         public static bool once_left, once_right, once_left_false, once_right_false, once_networking, LeftToggle, RightToggle, ghostToggled;
 
         // Player-related fields
-        public static VRRig kickp, lucyp, lagrig, chosenplayer, Tagger;
+        public static VRRig kickp, lucyp, lagrig, chosenplayer, Tagger, GunPlayer;
 
         // Object references
         public static GorillaScoreBoard[] boards;

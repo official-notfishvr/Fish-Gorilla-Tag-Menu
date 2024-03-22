@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using FishMenu.Main;
+using System.Collections.Generic;
 
 namespace FishMenu.MainUtils
 {
@@ -29,7 +30,10 @@ namespace FishMenu.MainUtils
             if (!GameObject.Find("Loader") && GorillaLocomotion.Player.hasInstance)
             {
                 GameObject Loader = new GameObject("Loader");
+                Loader.AddComponent<Local>();
+                Loader.AddComponent<LocalPlayer>();
                 Loader.AddComponent<MainMenu>();
+                Loader.AddComponent<MainGUI>();
                 Loader.AddComponent<ControllerInput>();
                 Loader.AddComponent<RigManager>();
                 Loader.AddComponent<NotifiLib>();
@@ -547,5 +551,96 @@ namespace FishMenu.MainUtils
             public Reflection Invoke(string methodName, params object[] args) => Invoke<object>(methodName, args: args)?.Reflect();
             public static Reflection GetReflection(object obj) => new(obj);
         }
+        public class Num
+        {
+            public static bool ContainsNumber(string input) { return Enumerable.Any<char>(input, new Func<char, bool>(char.IsDigit)); }
+            public static bool ContainsLetter(string input) { return Enumerable.Any<char>(input, new Func<char, bool>(char.IsLetter)); }
+            public static string GenerateRandomString(int length)
+            {
+                System.Random random = new System.Random();
+                const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                return new string(Enumerable.Repeat(letters, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            }
+        }
+    }
+    // Player 
+    public class Local : MonoBehaviour
+    {
+        public static LocalPlayer GetLocalPlayer()
+        {
+            var player = new LocalPlayer
+            {
+                headPosition = GorillaLocomotion.Player.Instance.headCollider.transform.position,
+                leftHandPosition = GorillaLocomotion.Player.Instance.leftControllerTransform.position,
+                rightHandPosition = GorillaLocomotion.Player.Instance.rightControllerTransform.position,
+                player = GorillaLocomotion.Player.Instance,
+                offlineVRRig = GorillaTagger.Instance,
+            };
+
+            return player;
+        }
+        public static float GetDistanceFromPlayer(GameObject obj) { return Vector3.Distance(GetLocalPlayer().player.transform.position, obj.transform.position); }
+        public static void VibrateController(bool isLeftController, float strength, float duration) { GorillaTagger.Instance.StartVibration(isLeftController, strength, duration); }
+    }
+    public class LocalPlayer : MonoBehaviour
+    {
+        public Vector3 headPosition;
+        public Vector3 leftHandPosition;
+        public Vector3 rightHandPosition;
+        public GorillaLocomotion.Player player;
+        public GorillaTagger offlineVRRig;
+    }
+    // Online
+    public class Online
+    {
+        public static OnlinePlayer GetOnlinePlayerFromName(string name)
+        {
+            var player = new OnlinePlayer();
+
+            VRRig[] vrRigArray = (VRRig[])GameObject.FindObjectsOfType(typeof(VRRig));
+            foreach (VRRig rig in vrRigArray)
+            {
+                foreach (Photon.Realtime.Player otherPlayer in PhotonNetwork.PlayerList)
+                {
+                    if (otherPlayer.NickName == name)
+                    {
+                        player.position = rig.transform.position;
+                        player.distanceFromPlayer = Vector3.Distance(Local.GetLocalPlayer().headPosition, rig.transform.position);
+                        //player.viewId = rig.photonView.ViewID;
+                        return player;
+                    }
+                }
+            }
+            return null;
+        }
+        public static OnlinePlayer GetOnlinePlayerFromViewID(string id)
+        {
+            if (Num.ContainsLetter(id)) { return null; }
+
+            var player = new OnlinePlayer();
+
+            VRRig[] vrRigArray = (VRRig[])GameObject.FindObjectsOfType(typeof(VRRig));
+            foreach (VRRig rig in vrRigArray)
+            {
+                foreach (Photon.Realtime.Player otherPlayer in PhotonNetwork.PlayerList)
+                {
+                    //if (otherPlayer.UserId == Int32.Parse(id))
+                    if (otherPlayer.UserId == id)
+                    {
+                        player.position = rig.transform.position;
+                        player.distanceFromPlayer = Vector3.Distance(Local.GetLocalPlayer().headPosition, rig.transform.position);
+                        return player;
+                    }
+                }
+            }
+
+            return null;
+        }
+        public Dictionary<int, Photon.Realtime.Player> GetAllPlayers() { return PhotonNetwork.CurrentRoom.Players; }
+    }
+    public class OnlinePlayer
+    {
+        public Vector3 position;
+        public float distanceFromPlayer;
     }
 }
