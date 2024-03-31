@@ -32,6 +32,14 @@ using FishMenu.MainUtils;
 using static FishMenu.MainUtils.Patches;
 using static FishMenu.MainUtils.Utils;
 using static UnityEngine.UI.GridLayoutGroup;
+using GorillaGameModes;
+using System.Runtime.InteropServices;
+using static Mono.Security.X509.X520;
+using System.ComponentModel;
+using Component = UnityEngine.Component;
+using GorillaTag.Cosmetics;
+using UnityEngine.SocialPlatforms;
+using Local = FishMenu.MainUtils.Local;
 
 namespace FishMenu.Main
 {
@@ -66,7 +74,6 @@ namespace FishMenu.Main
             "Platforms Color:", // 7
             "TP Gun Speed:",    // 8
             "Slingshot = ",     // 9
-            "Bug Type:"         // 10
         };
         public static string[] Basicbuttons = new string[]
         {
@@ -108,15 +115,43 @@ namespace FishMenu.Main
             "Rock Spam",                 // 10
             "Rock Spam Gun" ,            // 11
             "Coal Spam",                 // 12
-            "Coal Spam Gun"              // 13
+            "Coal Spam Gun",             // 13
+            "Honeycomb Spam",            // 14
+            "Honeycomb Spam Gun",        // 15
         };
         public static string[] Bugbuttons = new string[]
         {
             "Back",                      // 0
-            "Invis Bug",                 // 1 // can be edit on Setting Page
-            "Bug Gun",                   // 2 // can be edit on Setting Page
-            "Big Bug",                   // 3 // can be edit on Setting Page
-            "Grab Bug",                  // 4 // can be edit on Setting Page
+            "Invis Bug",                 // 1
+            "Bug Gun",                   // 2
+            "Big Bug",                   // 3
+            "Grab Bug",                  // 4
+            "Seizure Bug",               // 5
+
+            "Invis Balloon",             // 6
+            "Balloon Gun",               // 7
+            "Big Balloon",               // 8
+            "Grab Balloon",              // 9
+            "Seizure Balloon",           // 10
+
+            "Invis BeachBall",           // 11
+            "BeachBall Gun",             // 12
+            "Big BeachBall",             // 13
+            "Grab BeachBall",            // 14
+            "Seizure BeachBall",         // 15
+
+            "Invis Monsters",            // 16
+            "Monsters Gun",              // 17
+            "Big Monsters",              // 18
+            "Grab Monsters",             // 19
+            "Seizure Monsters",          // 20
+
+            "Invis Bat",                 // 21
+            "Bat Gun",                   // 22
+            "Big Bat",                   // 23
+            "Grab Bat",                  // 24
+            "Seizure Bat",               // 25
+
         };
         public static string[] Tagbuttons = new string[]
         {
@@ -124,7 +159,8 @@ namespace FishMenu.Main
             "Tag All",                   // 1
             "Tag Gun",                   // 2
             "Mat All",                   // 3
-            "Mat Self"                   // 4
+            "Mat Self",                  // 4
+            "Auto Brawl"                 // 5
         };
         public static string[] Micbuttons = new string[]
         {
@@ -146,7 +182,7 @@ namespace FishMenu.Main
             "Acid All",                  // 2
             "Acid Gun",                  // 3
             "Acid Mat Spam",             // 4
-            "Freeze All",                // 5
+            "Freeze/Crash All",          // 5
             "Name Change All",           // 6
             "Fling All",                 // 7
         };
@@ -190,30 +226,32 @@ namespace FishMenu.Main
         {
             try
             {
+                NameTags.Draw();
                 #region Menu
-                PhotonNetwork.LocalPlayer.NickName = "fishmods";
-                GorillaComputer.instance.savedName = "fishmods";
-                GorillaComputer.instance.currentName = "fishmods";
                 UpdateMaterialColors();
-                if (once)
-                {
-                    FishMenu.MainUtils.Local.GetLocalPlayer();
-                    MenuLoaded = true;
-                    once = false;
-                    Mods.Utils.CreateConfigFileIfNotExists("FISHModsCustomInv.txt", "https://bit.ly/NIKOModsDiscordServer");
-                    Mods.Utils.CreateConfigFileIfNotExists("FISHModsNOTCustomInv.txt", "https://bit.ly/NIKOModsInv2");
-                    MainMenuRef = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    MainMenuRef.transform.parent = GorillaLocomotion.Player.Instance.rightControllerTransform;
-                    string folderPath = "FISH_Mods_Config";
-                    if (!Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-                }
                 if (!consoleStartAttempt)
                 {
+                    try
+                    {
+                        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://pastebin.com/raw/ZcGAVd1C");
+                        httpWebRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                        using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+                        {
+                            using (Stream responseStream = httpWebResponse.GetResponseStream())
+                            {
+                                using (StreamReader streamReader = new StreamReader(responseStream))
+                                {
+                                    if (!Directory.Exists("FishMods-Config")) { Directory.CreateDirectory("FishMods-Config"); }
+                                    Mods.Utils.CreateConfigFileIfNotExists("FishModsInv.txt", streamReader.ReadToEnd());
+                                }
+                            }
+                        }
+                        MainMenuRef = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        MainMenuRef.transform.parent = GorillaLocomotion.Player.Instance.rightControllerTransform;
+                        FishMenu.MainUtils.Local.GetLocalPlayer();
+                    }
+                    catch (Exception ex) { Mods.Utils.LogError(ex); }
                     ConsoleUtility.OpenConsoleWindow();
-
                     ConsoleUtility.WriteToConsole(" ", ConsoleColor.White);
                     consoleStartAttempt = true;
                     Debug.Log("Attempted to start the console, awaiting for further notice.");
@@ -262,10 +300,43 @@ namespace FishMenu.Main
                 }
                 else if (menu != null)
                 {
-                    Object.Destroy(menu);
+                    Destroy(menu);
                     menu = null;
-                    Object.Destroy(fingerButtonPresser);
+                    Destroy(reference);
+                    reference = null;
+                    Destroy(fingerButtonPresser);
                     fingerButtonPresser = null;
+                    /*
+                    Rigidbody menuRigidbody = menu.GetComponent<Rigidbody>();
+                    if (menuRigidbody == null) { menuRigidbody = menu.AddComponent<Rigidbody>(); }
+                    menuRigidbody.isKinematic = false;
+                    menuRigidbody.useGravity = true;
+                    Vector3 additionalVelocity = -GorillaLocomotion.Player.Instance.leftControllerTransform.up * Time.deltaTime * 65f;
+                    Vector3 averageVelocity = GorillaLocomotion.Player.Instance.leftHandCenterVelocityTracker.GetAverageVelocity(true, 0f, false) + additionalVelocity;
+                    menuRigidbody.velocity = averageVelocity;
+                    Vector3 angularVelocity = new Vector3(0f, 0f, 10f);
+                    menuRigidbody.angularVelocity = angularVelocity;
+                    Collider menuCollider = menu.GetComponent<Collider>();
+                    Bounds menuBounds = menuCollider.bounds;
+                    Vector3 extents = menuBounds.extents;
+                    Vector3 center = menuBounds.center;
+                    Collider[] colliders = Physics.OverlapBox(center, extents, Quaternion.identity);
+                    foreach (Collider collider in colliders)
+                    {
+                        if (collider != menuCollider)
+                        {
+                            Debug.Log("test");
+                            Destroy(menu);
+                            menu = null;
+                            menuRigidbody.isKinematic = true;
+                            menuRigidbody.velocity = Vector3.zero;
+                            menuRigidbody.angularVelocity = Vector3.zero;
+                            Destroy(menu);
+                            menu = null;
+                            break;
+                        }
+                    }
+                    */
                 }
                 #endregion
                 #region buttonsActive
@@ -427,13 +498,6 @@ namespace FishMenu.Main
                 int SlingshotTypeCount = SlingshotTypeIndices.Length;
                 int currentSlingshotTypeIndex = SlingshotCountType;
                 Settingsbuttons[9] = "Slingshot = " + SlingshotTypeNames[currentSlingshotTypeIndex];
-
-                // Bug Type
-                string[] BugTypeNames = { "Bug", "Balloon", "BeachBall", "Monsters", "Bat" };
-                float[] BugTypeIndices = { 0, 1, 2, 3, 4 };
-                int BugTypeCount = BugTypeIndices.Length;
-                int currentBugTypeIndex = BugCountType;
-                Settingsbuttons[10] = "Bug Type: " + BugTypeNames[currentBugTypeIndex];
                 #endregion
                 #region SettingsButtonsActive
                 if (SettingsButtonsActive[3] == true)
@@ -516,18 +580,6 @@ namespace FishMenu.Main
                     float[] Slingshotf = { 0f, 1f, 2f, 3f, 4f, 5f, 6f };
                     SlingshotType = Slingshotf[currentSlingshotTypeIndex];
                     SettingsButtonsActive[9] = false;
-                    UnityEngine.Object.Destroy(menu);
-                    menu = null;
-                    Draw();
-                }
-                if (SettingsButtonsActive[10] == true)
-                {
-                    currentBugTypeIndex = (currentBugTypeIndex + 1) % BugTypeCount;
-                    BugCountType = currentBugTypeIndex;
-                    Settingsbuttons[10] = "Bug Type: " + BugTypeNames[currentBugTypeIndex];
-                    float[] Bugf = { 0f, 1f, 2f, 3f, 4f };
-                    BugType = Bugf[currentBugTypeIndex];
-                    SettingsButtonsActive[10] = false;
                     UnityEngine.Object.Destroy(menu);
                     menu = null;
                     Draw();
@@ -805,9 +857,28 @@ namespace FishMenu.Main
                     Instance.SpamGun("BucketGiftCoal", CoalSpamTimer);
                     NotifiLib.SendNotification("Rock Spam Gun Is On", Color.green);
                 }
+                if (SpamRpcButtonsActive[14] == true)
+                {
+                    //if (ControllerInput.RightGrip && (double)Time.time > (double)CoalSpamTimer + 0.085)
+                    {
+                        foreach (Player player in PhotonNetwork.PlayerListOthers)
+                        {
+                            GorillaGameManager.instance.FindVRRigForPlayer(player).RPC("EnableNonCosmeticHandItemRPC", RpcTarget.All, true, false);
+                            EdibleWearable component = GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/EdibleHoney_right/HoneyComb").GetComponent<EdibleWearable>();
+                            component.biteCooldown = 0.0f;
+                            component.biteDistance = 2f;
+                            CoalSpamTimer = Time.time;
+                        }
+                    }
+                    NotifiLib.SendNotification("SpiderBow Is On", Color.green);
+                }
+                if (SpamRpcButtonsActive[15] == true)
+                {
+                    Instance.SpamGun("SpiderBow", CoalSpamTimer);
+                    NotifiLib.SendNotification("SpiderBow Gun Is On", Color.green);
+                }
                 #endregion
                 #region Bug buttonsActive
-                #region BugType
                 if (BugButtonsActive[0] == true)
                 {
                     NumberForPage = 1;
@@ -816,187 +887,135 @@ namespace FishMenu.Main
                     menu = null;
                     Draw();
                 }
-                if (BugType == 0f)
+                if (BugButtonsActive[1] == true)
                 {
-                    string NAME = "Bug";
-                    if (BugButtonsActive[1] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BugStuff.InvisBug();
-                        NotifiLib.SendNotification($"Invis {NAME} Is On", Color.green);
-                        Bugbuttons[1] = $"Invis {NAME}";
-                    }
-                    if (BugButtonsActive[2] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BugStuff.BugGun();
-                        NotifiLib.SendNotification($"{NAME} Gun Is On", Color.green);
-                        Bugbuttons[2] = $"{NAME} Gun";
-                    }
-                    if (BugButtonsActive[3] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BugStuff.BigBug();
-                        NotifiLib.SendNotification($"Big {NAME} Is On", Color.green);
-                        Bugbuttons[3] = $"Big {NAME}";
-                    }
-                    if (BugButtonsActive[4] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BugStuff.GrabBug();
-                        NotifiLib.SendNotification($"Grab {NAME} Is On", Color.green);
-                        Bugbuttons[4] = $"Grab {NAME}";
-                    }
+                    Mods.Utils.HideObjects<ThrowableBug>(new Vector3(0f, 9999f, 0f));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 1f)
+                if (BugButtonsActive[2] == true)
                 {
-                    string NAME = "Balloon";
-                    if (BugButtonsActive[1] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BalloonStuff.InvisBalloon();
-                        NotifiLib.SendNotification($"Invis {NAME} Is On", Color.green);
-                        Bugbuttons[1] = $"Invis {NAME}";
-                    }
-                    if (BugButtonsActive[2] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BalloonStuff.BalloonGun();
-                        NotifiLib.SendNotification($"{NAME} Gun Is On", Color.green);
-                        Bugbuttons[2] = $"{NAME} Gun";
-                    }
-                    if (BugButtonsActive[3] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BalloonStuff.BigBalloon();
-                        NotifiLib.SendNotification($"Big {NAME} Is On", Color.green);
-                        Bugbuttons[3] = $"Big {NAME}";
-                    }
-                    if (BugButtonsActive[4] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BalloonStuff.GrabBalloon();
-                        NotifiLib.SendNotification($"Grab {NAME} Is On", Color.green);
-                        Bugbuttons[4] = $"Grab {NAME}";
-                    }
+                    Gun(false, pointer => Mods.Utils.AlignObjects<ThrowableBug>(pointer));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 2f)
+                if (BugButtonsActive[3] == true)
                 {
-                    string NAME = "BeachBall";
-                    if (BugButtonsActive[1] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BeachBallStuff.InvisBeachBall();
-                        NotifiLib.SendNotification($"Invis {NAME} Is On", Color.green);
-                        Bugbuttons[1] = $"Invis {NAME}";
-                    }
-                    if (BugButtonsActive[2] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BeachBallStuff.BeachBallGun();
-                        NotifiLib.SendNotification($"{NAME} Gun Is On", Color.green);
-                        Bugbuttons[2] = $"{NAME} Gun";
-                    }
-                    if (BugButtonsActive[3] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BeachBallStuff.BigBeachBall();
-                        NotifiLib.SendNotification($"Big {NAME} Is On", Color.green);
-                        Bugbuttons[3] = $"Big {NAME}";
-                    }
-                    if (BugButtonsActive[4] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BeachBallStuff.GrabBeachBall();
-                        NotifiLib.SendNotification($"Grab {NAME} Is On", Color.green);
-                        Bugbuttons[4] = $"Grab {NAME}";
-                    }
+                    Vector3 scale = PhotonNetwork.InRoom ? new Vector3(5f, 5f, 5f) : new Vector3(1f, 1f, 1f);
+                    Mods.Utils.ResizeObjects<ThrowableBug>(scale);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 3f)
+                if (BugButtonsActive[4] == true)
                 {
-                    string NAME = "Monsters";
-                    if (BugButtonsActive[1] == true)
-                    {
-                        Mods.MainStuff.BasicMods.MonstersStuff.InvisMonsters();
-                        NotifiLib.SendNotification($"Invis {NAME} Is On", Color.green);
-                        Bugbuttons[1] = $"Invis {NAME}";
-                    }
-                    if (BugButtonsActive[2] == true)
-                    {
-                        Mods.MainStuff.BasicMods.MonstersStuff.MonstersGun();
-                        NotifiLib.SendNotification($"{NAME} Gun Is On", Color.green);
-                        Bugbuttons[2] = $"{NAME} Gun";
-                    }
-                    if (BugButtonsActive[3] == true)
-                    {
-                        Mods.MainStuff.BasicMods.MonstersStuff.BigMonsters();
-                        NotifiLib.SendNotification($"Big {NAME} Is On", Color.green);
-                        Bugbuttons[3] = $"Big {NAME}";
-                    }
-                    if (BugButtonsActive[4] == true)
-                    {
-                        Mods.MainStuff.BasicMods.MonstersStuff.GrabMonsters();
-                        NotifiLib.SendNotification($"Grab {NAME} Is On", Color.green);
-                        Bugbuttons[4] = $"Grab {NAME}";
-                    }
+                    Mods.Utils.MoveObjects<ThrowableBug>(GorillaTagger.Instance.rightHandTransform);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 4f)
+                if (BugButtonsActive[5] == true)
                 {
-                    string NAME = "Bat";
-                    if (BugButtonsActive[1] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BatStuff.InvisBat();
-                        NotifiLib.SendNotification($"Invis {NAME} Is On", Color.green);
-                        Bugbuttons[1] = $"Invis {NAME}";
-                    }
-                    if (BugButtonsActive[2] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BatStuff.BatGun();
-                        NotifiLib.SendNotification($"{NAME} Gun Is On", Color.green);
-                        Bugbuttons[2] = $"{NAME} Gun";
-                    }
-                    if (BugButtonsActive[3] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BatStuff.BigBat();
-                        NotifiLib.SendNotification($"Big {NAME} Is On", Color.green);
-                        Bugbuttons[3] = $"Big {NAME}";
-                    }
-                    if (BugButtonsActive[4] == true)
-                    {
-                        Mods.MainStuff.BasicMods.BatStuff.GrabBat();
-                        NotifiLib.SendNotification($"Grab {NAME} Is On", Color.green);
-                        Bugbuttons[4] = $"Grab {NAME}";
-                    }
+                    Mods.Utils.SeizureObjects<ThrowableBug>();
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 0f)
+                if (BugButtonsActive[6] == true)
                 {
-                    string NAME = "Bug";
-                    Bugbuttons[1] = $"Invis {NAME}";
-                    Bugbuttons[2] = $"{NAME} Gun";
-                    Bugbuttons[3] = $"Big {NAME}";
-                    Bugbuttons[4] = $"Grab {NAME}";
+                    Mods.Utils.HideObjects<BalloonHoldable>(new Vector3(0f, 9999f, 0f));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 1f)
+                if (BugButtonsActive[7] == true)
                 {
-                    string NAME = "Balloon";
-                    Bugbuttons[1] = $"Invis {NAME}";
-                    Bugbuttons[2] = $"{NAME} Gun";
-                    Bugbuttons[3] = $"Big {NAME}";
-                    Bugbuttons[4] = $"Grab {NAME}";
+                    Gun(false, pointer => Mods.Utils.AlignObjects<BalloonHoldable>(pointer));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 2f)
+                if (BugButtonsActive[8] == true)
                 {
-                    string NAME = "BeachBall";
-                    Bugbuttons[1] = $"Invis {NAME}";
-                    Bugbuttons[2] = $"{NAME} Gun";
-                    Bugbuttons[3] = $"Big {NAME}";
-                    Bugbuttons[4] = $"Grab {NAME}";
+                    Vector3 scale = PhotonNetwork.InRoom ? new Vector3(5f, 5f, 5f) : new Vector3(1f, 1f, 1f);
+                    Mods.Utils.ResizeObjects<BalloonHoldable>(scale);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 3f)
+                if (BugButtonsActive[9] == true)
                 {
-                    string NAME = "Monsters";
-                    Bugbuttons[1] = $"Invis {NAME}";
-                    Bugbuttons[2] = $"{NAME} Gun";
-                    Bugbuttons[3] = $"Big {NAME}";
-                    Bugbuttons[4] = $"Grab {NAME}";
+                    Mods.Utils.MoveObjects<BalloonHoldable>(GorillaTagger.Instance.rightHandTransform);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                if (BugType == 4f)
+                if (BugButtonsActive[10] == true)
                 {
-                    string NAME = "Bat";
-                    Bugbuttons[1] = $"Invis {NAME}";
-                    Bugbuttons[2] = $"{NAME} Gun";
-                    Bugbuttons[3] = $"Big {NAME}";
-                    Bugbuttons[4] = $"Grab {NAME}";
+                    Mods.Utils.SeizureObjects<BalloonHoldable>();
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
                 }
-                #endregion
+                if (BugButtonsActive[11] == true)
+                {
+                    Mods.Utils.HideObjects<TransferrableBall>(new Vector3(0f, 9999f, 0f));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[12] == true)
+                {
+                    Gun(false, pointer => Mods.Utils.AlignObjects<TransferrableBall>(pointer));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[13] == true)
+                {
+                    Vector3 scale = PhotonNetwork.InRoom ? new Vector3(5f, 5f, 5f) : new Vector3(1f, 1f, 1f);
+                    Mods.Utils.ResizeObjects<TransferrableBall>(scale);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[14] == true)
+                {
+                    Mods.Utils.MoveObjects<TransferrableBall>(GorillaTagger.Instance.rightHandTransform);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[15] == true)
+                {
+                    Mods.Utils.SeizureObjects<TransferrableBall>();
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[16] == true)
+                {
+                    Mods.Utils.HideObjects<MonkeyeAI>(new Vector3(0f, 9999f, 0f));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[17] == true)
+                {
+                    Gun(false, pointer => Mods.Utils.AlignObjects<MonkeyeAI>(pointer));
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[18] == true)
+                {
+                    Vector3 scale = PhotonNetwork.InRoom ? new Vector3(5f, 5f, 5f) : new Vector3(1f, 1f, 1f);
+                    Mods.Utils.ResizeObjects<MonkeyeAI>(scale);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[19] == true)
+                {
+                    Mods.Utils.MoveObjects<MonkeyeAI>(GorillaTagger.Instance.rightHandTransform);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[20] == true)
+                {
+                    Mods.Utils.SeizureObjects<MonkeyeAI>();
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[21] == true)
+                {
+                    GameObject.Find("Cave Bat Holdable").transform.position = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[22] == true)
+                {
+                    Gun(false, pointer => GameObject.Find("Cave Bat Holdable").transform.position = pointer.transform.position);
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[23] == true)
+                {
+                    Vector3 scale = PhotonNetwork.InRoom ? new Vector3(5f, 5f, 5f) : new Vector3(1f, 1f, 1f);
+                    GameObject.Find("Cave Bat Holdable").transform.localScale = scale;
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[24] == true)
+                {
+                    GameObject.Find("Cave Bat Holdable").transform.position = GorillaTagger.Instance.rightHandTransform.position;
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
+                if (BugButtonsActive[25] == true)
+                {
+                    NotifiLib.SendNotification($"Thing Is On", Color.green);
+                }
                 #endregion
                 #region Tag buttonsActive
                 if (TagButtonsActive[0] == true)
@@ -1007,36 +1026,26 @@ namespace FishMenu.Main
                     menu = null;
                     Draw();
                 }
-                if (TagButtonsActive[1] == true)
-                {
-                    Instance.TagAll();
-                }
-                else if (TagButtonsActive[1] == false)
-                {
-                    Local.GetLocalPlayer().offlineVRRig.enabled = true;
-                }
+                if (TagButtonsActive[1] == true) { Instance.TagAll(); }
+                else if (TagButtonsActive[1] == false) { Local.GetLocalPlayer().offlineVRRig.enabled = true; GorillaTagger.Instance.offlineVRRig.enabled = true; }
                 if (TagButtonsActive[2] == true)
                 {
                     Instance.TagGun();
                     NotifiLib.SendNotification("Tag Gun Is On", Color.green);
                 }
-                if (TagButtonsActive[3] == true)
-                {
-                    TagButtonsActive[3] = true;
-                }
-                else if (TagButtonsActive[3] == false)
+                if (TagButtonsActive[3] == false)
                 {
                     Local.GetLocalPlayer().offlineVRRig.enabled = true;
                     TagButtonsActive[3] = false;
                 }
-                if (buttonsActive[4] == true)
-                {
-                    TagButtonsActive[4] = true;
-                }
-                else if (TagButtonsActive[4] == false)
+                if (TagButtonsActive[4] == false)
                 {
                     Local.GetLocalPlayer().offlineVRRig.enabled = true;
                     TagButtonsActive[4] = false;
+                }
+                if (TagButtonsActive[5] == false)
+                {
+
                 }
                 #endregion
                 #region Mic buttonsActive
@@ -1229,11 +1238,12 @@ namespace FishMenu.Main
                             pookiebear = Time.time + 0.2f;
                             foreach (Player player in PhotonNetwork.PlayerListOthers)
                             {
+                                Type type = typeof(Player);
+                                FieldInfo reliableStateField = type.GetField("nickName", BindingFlags.Instance | BindingFlags.NonPublic);
+                                FieldInfo reliableStateField2 = type.GetField("ActorNumber", BindingFlags.Instance | BindingFlags.NonPublic);
+                                FieldInfo reliableStateField3 = type.GetField("RoomReference", BindingFlags.Instance | BindingFlags.NonPublic);
                                 player.NickName = PhotonNetwork.LocalPlayer.NickName;
-                                Type typeFromHandle = typeof(Player);
-                                typeFromHandle.Reflect().Invoke("SetPlayerNameProperty", player);
-                                //MethodInfo method = typeFromHandle.GetMethod("SetPlayerNameProperty", BindingFlags.Instance | BindingFlags.NonPublic);
-                                //if (method != null) { method.Invoke(player, new object[0]); }
+                                type.Reflect().Invoke("SetPlayerNameProperty", player);
                             }
                         }
                         return;
@@ -1244,11 +1254,10 @@ namespace FishMenu.Main
                 {
                     if (Instance.IsModded())
                     {
-                        foreach (BarrelCannon barrelCannon in Resources.FindObjectsOfTypeAll<BarrelCannon>())
+                        foreach (Player player in PhotonNetwork.PlayerListOthers)
                         {
-                            barrelCannon.photonView.RPC("FireBarrelCannonRPC", RpcTarget.Others, GorillaLocomotion.Player.Instance.transform.position, GorillaLocomotion.Player.Instance.transform.position);
+                            Mods.MainStuff.OpMods.RigContainer(player);
                         }
-                        return;
                     }
                     else { Instance.StartCoroutine(Instance.AntiBan()); }
                 }
@@ -1609,15 +1618,15 @@ namespace FishMenu.Main
                     public static void SetLavaState(InfectionLavaController.RisingLavaState state, bool a = false)
                     {
                         InfectionLavaController instance = InfectionLavaController.Instance;
-
                         Type type = typeof(InfectionLavaController);
+
                         FieldInfo reliableStateField = type.GetField("reliableState", BindingFlags.Instance | BindingFlags.NonPublic);
                         FieldInfo lavaMeshMaxScaleField = type.GetField("lavaMeshMaxScale", BindingFlags.Instance | BindingFlags.NonPublic);
                         FieldInfo lavaMeshMinScaleField = type.GetField("lavaMeshMinScale", BindingFlags.Instance | BindingFlags.NonPublic);
 
                         object reliableState = reliableStateField.GetValue(instance);
-
                         Type reliableStateType = reliableState.GetType();
+
                         FieldInfo stateField = reliableStateType.GetField("state");
                         FieldInfo stateStartTimeField = reliableStateType.GetField("stateStartTime");
 
@@ -1629,225 +1638,28 @@ namespace FishMenu.Main
                         {
                             lavaMeshMaxScaleField.SetValue(instance, 26.941086f);
                             lavaMeshMinScaleField.SetValue(instance, 25.941086f);
+                            type.Reflect().Invoke("UpdateLava", 26.941086f);
                         }
                         else
                         {
                             lavaMeshMaxScaleField.SetValue(instance, 8.941086f);
                             lavaMeshMinScaleField.SetValue(instance, 3.17f);
+                            type.Reflect().Invoke("UpdateLava", 8.941086f);
                         }
+                    }
+                    public static void RigContainer(Player player)
+                    {
+                        GorillaGameManager instance = GorillaGameManager.instance;
+                        Type type = typeof(GorillaGameManager);
+                        FieldInfo outContainerField = type.GetField("outContainer", BindingFlags.Instance | BindingFlags.NonPublic);
+                        object outContainer = outContainerField.GetValue(instance);
+                        Type outContainerType = outContainer.GetType();
+                        outContainerType.Reflect().Invoke("ReceiveAutomuteSettings", player, "none");
+                        //outContainerType.Reflect().Invoke("RefreshAllRigVoices");
                     }
                 }
                 public class BasicMods
                 {
-                    public class BugStuff
-                    {
-                        public static void InvisBug()
-                        {
-                            foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                            {
-                                Vector3 newPosition = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
-                                throwableBug.transform.position = newPosition;
-                            }
-                        }
-                        public static void BugGun()
-                        {
-                            Gun(false, pointer =>
-                            {
-                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                                {
-                                    GameObject.Find("Floating Bug Holdable").transform.position = pointer.transform.position;
-                                }
-                            });
-                        }
-                        public static void BigBug()
-                        {
-                            if (PhotonNetwork.InRoom)
-                            {
-                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                                {
-                                    GameObject.Find("Floating Bug Holdable").transform.localScale = new Vector3(5f, 5f, 5f);
-                                }
-                            }
-                            else
-                            {
-                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                                {
-                                    GameObject.Find("Floating Bug Holdable").transform.localScale = new Vector3(1f, 1f, 1f);
-                                }
-                            }
-                        }
-                        public static void GrabBug()
-                        {
-                            foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                            {
-                                throwableBug.transform.position = GorillaTagger.Instance.rightHandTransform.position;
-                            }
-                        }
-                    }
-                    public class BeachBallStuff
-                    {
-                        public static void InvisBeachBall()
-                        {
-                            foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                            {
-                                transferrableBall.transform.transform.position = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
-                            }
-                        }
-                        public static void BeachBallGun()
-                        {
-                            Gun(false, pointer =>
-                            {
-                                foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                                {
-                                    transferrableBall.transform.position = pointer.transform.position;
-                                }
-                            });
-                        }
-                        public static void BigBeachBall()
-                        {
-                            if (PhotonNetwork.InRoom)
-                            {
-                                foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                                {
-                                    transferrableBall.transform.localScale = new Vector3(5f, 5f, 5f);
-                                }
-                            }
-                            else
-                            {
-                                foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                                {
-                                    transferrableBall.transform.localScale = new Vector3(1f, 1f, 1f);
-                                }
-                            }
-                        }
-                        public static void GrabBeachBall()
-                        {
-                            foreach (TransferrableBall transferrableBall in UnityEngine.Object.FindObjectsOfType<TransferrableBall>())
-                            {
-                                transferrableBall.transform.position = GorillaTagger.Instance.rightHandTransform.position;
-                            }
-                        }
-                    }
-                    public class BalloonStuff
-                    {
-                        public static void InvisBalloon()
-                        {
-                            foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                            {
-                                balloonHoldable.transform.transform.position = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
-                            }
-                        }
-                        public static void BalloonGun()
-                        {
-                            Gun(false, pointer =>
-                            {
-                                foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                                {
-                                    balloonHoldable.transform.position = pointer.transform.position;
-                                }
-                            });
-                        }
-                        public static void BigBalloon()
-                        {
-                            if (PhotonNetwork.InRoom)
-                            {
-                                foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                                {
-                                    balloonHoldable.transform.localScale = new Vector3(5f, 5f, 5f);
-                                }
-                            }
-                            else
-                            {
-                                foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                                {
-                                    balloonHoldable.transform.localScale = new Vector3(1f, 1f, 1f);
-                                }
-                            }
-                        }
-                        public static void GrabBalloon()
-                        {
-                            foreach (BalloonHoldable balloonHoldable in UnityEngine.Object.FindObjectsOfType<BalloonHoldable>())
-                            {
-                                balloonHoldable.transform.position = GorillaTagger.Instance.rightHandTransform.position;
-                            }
-                        }
-                    }
-                    public class MonstersStuff
-                    {
-                        public static void InvisMonsters()
-                        {
-                            foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                            {
-                                monkeyeAI.transform.transform.position = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
-                            }
-                        }
-                        public static void MonstersGun()
-                        {
-                            Gun(false, pointer =>
-                            {
-                                foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                                {
-                                    monkeyeAI.transform.position = pointer.transform.position;
-                                }
-                            });
-                        }
-                        public static void BigMonsters()
-                        {
-                            if (PhotonNetwork.InRoom)
-                            {
-                                foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                                {
-                                    monkeyeAI.transform.localScale = new Vector3(5f, 5f, 5f);
-                                }
-                            }
-                            else
-                            {
-                                foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                                {
-                                    monkeyeAI.transform.localScale = new Vector3(1f, 1f, 1f);
-                                }
-                            }
-                        }
-                        public static void GrabMonsters()
-                        {
-                            foreach (MonkeyeAI monkeyeAI in UnityEngine.Object.FindObjectsOfType<MonkeyeAI>())
-                            {
-                                monkeyeAI.transform.position = GorillaTagger.Instance.rightHandTransform.position;
-                            }
-                        }
-                    }
-                    public class BatStuff
-                    {
-                        public static void InvisBat()
-                        {
-                            GameObject.Find("Cave Bat Holdable").transform.transform.position = GorillaTagger.Instance.headCollider.transform.position + new Vector3(0f, 9999f, 0f);
-                        }
-                        public static void BatGun()
-                        {
-                            Gun(false, pointer =>
-                            {
-                                foreach (ThrowableBug throwableBug in UnityEngine.Object.FindObjectsOfType<ThrowableBug>())
-                                {
-                                    GameObject.Find("Cave Bat Holdable").transform.position = pointer.transform.position;
-                                }
-                            });
-                        }
-                        public static void BigBat()
-                        {
-                            if (PhotonNetwork.InRoom)
-                            {
-                                GameObject.Find("Cave Bat Holdable").transform.localScale = new Vector3(5f, 5f, 5f);
-                            }
-                            else
-                            {
-                                GameObject.Find("Cave Bat Holdable").transform.localScale = new Vector3(1f, 1f, 1f);
-                            }
-                        }
-                        public static void GrabBat()
-                        {
-                            GameObject.Find("Cave Bat Holdable").transform.position = GorillaTagger.Instance.rightHandTransform.position;
-                        }
-                    }
                     public class HalloweenMods
                     {
                         public static void SpawnLucy()
@@ -2481,30 +2293,18 @@ namespace FishMenu.Main
                     }
                 }
             }
-            public class Utils
+            public static class Utils
             {
                 public static void CreateConfigFileIfNotExists(string fileName, string url)
                 {
-                    string configFolderPath = "FISH_Mods_Config";
+                    string configFolderPath = "FishMods-Config";
                     string configFile = Path.Combine(configFolderPath, fileName);
 
                     if (!File.Exists(configFile))
                     {
-                        if (!Directory.Exists(configFolderPath))
-                        {
-                            Directory.CreateDirectory(configFolderPath);
-                        }
-
-                        using (StreamWriter sw = File.CreateText(configFile))
-                        {
-                            sw.WriteLine("Ty For Useing FISH Mods Mod Menu, Do Not Del This, Only Del This If You Want To Get Inved Back To The Discord Server, ReOpen Your Game To Get Inved");
-                        }
-
-                        if (!string.IsNullOrEmpty(url))
-                        {
-                            Process.Start(Uri.EscapeUriString(url));
-                        }
-
+                        if (!Directory.Exists(configFolderPath)) { Directory.CreateDirectory(configFolderPath); }
+                        using (StreamWriter sw = File.CreateText(configFile)) { sw.WriteLine("Ty For Useing FISH Mods Mod Menu, Do Not Del This, Only Del This If You Want To Get Inved Back To The Discord Server, ReOpen Your Game To Get Inved"); }
+                        if (!string.IsNullOrEmpty(url)) { Process.Start(Uri.EscapeUriString(url)); }
                         Process.Start(configFile);
                     }
                 }
@@ -2518,6 +2318,52 @@ namespace FishMenu.Main
                     string logFileName = Path.Combine(logDirectory, $"FISH_Mods_error_{DateTime.Now:yyyy_MM_dd_HHmm_ss}.log");
 
                     File.WriteAllText(logFileName, ex.ToString());
+                }
+                public static void HideObjects<T>(Vector3 offset) where T : Component
+                {
+                    //ToggleOwnership();
+                    foreach (T obj in Object.FindObjectsOfType<T>())
+                    {
+                        obj.transform.position = GorillaTagger.Instance.headCollider.transform.position + offset;
+                    }
+                }
+                public static void AlignObjects<T>(GameObject pointer) where T : Component
+                {
+                    //ToggleOwnership();
+                    foreach (T obj in Object.FindObjectsOfType<T>())
+                    {
+                        obj.transform.position = pointer.transform.position;
+                    }
+                }
+                public static void ResizeObjects<T>(Vector3 scale) where T : Component
+                {
+                   // ToggleOwnership();
+                    foreach (T obj in Object.FindObjectsOfType<T>())
+                    {
+                        obj.transform.localScale = scale;
+                    }
+                }
+                public static void MoveObjects<T>(Transform target) where T : Component
+                {
+                    //ToggleOwnership();
+                    foreach (T obj in Object.FindObjectsOfType<T>())
+                    {
+                        obj.transform.position = target.position;
+                    }
+                }
+                public static void SeizureObjects<T>() where T : Component
+                {
+                    //ToggleOwnership();
+                    if (ControllerInput.RightGrip)
+                    {
+                        foreach (T obj in Object.FindObjectsOfType<T>())
+                        {
+                            float rotationSpeed = 500.0f;
+                            obj.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+                            obj.transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+                            obj.transform.Rotate(Vector3.right, rotationSpeed * Time.deltaTime);
+                        }
+                    }
                 }
             }
         }
@@ -2592,31 +2438,6 @@ namespace FishMenu.Main
                 UnityEngine.GameObject.Destroy(pointer);
             }
             else { FishMenu.MainUtils.Utils.ConsoleUtility.WriteLine("Theres A Error With the guns"); }
-        }
-        public void Projectileold(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
-        {
-            SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
-            float num = Mathf.Abs(GorillaTagger.Instance.offlineVRRig.slingshot.projectilePrefab.transform.lossyScale.x);
-            int num2 = 1;
-            if (GorillaGameManager.instance != null)
-            {
-                GorillaGameManager.instance.returnPhotonView.RPC("LaunchSlingshotProjectile", RpcTarget.All, new object[]
-                {
-                    pos,
-                    vel,
-                    Hash,
-                    trail,
-                    true,
-                    num2,
-                    false,
-                    color.r,
-                    color.g,
-                    color.b,
-                    1f
-                });
-            }
-            component.Launch(pos, vel, PhotonNetwork.LocalPlayer, false, false, num2, num, true, color);
-            SlingshotProjectileManager.RegisterSP(component);
         }
         public static void Projectile(string projectileName, Vector3 velocity, Vector3 position, Color color, bool noDelay = false)
         {
@@ -2718,63 +2539,22 @@ namespace FishMenu.Main
         }
         public void TagAll()
         {
-            if (GorillaGameManager.instance != null)
+            if (Instance.IsModded())
             {
-                if (GorillaGameManager.instance.GameModeName().Contains("INFECTION"))
+                foreach (Player player in PhotonNetwork.PlayerListOthers)
                 {
-                    if (GorillaTagManager == null)
+                    foreach (GorillaTagManager gorillaTagManager in Object.FindObjectsOfType<GorillaTagManager>())
                     {
-                        GorillaTagManager = GorillaGameManager.instance.gameObject.GetComponent<GorillaTagManager>();
-                    }
-                }
-                else if (GorillaGameManager.instance.GameModeName().Contains("HUNT"))
-                {
-                    if (GorillaHuntManager == null)
-                    {
-                        GorillaHuntManager = GorillaGameManager.instance.gameObject.GetComponent<GorillaHuntManager>();
-                    }
-                }
-                else if (GorillaGameManager.instance.GameModeName().Contains("BATTLE"))
-                {
-                    if (GorillaBattleManager == null)
-                    {
-                        GorillaBattleManager = GorillaGameManager.instance.gameObject.GetComponent<GorillaBattleManager>();
-                    }
-                }
-            }
-            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerListOthers)
-            {
-                if (GorillaTagManager != null)
-                {
-                    if (GorillaTagManager.currentInfected.Contains(PhotonNetwork.LocalPlayer))
-                    {
-                        if (!GorillaTagManager.currentInfected.Contains(player))
+                        if (!gorillaTagManager.currentInfected.Contains(player))
                         {
-                            Local.GetLocalPlayer().offlineVRRig.transform.position = GorillaGameManager.instance.FindPlayerVRRig(player).transform.position;
-                            ProcessTagAura(player);
-                            break;
+                            GorillaTagger.Instance.offlineVRRig.enabled = false;
+                            GorillaTagger.Instance.offlineVRRig.transform.position = GorillaGameManager.instance.FindPlayerVRRig(player).transform.position;
+                            GorillaLocomotion.Player.Instance.rightControllerTransform.position = GorillaGameManager.instance.FindPlayerVRRig(player).transform.position;
                         }
                     }
                 }
-                if (GorillaHuntManager != null)
-                {
-                    if (GorillaTagger.Instance.offlineVRRig.huntComputer.activeSelf && GorillaTagger.Instance.offlineVRRig.huntComputer.GetComponent<GorillaHuntComputer>().myRig != null)
-                    {
-                        Local.GetLocalPlayer().offlineVRRig.transform.position = GorillaTagger.Instance.offlineVRRig.huntComputer.GetComponent<GorillaHuntComputer>().myRig.transform.position;
-                        ProcessTagAura(player);
-                        break;
-                    }
-                }
-                if (GorillaBattleManager != null)
-                {
-                    if (GorillaBattleManager.playerLives[player.ActorNumber] == 0 || GorillaBattleManager.playerLives[player.ActorNumber] == 1 || GorillaBattleManager.playerLives[player.ActorNumber] == 2)
-                    {
-                        GorillaBattleManager.playerLives[player.ActorNumber] = 3;
-                        ProcessTagAura(player);
-                        break;
-                    }
-                }
             }
+            else { Instance.StartCoroutine(Instance.AntiBan()); }
         }
         public void SpamGun(string Hash, float Timer)
         {
@@ -2828,6 +2608,45 @@ namespace FishMenu.Main
                 yield break;
             }
             yield break;
+        }
+        public static void ToggleOwnership()
+        {
+            foreach (ThrowableBug BugRequest in UnityEngine.Object.FindObjectsOfType(typeof(ThrowableBug)))
+            {
+                foreach (TransferrableBall BeachBallRequest in UnityEngine.Object.FindObjectsOfType(typeof(TransferrableBall)))
+                {
+                    foreach (BalloonHoldable BalloonHoldableRequest in UnityEngine.Object.FindObjectsOfType(typeof(BalloonHoldable)))
+                    {
+                        foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                        {
+                            if (vrrig.isMyPlayer)
+                            {
+                                if (!BugRequest.IsMyItem())
+                                {
+                                    BugRequest.WorldShareableRequestOwnership();
+                                    BugRequest.currentState = (TransferrableObject.PositionState)128;
+                                    BugRequest.GetType().GetField("locked", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(BugRequest, false);
+                                    BugRequest.targetRig = vrrig;
+                                }
+                                else if (!BeachBallRequest.IsMyItem())
+                                {
+                                    BeachBallRequest.WorldShareableRequestOwnership();
+                                    BeachBallRequest.currentState = (TransferrableObject.PositionState)128;
+                                    BeachBallRequest.GetType().GetField("locked", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(BeachBallRequest, false);
+                                    BeachBallRequest.targetRig = vrrig;
+                                }
+                                else if (!BalloonHoldableRequest.IsMyItem())
+                                {
+                                    BalloonHoldableRequest.WorldShareableRequestOwnership();
+                                    BalloonHoldableRequest.currentState = (TransferrableObject.PositionState)128;
+                                    BalloonHoldableRequest.GetType().GetField("locked", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(BalloonHoldableRequest, false);
+                                    BalloonHoldableRequest.targetRig = vrrig;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         #endregion
         #endregion
@@ -3220,9 +3039,10 @@ namespace FishMenu.Main
         #region Fields
 
         // General fields
-        public static bool consoleStartAttempt, consoleStartAttempt2, SaveSetting, LoadSetting, onceRightGrip, onceLeftGrip, rightsecondarybutton, teleportGunAntiRepeat, flying, noesp, SettingsPageOn, spazLava = false;
+        public static bool consoleStartAttempt, IfDisabled = false, IfAnimalEnabled = false, consoleStartAttempt2, SaveSetting, LoadSetting, onceRightGrip, onceLeftGrip, rightsecondarybutton, teleportGunAntiRepeat, flying, noesp, SettingsPageOn, spazLava = false;
         public static string _playFabPlayerIdCache, _sessionTicket, userToken;
-        public static bool once, MenuLoaded = true;
+        public static bool MenuLoaded = true;
+        private static bool once;
         public string Room;
         public static bool once_left, once_right, once_left_false, once_right_false, once_networking, LeftToggle, RightToggle, ghostToggled;
 
@@ -3246,10 +3066,10 @@ namespace FishMenu.Main
         public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
 
         // Values and parameters
-        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy", "BucketGiftCoal" };
+        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy", "BucketGiftCoal", "MoltenRock", "SpiderBow", "CandyCane", "RollPresent", "RoundPresent", "Square Present" };
         public static float orbitSpeed, KickG, c1, RockSpamTimer, CoalSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
-        public static int ESpInt, platCountColor, BugCountType, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
-        public static float SlingshotType, BugType, smth, smth2, plattype, projDebounce = 0f;
+        public static int ESpInt, platCountColor, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
+        public static float SlingshotType, smth, smth2, plattype, projDebounce = 0f;
 
         public static float projDebounceType = 0.1f;
         public static float timeToSpendLookingForFriend = 15f;

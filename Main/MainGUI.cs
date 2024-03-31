@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using BepInEx;
+﻿using BepInEx;
+using FishMenu.MainUtils;
 using GorillaNetworking;
 using GorillaTag;
 using HarmonyLib;
@@ -9,10 +7,13 @@ using Photon.Pun;
 using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
+using System.Collections;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEngine;
-using static FishMenu.MainUtils.Utils;
-using static NetworkSystem;
-using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
+using Object = UnityEngine.Object;
 
 namespace FishMenu.Main
 {
@@ -32,7 +33,7 @@ namespace FishMenu.Main
         private void DrawMicModsTab()
         {
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-           
+
             GUILayout.EndScrollView();
         }
         private void DrawMenuTab()
@@ -285,12 +286,16 @@ namespace FishMenu.Main
 
                     if (playerManagerEnabled && selectedPlayer == player)
                     {
-                        Instance.StartCoroutine(Instance.AntiBan());
-                        if (HasPlayerTouchedLiquid(selectedPlayer)) { if (GUILayout.Button("UnAcid " + selectedPlayer.NickName)) { MainMenu.Mods.MainStuff.OpMods.AcidKid(selectedPlayer); } }
-                        if (!HasPlayerTouchedLiquid(selectedPlayer)) { if (GUILayout.Button("Acid " + selectedPlayer.NickName)) { MainMenu.Mods.MainStuff.OpMods.AcidKid(selectedPlayer); } }
-                        if (GUILayout.Button("Back")) { selectedPlayer = null; playerManagerEnabled = false; }
+                        foreach (GorillaTagManager gorillaTagManager in Object.FindObjectsOfType<GorillaTagManager>())
+                        {
+                            Instance.StartCoroutine(Instance.AntiBan());
+                            if (HasPlayerTouchedLiquid(selectedPlayer)) { if (GUILayout.Button("UnAcid " + selectedPlayer.NickName)) { MainMenu.Mods.MainStuff.OpMods.AcidKid(selectedPlayer); } }
+                            if (!HasPlayerTouchedLiquid(selectedPlayer)) { if (GUILayout.Button("Acid " + selectedPlayer.NickName)) { MainMenu.Mods.MainStuff.OpMods.AcidKid(selectedPlayer); } }
+                            if (!gorillaTagManager.currentInfected.Contains(selectedPlayer)) { if (GUILayout.Button("Tag " + selectedPlayer.NickName)) { gorillaTagManager.currentInfected.Add(selectedPlayer); } }
+                            if (gorillaTagManager.currentInfected.Contains(selectedPlayer)) { if (GUILayout.Button("UnTag " + selectedPlayer.NickName)) { gorillaTagManager.currentInfected.Remove(selectedPlayer); } }
+                            if (GUILayout.Button("Back")) { selectedPlayer = null; playerManagerEnabled = false; }
+                        }
                     }
-
                     num++;
                 }
             }
@@ -322,11 +327,38 @@ namespace FishMenu.Main
             }
             if (ToggleMain[3])
             {
-               
+                if (MainMenu.Instance.IsModded())
+                {
+                    GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+                    foreach (GameObject rootObject in rootObjects)
+                    {
+                        RoomInfo roomInfoComponent = rootObject.GetComponent<RoomInfo>();
+                        RoomOptions RoomOptionsComponent = rootObject.GetComponent<RoomOptions>();
+
+                        if (roomInfoComponent != null && RoomOptionsComponent != null)
+                        {
+                            Type type = typeof(RoomInfo);
+
+                            FieldInfo reliableStateField = type.GetField("maxPlayers", BindingFlags.NonPublic);
+                            FieldInfo isVisibleField = type.GetField("isVisible", BindingFlags.NonPublic);
+                            FieldInfo isOpenField = type.GetField("isOpen", BindingFlags.NonPublic);
+
+                            reliableStateField?.SetValue(roomInfoComponent, Byte.MaxValue);
+                            isVisibleField?.SetValue(roomInfoComponent, true);
+                            isOpenField?.SetValue(roomInfoComponent, true);
+
+                            reliableStateField?.SetValue(RoomOptionsComponent, Byte.MaxValue);
+                            isVisibleField?.SetValue(RoomOptionsComponent, true);
+                            isOpenField?.SetValue(RoomOptionsComponent, true);
+                        }
+                    }
+                }
+                else { Instance.StartCoroutine(Instance.AntiBan()); }
             }
         }
         #region Main GUI
-            private void OnGUI()
+        private void OnGUI()
         {
             GUI.skin = GUI.skin ?? new GUISkin();
             UpdateStyles();
@@ -559,7 +591,6 @@ namespace FishMenu.Main
         }
         private IEnumerator AntiBan()
         {
-
             if (!PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
             {
                 ExecuteCloudScriptRequest executeCloudScriptRequest = new ExecuteCloudScriptRequest();

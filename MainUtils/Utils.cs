@@ -38,6 +38,7 @@ namespace FishMenu.MainUtils
                 Loader.AddComponent<RigManager>();
                 Loader.AddComponent<NotifiLib>();
                 Loader.AddComponent<RoomManager>();
+                Loader.AddComponent<NameTags>();
             }
         }
         private void Awake()
@@ -88,15 +89,15 @@ namespace FishMenu.MainUtils
                 presets.HalloweenButtonsActive = MainMenu.HalloweenButtonsActive;
                 presets.LavaButtonsActive = MainMenu.LavaButtonsActive;
                 XmlSerializer serializer = new XmlSerializer(typeof(Presets));
-                using (StreamWriter writer = new StreamWriter("presets.xml")) { serializer.Serialize(writer, presets); }
+                using (StreamWriter writer = new StreamWriter(Path.Combine("FishMods-Config", "presets.xml"))) { serializer.Serialize(writer, presets); }
                 ConsoleUtility.WriteLine("Presets saved successfully.");
             }
             public static void LoadPresets()
             {
-                if (File.Exists("presets.xml"))
+                if (File.Exists(Path.Combine("FishMods-Config", "presets.xml")))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(Presets));
-                    using (StreamReader reader = new StreamReader("presets.xml"))
+                    using (StreamReader reader = new StreamReader(Path.Combine("FishMods-Config", "presets.xml")))
                     {
                         Presets presets = (Presets)serializer.Deserialize(reader);
                         MainMenu.SettingsButtonsActive = presets.SettingsButtonsActive;
@@ -193,30 +194,12 @@ namespace FishMenu.MainUtils
         }
         public class RigManager : MonoBehaviour
         {
-            internal static VRRig GetOfflineRig()
-            {
-                return GorillaTagger.Instance.offlineVRRig;
-            }
-            internal static VRRig FindRig(Photon.Realtime.Player player)
-            {
-                return GorillaGameManager.instance.FindPlayerVRRig(player);
-            }
-            internal static VRRig GetOwnVRRig()
-            {
-                return GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player").GetComponent<VRRig>();
-            }
-            internal static PhotonView GetRigView(VRRig rig)
-            {
-                return (PhotonView)Traverse.Create(rig).Field("photonView").GetValue();
-            }
-            internal static Photon.Realtime.Player GetPlayerFromVRRig(VRRig p)
-            {
-                return GetRigView(p).Owner;
-            }
-            internal static PhotonView MyView()
-            {
-                return GorillaTagger.Instance.myVRRig;
-            }
+            internal static VRRig GetOfflineRig() { return GorillaTagger.Instance.offlineVRRig; }
+            internal static VRRig FindRig(Photon.Realtime.Player player) { return GorillaGameManager.instance.FindPlayerVRRig(player); }
+            internal static VRRig GetOwnVRRig() { return GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player").GetComponent<VRRig>(); }
+            internal static PhotonView GetRigView(VRRig rig) { return (PhotonView)Traverse.Create(rig).Field("photonView").GetValue(); }
+            internal static Photon.Realtime.Player GetPlayerFromVRRig(VRRig p) { return GetRigView(p).Owner; }
+            internal static PhotonView MyView() { return GorillaTagger.Instance.myVRRig; }
             public static Vector3 GetNearbyPosition(Vector3 center, float radius)
             {
                 Vector2 vector = UnityEngine.Random.insideUnitCircle * radius;
@@ -239,14 +222,8 @@ namespace FishMenu.MainUtils
             public static Player GetRandomPlayer(bool includeSelf)
             {
                 Player player;
-                if (includeSelf)
-                {
-                    player = PhotonNetwork.PlayerList[UnityEngine.Random.Range(0, PhotonNetwork.PlayerList.Length - 1)];
-                }
-                else
-                {
-                    player = PhotonNetwork.PlayerListOthers[UnityEngine.Random.Range(0, PhotonNetwork.PlayerListOthers.Length - 1)];
-                }
+                if (includeSelf) { player = PhotonNetwork.PlayerList[UnityEngine.Random.Range(0, PhotonNetwork.PlayerList.Length - 1)]; }
+                else { player = PhotonNetwork.PlayerListOthers[UnityEngine.Random.Range(0, PhotonNetwork.PlayerListOthers.Length - 1)]; }
                 return player;
             }
         }
@@ -378,10 +355,7 @@ namespace FishMenu.MainUtils
         }
         public class ControllerInput : MonoBehaviour
         {
-            private static bool CalculateGripState(float grabValue, float grabThreshold)
-            {
-                return grabValue >= grabThreshold;
-            }
+            private static bool CalculateGripState(float grabValue, float grabThreshold) { return grabValue >= grabThreshold; }
             public void Update()
             {
                 if (ControllerInputPoller.instance != null)
@@ -405,14 +379,14 @@ namespace FishMenu.MainUtils
             public static bool RightPrimary;
             public static bool RightTrigger;
             public static bool RightGrip;
-            public static Vector2 RightJoystick;
             public static bool RightStickClick;
             public static bool LeftSecondary;
             public static bool LeftPrimary;
             public static bool LeftGrip;
             public static bool LeftTrigger;
-            public static Vector2 LeftJoystick;
             public static bool LeftStickClick;
+            public static Vector2 LeftJoystick;
+            public static Vector2 RightJoystick;
         }
         public class RoomManager : MonoBehaviourPunCallbacks
         {
@@ -561,6 +535,37 @@ namespace FishMenu.MainUtils
                 const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 return new string(Enumerable.Repeat(letters, length).Select(s => s[random.Next(s.Length)]).ToArray());
             }
+        }
+        public class NameTags : MonoBehaviour
+        {
+            public static void Draw()
+            {
+                VRRig offlineVRRig = GorillaTagger.Instance.offlineVRRig;
+                if (offlineVRRig == null) { Debug.Log("Invalid Local Rig"); return; }
+
+                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                {
+                    if (vrrig == null || vrrig == offlineVRRig) { continue; }
+                    Photon.Realtime.Player playerFromVRRig = RigManager.GetPlayerFromVRRig(vrrig);
+                    if (playerFromVRRig == null) { continue; }
+
+                    Text playerText = vrrig.playerText.GetComponent<Text>();
+                    if (playerText == null) { continue; }
+                    playerText.supportRichText = true;
+                    playerText.text = $"{playerFromVRRig.NickName}\n{GetColorName(vrrig.playerColor)}";
+                    playerText.color = vrrig.playerColor == Color.black ? Color.white : vrrig.playerColor;
+                    playerText.transform.parent.transform.position = vrrig.transform.position + new Vector3(0f, 0.55f, 0f);
+                    playerText.transform.parent.transform.rotation = Quaternion.LookRotation(playerText.transform.parent.transform.position - offlineVRRig.transform.position);
+                    playerText.fontSize = 20;
+                }
+            }
+            public static string GetColorName(Color playerColor)
+            {
+                return $"<color=red>{NormalizeColor(playerColor.r)}</color> " +
+                       $"<color=green>{NormalizeColor(playerColor.g)}</color> " +
+                       $"<color=blue>{NormalizeColor(playerColor.b)}</color>";
+            }
+            public static string NormalizeColor(float color) { return ((int)(color * 9f)).ToString(); }
         }
     }
     // Player 
