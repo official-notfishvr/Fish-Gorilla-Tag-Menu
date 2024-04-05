@@ -17,6 +17,13 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using FishMenu.Main;
 using System.Collections.Generic;
+using System.Collections;
+using TMPro;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
+using CSCore;
+using UnityEngine.Networking;
+using ExitGames.Client.Photon;
 
 namespace FishMenu.MainUtils
 {
@@ -566,6 +573,196 @@ namespace FishMenu.MainUtils
                        $"<color=blue>{NormalizeColor(playerColor.b)}</color>";
             }
             public static string NormalizeColor(float color) { return ((int)(color * 9f)).ToString(); }
+        }
+        public class Rpc
+        {
+            public const byte ProjectileCode = 0;
+            public static float lastLaunchTime;
+            public static int projectileCount = 0;
+            public static int ProjectileCount => projectileCount;
+            public static readonly object[] projectileData = new object[11];
+            public static int IncrementLocalPlayerProjectileCount() { return ++projectileCount; }
+            public static void SendLaunchProjectile(Vector3 position, Vector3 velocity, int projectileHash, int trailHash, bool leftHanded, bool randomColour, Color color)
+            {
+                if (Time.time > lastLaunchTime && Vector3.Distance(GorillaTagger.Instance.offlineVRRig.transform.position, position) < 4f)
+                {
+                    GameObject gameObject = ObjectPools.instance.Instantiate(projectileHash);
+                    SlingshotProjectile component = gameObject.GetComponent<SlingshotProjectile>();
+                    component.Launch(position, velocity, PhotonNetwork.LocalPlayer, false, false, IncrementLocalPlayerProjectileCount(), Mathf.Abs(GorillaTagger.Instance.offlineVRRig.slingshot.projectilePrefab.transform.lossyScale.x), false, default(Color));
+
+                    /*projectileData[0] = position;
+                    projectileData[1] = velocity;
+                    projectileData[2] = leftHanded;
+                    projectileData[3] = projectileCount;
+                    projectileData[4] = randomColour;
+                    projectileData[5] = color.r;
+                    projectileData[6] = color.g;
+                    projectileData[7] = color.b;
+                    projectileData[8] = color.a; */
+
+                    projectileData[0] = position;
+                    projectileData[1] = velocity;
+                    projectileData[2] = projectileHash;
+                    projectileData[3] = trailHash;
+                    projectileData[4] = leftHanded;
+                    projectileData[5] = IncrementLocalPlayerProjectileCount();
+                    projectileData[6] = randomColour;
+                    projectileData[7] = color.r;
+                    projectileData[8] = color.g;
+                    projectileData[9] = color.b;
+                    projectileData[10] = color.a;
+
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+                    {
+                        CachingOption = EventCaching.DoNotCache,
+                        Receivers = ReceiverGroup.All
+                    };
+
+                    SendEvent(ProjectileCode, projectileData, raiseEventOptions);
+                }
+            }
+            public static void SendEvent(byte code, object evData, RaiseEventOptions options)
+            {
+                object[] eventData = { PhotonNetwork.ServerTimestamp, code, evData };
+
+                bool eventRaised = PhotonNetwork.NetworkingClient.OpRaiseEvent(3, eventData, options, SendOptions.SendReliable);
+
+                float delay = 0.3f;
+
+                switch (code)
+                {
+                    case 0:
+                        delay = 0.1f;
+                        break;
+                    case 1:
+                        delay = 0.1f;
+                        break;
+                    case 2:
+                        delay = 1.9f;
+                        break;
+                    case 3:
+                        delay = 0.4f;
+                        break;
+                    case 4:
+                        delay = -1f;
+                        break;
+                    case 5:
+                        delay = -1f;
+                        break;
+                }
+
+                lastLaunchTime = Time.time + delay;
+            }
+        }
+        public class CustomBackground
+        {
+            public class Particle
+            {
+                public Rect position = default;
+                public float xDir = 0f;
+                public float yDir = 0f;
+            }
+
+            public class Line
+            {
+                public Vector2 position = default;
+                public float speed = 0f;
+            }
+
+            public Vector2[] linePositions;
+            public int numLines = 60;
+            public float lineSpeed = 1f;
+
+            // Particles variables
+            public bool drawParticles;
+            public Particle[] particles;
+            public int numParticles = 250;
+
+            // Lines variables
+            public Line[] lines;
+            public float lineHeight = 2f;
+
+            public CustomBackground(Rect area, bool drawParticles)
+            {
+                this.drawParticles = drawParticles;
+
+                linePositions = new Vector2[numLines];
+                for (int i = 0; i < numLines; i++)
+                {
+                    linePositions[i] = new Vector2(Random.Range(0, area.width), Random.Range(0, area.height));
+                }
+
+                if (drawParticles)
+                {
+                    particles = new Particle[numParticles];
+                    for (int i = 0; i < numParticles; i++)
+                    {
+                        particles[i] = new Particle()
+                        {
+                            position = new Rect(Random.Range(0, (int)area.width), Random.Range(0, (int)area.height), Random.Range(2, 5), Random.Range(2, 5)),
+                            xDir = Random.Range(0, 1f),
+                            yDir = Random.Range(0, 1f)
+                        };
+                    }
+                }
+
+                lines = new Line[numLines];
+                for (int i = 0; i < numLines; i++)
+                {
+                    lines[i] = new Line()
+                    {
+                        position = new Vector2(Random.Range(0, area.width), Random.Range(0, area.height)),
+                        speed = Random.Range(1.5f, 2.5f)
+                    };
+                }
+            }
+            public void Update(Rect area)
+            {
+                if (!drawParticles)
+                {
+                    for (int i = 0; i < numLines; i++)
+                    {
+                        lines[i].position += new Vector2(0, lineSpeed);
+                        if (lines[i].position.y > area.height)
+                        {
+                            lines[i].position = new Vector2(Random.Range(0, area.width), 0);
+                        }
+                    }
+                }
+                if (drawParticles)
+                {
+                    for (int i = 0; i < numParticles; i++)
+                    {
+                        particles[i].position = new Rect(particles[i].position.x + particles[i].xDir, particles[i].position.y + particles[i].yDir, particles[i].position.width, particles[i].position.height);
+                        if (particles[i].position.y > area.height)
+                        {
+                            particles[i] = new Particle()
+                            {
+                                position = new Rect(new Rect(Random.Range(0, (int)area.width), 0, new System.Random().Next(2, 5), new System.Random().Next(2, 5))),
+                                xDir = Random.Range(-1f, 1f),
+                                yDir = Random.Range(0, 1f)
+                            };
+                        }
+                    }
+                }
+            }
+            public void Draw(Rect area)
+            {
+                if (!drawParticles)
+                {
+                    for (int i = 0; i < numLines; i++)
+                    {
+                        GUI.DrawTexture(new Rect(lines[i].position.x, lines[i].position.y, 1, lineHeight), Texture2D.whiteTexture);
+                    }
+                }
+                if (drawParticles)
+                {
+                    for (int i = 0; i < numParticles; i++)
+                    {
+                        GUI.DrawTexture(particles[i].position, Texture2D.whiteTexture, ScaleMode.StretchToFill, false, 0f, GUI.color, 0f, 50f);
+                    }
+                }
+            }
         }
     }
     // Player 

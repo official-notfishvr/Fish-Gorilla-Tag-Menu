@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using FishMenu.MainUtils;
 using GorillaNetworking;
 using GorillaTag;
 using HarmonyLib;
@@ -9,11 +8,13 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+using static FishMenu.MainUtils.Utils;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace FishMenu.Main
 {
@@ -26,7 +27,6 @@ namespace FishMenu.Main
 
             ToggleMain[1] = ToggleButton("Disconnect", ToggleMain[1]);
             ToggleMain[2] = ToggleButton("Join Random Room", ToggleMain[2]);
-            ToggleMain[3] = ToggleButton("a", ToggleMain[3]);
 
             GUILayout.EndScrollView();
         }
@@ -253,20 +253,6 @@ namespace FishMenu.Main
 
             GUILayout.EndScrollView();
         }
-        private void ClearAllButtonStates()
-        {
-            Settings = false;
-            Basic = false;
-            Rope = false;
-            SpamRpc = false;
-            Bug = false;
-            Tag = false;
-            Mic = false;
-            Halloween = false;
-            Lava = false;
-            OP = false;
-            Main = false;
-        }
         private void DrawPlayerListTab()
         {
             _instance.scrollPosition = GUILayout.BeginScrollView(_instance.scrollPosition);
@@ -310,6 +296,25 @@ namespace FishMenu.Main
         {
             _instance.scrollPosition = GUILayout.BeginScrollView(_instance.scrollPosition);
 
+            ToggleSettings[1] = ToggleButton("Particles", ToggleSettings[1]);
+            ToggleSettings[2] = ToggleButton("Line Particles", ToggleSettings[2]);
+
+            GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(150));
+            GUILayout.Label("Color Options");
+
+            int buttonSize = 30;
+            int numColumns = 3;
+
+            for (int i = 0; i < colorOptions.Length; i++)
+            {
+                if (i % numColumns == 0) { GUILayout.BeginHorizontal(); }
+                if (GUILayout.Button("", GUILayout.Width(buttonSize), GUILayout.Height(buttonSize))) { selectedColorIndex = i; UpdateGUIStyles(); }
+                GUI.backgroundColor = colorOptions[i];
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+                if (i % numColumns == numColumns - 1 || i == colorOptions.Length - 1) { GUILayout.EndHorizontal(); }
+            }
+
+            GUILayout.EndVertical();
             GUILayout.EndScrollView();
         }
         public void Update()
@@ -317,14 +322,8 @@ namespace FishMenu.Main
             GUIToggleCheck();
 
             // Main
-            if (ToggleMain[1])
-            {
-                PhotonNetwork.Disconnect();
-            }
-            if (ToggleMain[2])
-            {
-                PhotonNetwork.JoinRandomRoom();
-            }
+            if (ToggleMain[1]) { PhotonNetwork.Disconnect(); }
+            if (ToggleMain[2]) { PhotonNetwork.JoinRandomRoom(); }
             if (ToggleMain[3])
             {
                 if (MainMenu.Instance.IsModded())
@@ -363,41 +362,41 @@ namespace FishMenu.Main
             GUI.skin = GUI.skin ?? new GUISkin();
             UpdateStyles();
             Update();
-            if (toggled)
-            {
-                GUIRect = GUI.Window(69, GUIRect, OnGUI, "Fish GUI | Toggle: " + toggleKey);
-            }
+            if (toggled) { GUIRect = GUI.Window(69, GUIRect, OnGUI, "Fish GUI | Toggle: " + toggleKey); }
         }
         public static void OnGUI(int windowId)
         {
-            //Instance.Update();
             GUILayout.BeginArea(new Rect(10, 10, GUIRect.width - 20, GUIRect.height - 20));
             GUILayout.Space(10);
 
             DrawTabButtons();
 
-            if (selectedTab == 0)
-            {
-                _instance.DrawMainTab();
-            }
-            else if (selectedTab == 1)
-            {
-                _instance.DrawMicModsTab();
-            }
-            else if (selectedTab == 2)
-            {
-                _instance.DrawMenuTab();
-            }
-            else if (selectedTab == 3)
-            {
-                _instance.DrawPlayerListTab();
-            }
-            else if (selectedTab == 4)
-            {
-                _instance.DrawSettingsTab();
-            }
+            if (selectedTab == 0) { _instance.DrawMainTab(); }
+            else if (selectedTab == 1) { _instance.DrawMicModsTab(); }
+            else if (selectedTab == 2) { _instance.DrawMenuTab(); }
+            else if (selectedTab == 3) { _instance.DrawPlayerListTab(); }
+            else if (selectedTab == 4) { _instance.DrawSettingsTab(); }
 
             GUILayout.EndArea();
+            if (Instance.ToggleSettings[1])
+            {
+                if (Instance.customBackground == null || !Instance.customBackground.drawParticles)
+                {
+                    Instance.customBackground = new CustomBackground(GUIRect, true);
+                }
+                Instance.customBackground.Draw(GUIRect);
+                Instance.customBackground.Update(GUIRect);
+            }
+            if (Instance.ToggleSettings[2])
+            {
+                if (Instance.customBackground == null || Instance.customBackground.drawParticles)
+                {
+                    Instance.customBackground = new CustomBackground(GUIRect, false);
+                }
+                Instance.customBackground.Draw(GUIRect);
+                Instance.customBackground.Update(GUIRect);
+            }
+            GUI.DragWindow();
             GUI.DragWindow(new Rect(0, 0, GUIRect.width, 20));
         }
         private void GUIToggleCheck()
@@ -420,18 +419,12 @@ namespace FishMenu.Main
                 if (selectedTab == i)
                 {
                     GUIStyle selectedStyle = Instance.CreateButtonStyle(Instance.buttonActive, Instance.buttonHovered, Instance.buttonActive);
-                    if (GUILayout.Button(tabNames[i], selectedStyle))
-                    {
-                        selectedTab = i;
-                    }
+                    if (GUILayout.Button(tabNames[i], selectedStyle)) { selectedTab = i; }
                 }
                 else
                 {
                     GUIStyle unselectedStyle = Instance.CreateButtonStyle(Instance.button, Instance.buttonHovered, Instance.buttonActive);
-                    if (GUILayout.Button(tabNames[i], unselectedStyle))
-                    {
-                        selectedTab = i;
-                    }
+                    if (GUILayout.Button(tabNames[i], unselectedStyle)) { selectedTab = i; }
                 }
             }
 
@@ -440,41 +433,13 @@ namespace FishMenu.Main
         private bool ToggleButton(string text, bool toggle)
         {
             GUIStyle buttonStyle = CreateButtonStyle(toggle ? buttonActive : button, buttonHovered, buttonActive);
-
-            if (GUILayout.Button(text, buttonStyle))
-            {
-                return !toggle;
-            }
-
+            if (GUILayout.Button(text, buttonStyle)) { return !toggle; }
             return toggle;
-        }
-        public void Projectile(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
-        {
-            SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
-            float num = Mathf.Abs(GorillaTagger.Instance.offlineVRRig.slingshot.projectilePrefab.transform.lossyScale.x);
-            int num2 = 1;
-            if (GorillaGameManager.instance != null)
-            {
-                ScienceExperimentManager.instance.photonView.RPC("LaunchSlingshotProjectile", RpcTarget.All, new object[]
-                {
-                    pos,
-                    vel,
-                    Hash,
-                    trail,
-                    true,
-                    num2,
-                    false,
-                    color.r,
-                    color.g,
-                    color.b,
-                    1f
-                });
-            }
-            component.Launch(pos, vel, PhotonNetwork.LocalPlayer, false, false, num2, num);
         }
         #region Styles
         private void Awake()
         {
+            if (customBackground != null) { customBackground = new CustomBackground(new Rect(0, 0, Screen.width, Screen.height), false); }
             _instance = this;
             button = CreateTexture(new Color32(64, 64, 64, 255));
             buttonHovered = CreateTexture(new Color32(75, 75, 75, 255));
@@ -492,6 +457,29 @@ namespace FishMenu.Main
             GUI.skin.textArea = CreateTextFieldStyle(textArea, textAreaHovered, textAreaActive);
             GUI.skin.textField = CreateTextFieldStyle(textArea, textAreaHovered, textAreaActive);
             GUI.skin.box = CreateBoxStyle(box);
+        }
+        private void UpdateGUIStyles()
+        {
+            if (selectedColorIndex == 0)
+            {
+                button = CreateTexture(new Color32(64, 64, 64, 255));
+                buttonHovered = CreateTexture(new Color32(75, 75, 75, 255));
+                buttonActive = CreateTexture(new Color32(100, 100, 100, 255));
+                windowBackground = CreateTexture(new Color32(30, 30, 30, 255));
+                textArea = CreateTexture(new Color32(64, 64, 64, 255));
+                textAreaHovered = CreateTexture(new Color32(75, 75, 75, 255));
+                textAreaActive = CreateTexture(new Color32(100, 100, 100, 255));
+                box = CreateTexture(new Color32(40, 40, 40, 255));
+            }
+            button = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            buttonHovered = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            buttonActive = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            windowBackground = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            textArea = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            textAreaHovered = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            textAreaActive = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            box = CreateTexture(colorOptions[-1 + selectedColorIndex]);
+            UpdateStyles();
         }
         public Texture2D CreateTexture(Color32 color)
         {
@@ -548,8 +536,23 @@ namespace FishMenu.Main
         #endregion
         #region Field
         // Textures
+        private Color32[] colorOptions =
+        {
+            new Color32(255, 0, 0, 255),     // Red
+            new Color32(0, 255, 0, 255),     // Green
+            new Color32(0, 0, 255, 255),     // Blue
+            new Color32(255, 255, 0, 255),   // Yellow
+            new Color32(255, 165, 0, 255),   // Orange
+            new Color32(128, 0, 128, 255),   // Purple
+            new Color32(255, 192, 203, 255), // Pink
+            new Color32(0, 255, 255, 255),   // Cyan
+            new Color32(255, 255, 255, 255), // White
+            new Color32(0, 0, 0, 0)          // NULL
+        };
+        private int selectedColorIndex = 0;
+        private CustomBackground customBackground;
+        //private static List<MainUtils.Utils.Particle> _particles = new List<MainUtils.Utils.Particle>();
         private Texture2D button, windowBackground, buttonHovered, buttonActive, textArea, textAreaHovered, textAreaActive, box;
-        private GameObject directionalLightClone;
         private static MainGUI _instance;
         public bool Main = true;
         private Player selectedPlayer;
@@ -563,13 +566,51 @@ namespace FishMenu.Main
         public static Rect GUIRect = new Rect(0, 0, 540, 240);
         private static int selectedTab = 0;
         private static readonly string[] tabNames = { "Main", "Misc", "Menu", "Player List", "Settings" };
-        private bool[] TogglePlayerList, ToggleMic, ToggleMain = new bool[999];
+        private bool[] TogglePlayerList = new bool[999], ToggleMic = new bool[999], ToggleMain = new bool[999], ToggleSettings = new bool[999], ToggleTest = new bool[999];
         private bool toggled = true;
         public float toggleDelay = 0.5f;
         private float lastToggleTime;
         private Vector2 scrollPosition = Vector2.zero;
         #endregion
         #region Mods
+        public void Projectile(int Hash, Vector3 vel, Vector3 pos, Color color, int trail = -1)
+        {
+            SlingshotProjectile component = ObjectPools.instance.Instantiate(Hash).GetComponent<SlingshotProjectile>();
+            float num = Mathf.Abs(GorillaTagger.Instance.offlineVRRig.slingshot.projectilePrefab.transform.lossyScale.x);
+            int num2 = 1;
+            if (GorillaGameManager.instance != null)
+            {
+                ScienceExperimentManager.instance.photonView.RPC("LaunchSlingshotProjectile", RpcTarget.All, new object[]
+                {
+                    pos,
+                    vel,
+                    Hash,
+                    trail,
+                    true,
+                    num2,
+                    false,
+                    color.r,
+                    color.g,
+                    color.b,
+                    1f
+                });
+            }
+            component.Launch(pos, vel, PhotonNetwork.LocalPlayer, false, false, num2, num);
+        }
+        private void ClearAllButtonStates()
+        {
+            Settings = false;
+            Basic = false;
+            Rope = false;
+            SpamRpc = false;
+            Bug = false;
+            Tag = false;
+            Mic = false;
+            Halloween = false;
+            Lava = false;
+            OP = false;
+            Main = false;
+        }
         public bool HasPlayerTouchedLiquid(Photon.Realtime.Player player)
         {
             ScienceExperimentManager.PlayerGameState[] playerStates = (ScienceExperimentManager.PlayerGameState[])Traverse.Create(ScienceExperimentManager.instance).Field("inGamePlayerStates").GetValue();

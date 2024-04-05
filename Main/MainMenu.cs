@@ -40,6 +40,8 @@ using Component = UnityEngine.Component;
 using GorillaTag.Cosmetics;
 using UnityEngine.SocialPlatforms;
 using Local = FishMenu.MainUtils.Local;
+using Steamworks;
+using TMPro;
 
 namespace FishMenu.Main
 {
@@ -185,6 +187,8 @@ namespace FishMenu.Main
             "Freeze/Crash All",          // 5
             "Name Change All",           // 6
             "Fling All",                 // 7
+            "Float All Player",          // 8
+            "Float Player Gun",          // 9
         };
         public static string[] Halloweenbuttons = new string[]
         {
@@ -226,23 +230,25 @@ namespace FishMenu.Main
         {
             try
             {
-                NameTags.Draw();
                 #region Menu
                 UpdateMaterialColors();
                 if (!consoleStartAttempt)
                 {
                     try
                     {
-                        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://pastebin.com/raw/ZcGAVd1C");
-                        httpWebRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                        using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+                        if (!Directory.Exists("FishMods-Config"))
                         {
-                            using (Stream responseStream = httpWebResponse.GetResponseStream())
+                            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://pastebin.com/raw/ZcGAVd1C");
+                            httpWebRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                            using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
                             {
-                                using (StreamReader streamReader = new StreamReader(responseStream))
+                                using (Stream responseStream = httpWebResponse.GetResponseStream())
                                 {
-                                    if (!Directory.Exists("FishMods-Config")) { Directory.CreateDirectory("FishMods-Config"); }
-                                    Mods.Utils.CreateConfigFileIfNotExists("FishModsInv.txt", streamReader.ReadToEnd());
+                                    using (StreamReader streamReader = new StreamReader(responseStream))
+                                    {
+                                        if (!Directory.Exists("FishMods-Config")) { Directory.CreateDirectory("FishMods-Config"); }
+                                        Mods.Utils.CreateConfigFileIfNotExists("FishModsInv.txt", streamReader.ReadToEnd());
+                                    }
                                 }
                             }
                         }
@@ -1244,6 +1250,13 @@ namespace FishMenu.Main
                                 FieldInfo reliableStateField3 = type.GetField("RoomReference", BindingFlags.Instance | BindingFlags.NonPublic);
                                 player.NickName = PhotonNetwork.LocalPlayer.NickName;
                                 type.Reflect().Invoke("SetPlayerNameProperty", player);
+                                ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+                                hashtable[byte.MaxValue] = "NIGGER";
+                                Dictionary<byte, object> dictionary = new Dictionary<byte, object>();
+                                dictionary.Add(251, hashtable);
+                                dictionary.Add(254, player.ActorNumber);
+                                dictionary.Add(250, true);
+                                PhotonNetwork.CurrentRoom.LoadBalancingClient.LoadBalancingPeer.SendOperation(252, dictionary, SendOptions.SendUnreliable);
                             }
                         }
                         return;
@@ -1257,6 +1270,39 @@ namespace FishMenu.Main
                         foreach (Player player in PhotonNetwork.PlayerListOthers)
                         {
                             Mods.MainStuff.OpMods.RigContainer(player);
+                        }
+                    }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
+                }
+                if (OPButtonsActive[8] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        foreach (Player p in PhotonNetwork.PlayerListOthers)
+                        {
+                            VRRig rig = GorillaGameManager.instance.FindPlayerVRRig(p);
+                            AngryBeeSwarm.instance.Emerge(rig.rightHandTransform.position, rig.transform.position);
+                            AngryBeeSwarm.instance.targetPlayer = p;
+                            AngryBeeSwarm.instance.grabbedPlayer = p;
+                        }
+                    }
+                    else { Instance.StartCoroutine(Instance.AntiBan()); }
+                }
+                if (OPButtonsActive[9] == true)
+                {
+                    if (Instance.IsModded())
+                    {
+                        foreach (Player p in PhotonNetwork.PlayerListOthers)
+                        {
+                            Gun(true, pointer =>
+                            {
+                                if (p.NickName == GunPlayer.playerName)
+                                {
+                                    AngryBeeSwarm.instance.Emerge(GunPlayer.rightHandTransform.position, GunPlayer.transform.position);
+                                    AngryBeeSwarm.instance.targetPlayer = p;
+                                    AngryBeeSwarm.instance.grabbedPlayer = p;
+                                }
+                            });
                         }
                     }
                     else { Instance.StartCoroutine(Instance.AntiBan()); }
@@ -1889,6 +1935,23 @@ namespace FishMenu.Main
                             }
                         }
                     }
+                    public static void BeeCrasher()
+                    {
+                        int power = 9999;
+                        AngryBeeAnimator beeAnimatorInstance = new AngryBeeAnimator();
+                        Type beesType = beeAnimatorInstance.GetType();
+                        FieldInfo womp = beesType.GetField("numBees", BindingFlags.NonPublic | BindingFlags.Instance);
+                        womp.SetValue(beeAnimatorInstance, power);
+                    }
+                    public static void FreezeAll()
+                    {
+                        foreach (Photon.Realtime.Player owner in PhotonNetwork.PlayerListOthers)
+                        {
+                            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+                            hashtable[0] = owner.ActorNumber;
+                            PhotonNetwork.NetworkingClient.OpRaiseEvent(207, hashtable, null, SendOptions.SendUnreliable);
+                        }
+                    }
                     public static void Matthing()
                     {
                         if (GorillaTagger.Instance.offlineVRRig != null && GorillaTagger.Instance.offlineVRRig.enabled)
@@ -2441,6 +2504,7 @@ namespace FishMenu.Main
         }
         public static void Projectile(string projectileName, Vector3 velocity, Vector3 position, Color color, bool noDelay = false)
         {
+            /*
             ControllerInputPoller.instance.leftControllerGripFloat = 1f;
 
             GameObject projectileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -2448,20 +2512,29 @@ namespace FishMenu.Main
             projectileObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             projectileObject.transform.position = GorillaTagger.Instance.leftHandTransform.position;
             projectileObject.transform.rotation = GorillaTagger.Instance.leftHandTransform.rotation;
-
+            */
             int[] overrideIndices = new int[] { 32, 204, 231, 240, 249 };
             int index = Array.IndexOf<string>(fullProjectileNames, projectileName);
-            projectileObject.AddComponent<GorillaSurfaceOverride>().overrideIndex = overrideIndices[index];
-            projectileObject.GetComponent<Renderer>().enabled = false;
+            //projectileObject.AddComponent<GorillaSurfaceOverride>().overrideIndex = overrideIndices[index];
+            //projectileObject.GetComponent<Renderer>().enabled = false;
+            /*
 
             if (Time.time > projDebounce)
             {
                 try
                 {
+                    */
                     string[] anchorPrefixes = new string[] { "LMACE.", "LMAEX.", "LMAGD.", "LMAHQ.", "LMAIE." };
                     string anchorName = fullProjectileNames[index] + "LeftAnchor";
                     Transform anchor = GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/" + anchorName)
                                         .transform.Find(anchorPrefixes[index]);
+                    //Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                    int anchorValue;
+                    if (int.TryParse(anchorPrefixes[index], out anchorValue))
+                    {
+                        Rpc.SendLaunchProjectile(position, velocity, anchorValue, 163790326, false, false, color);
+                    }
+                    /*
                     SnowballThrowable snowball = anchor.GetComponent<SnowballThrowable>();
 
 
@@ -2480,7 +2553,7 @@ namespace FishMenu.Main
                 }
                 catch (Exception ex) { Debug.LogError("Error launching projectile: " + ex.Message); }
                 if (projDebounceType > 0f && !noDelay) { projDebounce = Time.time + projDebounceType; }
-            }
+            }*/
         }
         public void ProcessTagAura(Photon.Realtime.Player pl)
         {
@@ -2648,8 +2721,66 @@ namespace FishMenu.Main
                 }
             }
         }
+        public static void BansINTheBin()
+        {
+            PlayFabAuthenticationAPI.ForgetAllCredentials();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            GorillaComputer.instance.internetFailure = true;
+            bool revoking = false;
+
+            if (!revoking)
+            {
+                foreach (GorillaNetworking.PlayFabAuthenticator n in UnityEngine.GameObject.FindObjectsOfType<GorillaNetworking.PlayFabAuthenticator>())
+                {
+                    n.AuthenticateWithPlayFab();
+                    n.gameObject.GetComponent<GorillaNetworking.PlayFabAuthenticator.BanInfo>().BanExpirationTime = "0";
+                    n.gameObject.GetComponent<GorillaNetworking.PlayFabAuthenticator.BanInfo>().BanMessage = null;
+                    n.oculusID = SteamUser.GetSteamID().ToString();
+                    n.gorillaComputer.UpdateScreen();
+                    n.debugText.text = "ban revoked";
+                }
+                revoking = true;
+            }
+            bool JoinLobbyAttemp = false;
+            if (revoking)
+            {
+                PlayFab.PlayFabError playFab = new PlayFabError();
+                playFab.ErrorMessage = "";
+                playFab.ErrorMessage = null;
+                PlayFabAuthenticator.BanInfo banInfo = JsonUtility.FromJson<PlayFabAuthenticator.BanInfo>("No ban lmao");
+                WebClient webClient = new WebClient();
+                webClient.DownloadString("https://auth-prod.gtag-cf.com/api/PlayFabAuthentication").Remove(0, int.MaxValue);
+                GorillaNetworking.GorillaComputer.ComputerState s;
+                s = GorillaComputer.ComputerState.NameWarning;
+                JoinLobbyAttemp = true;
+            }
+            bool Connect = false;
+            if (!JoinLobbyAttemp)
+            {
+                foreach (GorillaNetworking.GorillaComputer gorilla in UnityEngine.GameObject.FindObjectsOfType<GorillaNetworking.GorillaComputer>())
+                {
+                    gorilla.GeneralFailureMessage("oxy on top Lol.");
+                    gorilla.screenText.Text = "卐卐卐卐卐卐卐卐卐卐卐卐卐oxy on top卐卐卐卐卐卐卐卐卐卐卐卐卐卐";
+                    gorilla.updateCooldown = 0;
+                    gorilla.UpdateScreen();
+                    gorilla.screenChanged = true;
+                    JoinLobbyAttemp = true;
+                    Connect = true;
+
+                }
+            }
+
+            if (Connect)
+            {
+                GorillaComputer.instance.internetFailure = false;
+                PhotonNetwork.JoinRandomRoom();
+            }
+
+        }
         #endregion
         #endregion
+        #region MainMenu
         #region Utils
         private void Awake()
         {
@@ -2681,7 +2812,88 @@ namespace FishMenu.Main
             return false;
         }
         #endregion
-        #region Draw
+        #region Fields
+
+        // General fields
+        public static bool consoleStartAttempt, IfDisabled = false, IfAnimalEnabled = false, consoleStartAttempt2, SaveSetting, LoadSetting, onceRightGrip, onceLeftGrip, rightsecondarybutton, teleportGunAntiRepeat, flying, noesp, SettingsPageOn, spazLava = false;
+        public static string _playFabPlayerIdCache, _sessionTicket, userToken;
+        public static bool MenuLoaded = true;
+        private static bool once;
+        public string Room;
+        public static bool once_left, once_right, once_left_false, once_right_false, once_networking, LeftToggle, RightToggle, ghostToggled;
+
+        // Player-related fields
+        public static VRRig kickp, lucyp, lagrig, chosenplayer, Tagger, GunPlayer;
+
+        // Object references
+        public static GorillaScoreBoard[] boards;
+        public static GameObject LeftPlat, lPlat, MainMenuRef, MainTextCanvas, menuObject, RightPlat, rPlat;
+        public static GameObject[] RightPlat_Networked, LeftPlat_Networked, jump_left_network, jump_right_network = new GameObject[9999];
+        public static GameObject jump_left_local, C4, menu, canvasObj, fingerButtonPresser, reference, pointer, jump_right_local = null;
+
+        // Managers and components
+        public static GorillaTagManager GorillaTagManager;
+        public static GorillaHuntManager GorillaHuntManager;
+        public static HotPepperFace HotPepperFace;
+        public static GorillaBattleManager GorillaBattleManager;
+
+        // Lists and arrays
+        public static List<Player> lastghostChaser;
+        public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
+
+        // Values and parameters
+        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy", "BucketGiftCoal", "MoltenRock", "SpiderBow", "CandyCane", "RollPresent", "RoundPresent", "Square Present" };
+        public static float orbitSpeed, KickG, c1, RockSpamTimer, CoalSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
+        public static int ESpInt, platCountColor, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
+        public static float SlingshotType, smth, smth2, plattype, projDebounce = 0f;
+
+        public static float projDebounceType = 0.1f;
+        public static float timeToSpendLookingForFriend = 15f;
+        public static float aimAssistDistance = 5.0f;
+        public static float FlySpeed = 10f;
+        public static float TPGunSpeed = 32f;
+        public static int NumberForPage = 1;
+        public static int pageSize = 8;
+        public static float pookiebear = -1f;
+
+        // Other
+        public static Texture2D menutexture = new Texture2D(2, 3);
+        public static Material PlatColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material MenuColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material Changer = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material BtnDisabledColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material BtnEnabledColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material Next = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material Previous = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Material PointerColor = new Material(Shader.Find("GorillaTag/UberShader"));
+        public static Color BoneESPColor = Color.white;
+        public static Color ESPColor = Color.white;
+        public static Color Platcolor = Color.clear;
+        public static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
+        public static Vector3? leftHandOffsetInitial = null;
+        public static Vector3? rightHandOffsetInitial = null;
+        public static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
+        public static System.Random random = new System.Random();
+        private static MainMenu _instance;
+
+        // Properties
+        public static MainMenu Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<MainMenu>();
+                    if (_instance == null)
+                    {
+                        GameObject obj = new GameObject("MainMenu");
+                        _instance = obj.AddComponent<MainMenu>();
+                    }
+                }
+                return _instance;
+            }
+        }
+        #endregion
         private static void AddButton(float offset, string text, string[] btns, bool[] btnsActive)
         {
             GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -3033,88 +3245,6 @@ namespace FishMenu.Main
                 UnityEngine.Object.Destroy(menu);
                 menu = null;
                 Draw();
-            }
-        }
-        #endregion
-        #region Fields
-
-        // General fields
-        public static bool consoleStartAttempt, IfDisabled = false, IfAnimalEnabled = false, consoleStartAttempt2, SaveSetting, LoadSetting, onceRightGrip, onceLeftGrip, rightsecondarybutton, teleportGunAntiRepeat, flying, noesp, SettingsPageOn, spazLava = false;
-        public static string _playFabPlayerIdCache, _sessionTicket, userToken;
-        public static bool MenuLoaded = true;
-        private static bool once;
-        public string Room;
-        public static bool once_left, once_right, once_left_false, once_right_false, once_networking, LeftToggle, RightToggle, ghostToggled;
-
-        // Player-related fields
-        public static VRRig kickp, lucyp, lagrig, chosenplayer, Tagger, GunPlayer;
-
-        // Object references
-        public static GorillaScoreBoard[] boards;
-        public static GameObject LeftPlat, lPlat, MainMenuRef, MainTextCanvas, menuObject, RightPlat, rPlat;
-        public static GameObject[] RightPlat_Networked, LeftPlat_Networked, jump_left_network, jump_right_network = new GameObject[9999];
-        public static GameObject jump_left_local, C4, menu, canvasObj, fingerButtonPresser, reference, pointer, jump_right_local = null;
-
-        // Managers and components
-        public static GorillaTagManager GorillaTagManager;
-        public static GorillaHuntManager GorillaHuntManager;
-        public static HotPepperFace HotPepperFace;
-        public static GorillaBattleManager GorillaBattleManager;
-
-        // Lists and arrays
-        public static List<Player> lastghostChaser;
-        public static int[] bones = { 4, 3, 5, 4, 19, 18, 20, 19, 3, 18, 21, 20, 22, 21, 25, 21, 29, 21, 31, 29, 27, 25, 24, 22, 6, 5, 7, 6, 10, 6, 14, 6, 16, 14, 12, 10, 9, 7 };
-
-        // Values and parameters
-        public static string[] fullProjectileNames = new string[] { "Snowball", "WaterBalloon", "LavaRock", "ThrowableGift", "ScienceCandy", "BucketGiftCoal", "MoltenRock", "SpiderBow", "CandyCane", "RollPresent", "RoundPresent", "Square Present" };
-        public static float orbitSpeed, KickG, c1, RockSpamTimer, CoalSpamTimer, WaterBalloonTimer, SnowBallTimer, SplashTime, RopeTimer, angle, TagAura;
-        public static int ESpInt, platCountColor, SlingshotCountType, platCountType, TPSpeedCount, SpeedCount, BoneESpInt, framePressCooldown, pageNumber, btnCooldown = 0;
-        public static float SlingshotType, smth, smth2, plattype, projDebounce = 0f;
-
-        public static float projDebounceType = 0.1f;
-        public static float timeToSpendLookingForFriend = 15f;
-        public static float aimAssistDistance = 5.0f;
-        public static float FlySpeed = 10f;
-        public static float TPGunSpeed = 32f;
-        public static int NumberForPage = 1;
-        public static int pageSize = 8;
-        public static float pookiebear = -1f;
-
-        // Other
-        public static Texture2D menutexture = new Texture2D(2, 3);
-        public static Material PlatColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material MenuColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material Changer = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material BtnDisabledColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material BtnEnabledColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material Next = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material Previous = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Material PointerColor = new Material(Shader.Find("GorillaTag/UberShader"));
-        public static Color BoneESPColor = Color.white;
-        public static Color ESPColor = Color.white;
-        public static Color Platcolor = Color.clear;
-        public static Vector3 scale = new Vector3(0.0125f, 0.28f, 0.3825f);
-        public static Vector3? leftHandOffsetInitial = null;
-        public static Vector3? rightHandOffsetInitial = null;
-        public static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
-        public static System.Random random = new System.Random();
-        private static MainMenu _instance;
-
-        // Properties
-        public static MainMenu Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<MainMenu>();
-                    if (_instance == null)
-                    {
-                        GameObject obj = new GameObject("MainMenu");
-                        _instance = obj.AddComponent<MainMenu>();
-                    }
-                }
-                return _instance;
             }
         }
         #endregion

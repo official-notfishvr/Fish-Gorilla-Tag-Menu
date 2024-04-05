@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>Fish Menu</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
@@ -46,29 +46,14 @@
     <Reference Include="Cinemachine">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Cinemachine.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook.Wit.Conduit">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Facebook.Wit.Conduit.dll</HintPath>
-    </Reference>
     <Reference Include="Facebook.Wit.Dictation">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Facebook.Wit.Dictation.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.Wit.TTS">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Facebook.Wit.TTS.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.Wit.TTS.Samples">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Facebook.Wit.TTS.Samples.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.WitAI">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Facebook.WitAI.dll</HintPath>
     </Reference>
     <Reference Include="FbxBuildTestAssets">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\FbxBuildTestAssets.dll</HintPath>
     </Reference>
     <Reference Include="HarmonyXInterop">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\core\HarmonyXInterop.dll</HintPath>
-    </Reference>
-    <Reference Include="LitJson">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\LitJson.dll</HintPath>
     </Reference>
     <Reference Include="MeshBakerCore">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\MeshBakerCore.dll</HintPath>
@@ -103,9 +88,6 @@
     <Reference Include="Oculus.Interaction">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.Interaction.dll</HintPath>
     </Reference>
-    <Reference Include="Oculus.Interaction.Samples">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.Interaction.Samples.dll</HintPath>
-    </Reference>
     <Reference Include="Oculus.LipSync">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.LipSync.dll</HintPath>
     </Reference>
@@ -114,9 +96,6 @@
     </Reference>
     <Reference Include="Oculus.Spatializer">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.Spatializer.dll</HintPath>
-    </Reference>
-    <Reference Include="Oculus.Voice.Demo">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.Voice.Demo.dll</HintPath>
     </Reference>
     <Reference Include="Oculus.VR">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Oculus.VR.dll</HintPath>
